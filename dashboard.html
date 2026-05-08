@@ -18,7 +18,7 @@
 
     .main-box {
       width: 100%;
-      max-width: 700px;
+      max-width: 750px;
       background: var(--card);
       border-radius: 20px;
       box-shadow: var(--shadow);
@@ -34,19 +34,10 @@
       justify-content: space-between;
     }
 
-    .box-header h2 {
-      font-size: 1.1rem;
-      font-weight: 600;
-    }
+    .box-header h2 { font-size: 1.1rem; font-weight: 600; }
+    .box-header .user-name { font-size: 0.85rem; opacity: 0.85; margin-top: 2px; }
 
-    .box-header .user-name {
-      font-size: 0.85rem;
-      opacity: 0.85;
-    }
-
-    .box-body {
-      padding: 24px;
-    }
+    .box-body { padding: 24px; }
 
     .box-toolbar {
       display: flex;
@@ -55,11 +46,7 @@
       margin-bottom: 20px;
     }
 
-    .box-toolbar h3 {
-      font-size: 1rem;
-      font-weight: 700;
-      color: var(--text);
-    }
+    .box-toolbar h3 { font-size: 1rem; font-weight: 700; color: var(--text); }
 
     .btn-add-presence {
       background: var(--primary);
@@ -72,48 +59,52 @@
       cursor: pointer;
       transition: background 0.2s;
     }
+    .btn-add-presence:hover { background: var(--primary-dark); }
 
-    .btn-add-presence:hover {
-      background: var(--primary-dark);
-    }
+    table { width: 100%; border-collapse: collapse; font-size: 0.92rem; }
 
-    table {
-      width: 100%;
-      border-collapse: collapse;
-      font-size: 0.95rem;
-    }
-
-    thead tr {
-      border-bottom: 2px solid var(--border);
-    }
+    thead tr { border-bottom: 2px solid var(--border); }
 
     th {
-      padding: 10px 14px;
+      padding: 10px 12px;
       text-align: left;
-      font-size: 0.78rem;
+      font-size: 0.75rem;
       font-weight: 700;
       text-transform: uppercase;
       letter-spacing: 0.5px;
       color: var(--text-muted);
     }
 
-    td {
-      padding: 14px;
-      border-bottom: 1px solid var(--border);
-      color: var(--text);
-    }
+    td { padding: 13px 12px; border-bottom: 1px solid var(--border); color: var(--text); }
+    tr:last-child td { border-bottom: none; }
+    tbody tr:hover td { background: var(--bg); }
 
-    tr:last-child td {
-      border-bottom: none;
-    }
+    .ore-cell { font-weight: 700; color: var(--primary); }
 
-    tbody tr:hover td {
-      background: var(--bg);
-    }
+    .actions-cell { white-space: nowrap; }
 
-    .ore-cell {
+    .btn-edit, .btn-del {
+      border: none;
+      border-radius: 6px;
+      padding: 5px 10px;
+      font-size: 0.78rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: opacity 0.2s;
+    }
+    .btn-edit { background: #E8F4FD; color: #2980B9; margin-right: 6px; }
+    .btn-edit:hover { opacity: 0.75; }
+    .btn-del  { background: #FDEDED; color: var(--danger); }
+    .btn-del:hover  { opacity: 0.75; }
+
+    /* Total row */
+    tfoot tr td {
+      background: var(--accent);
       font-weight: 700;
-      color: var(--primary);
+      color: var(--primary-dark);
+      padding: 14px 12px;
+      border-top: 2px solid var(--primary-light);
+      font-size: 0.92rem;
     }
 
     .empty-row td {
@@ -123,7 +114,7 @@
       font-size: 0.9rem;
     }
 
-    /* Modal */
+    /* Modal shared */
     .modal-overlay {
       display: none;
       position: fixed;
@@ -134,10 +125,7 @@
       justify-content: center;
       padding: 16px;
     }
-
-    .modal-overlay.open {
-      display: flex;
-    }
+    .modal-overlay.open { display: flex; }
 
     .modal {
       background: var(--card);
@@ -148,25 +136,10 @@
       box-shadow: 0 8px 32px rgba(0,0,0,0.2);
     }
 
-    .modal-title {
-      font-size: 1.1rem;
-      font-weight: 700;
-      margin-bottom: 20px;
-    }
+    .modal-title { font-size: 1.1rem; font-weight: 700; margin-bottom: 20px; }
 
-    .form-group {
-      display: flex;
-      flex-direction: column;
-      gap: 6px;
-      margin-bottom: 14px;
-    }
-
-    .form-group label {
-      font-size: 0.85rem;
-      font-weight: 600;
-      color: var(--text-muted);
-    }
-
+    .form-group { display: flex; flex-direction: column; gap: 6px; margin-bottom: 14px; }
+    .form-group label { font-size: 0.85rem; font-weight: 600; color: var(--text-muted); }
     .form-group input {
       padding: 11px 14px;
       border: 1.5px solid var(--border);
@@ -175,52 +148,40 @@
       background: var(--bg);
       width: 100%;
     }
+    .form-group input:focus { outline: none; border-color: var(--primary); }
 
-    .form-group input:focus {
-      outline: none;
-      border-color: var(--primary);
-    }
-
-    .modal-actions {
-      display: flex;
-      gap: 10px;
-      margin-top: 20px;
-    }
+    .modal-actions { display: flex; gap: 10px; margin-top: 20px; }
 
     .btn-cancel {
-      flex: 1;
-      padding: 12px;
+      flex: 1; padding: 12px;
       background: var(--bg);
       border: 1.5px solid var(--border);
       border-radius: 10px;
       cursor: pointer;
-      font-size: 0.95rem;
-      font-weight: 600;
-      color: var(--text-muted);
+      font-size: 0.95rem; font-weight: 600; color: var(--text-muted);
     }
-
     .btn-save {
-      flex: 1;
-      padding: 12px;
-      background: var(--primary);
-      color: white;
-      border: none;
-      border-radius: 10px;
-      cursor: pointer;
-      font-size: 0.95rem;
-      font-weight: 600;
+      flex: 1; padding: 12px;
+      background: var(--primary); color: white;
+      border: none; border-radius: 10px;
+      cursor: pointer; font-size: 0.95rem; font-weight: 600;
       transition: background 0.2s;
     }
-
     .btn-save:hover { background: var(--primary-dark); }
     .btn-save:disabled { opacity: 0.6; cursor: not-allowed; }
 
-    .error-msg {
-      color: var(--danger);
-      font-size: 0.85rem;
-      min-height: 18px;
-      margin-top: 4px;
+    .btn-confirm-del {
+      flex: 1; padding: 12px;
+      background: var(--danger); color: white;
+      border: none; border-radius: 10px;
+      cursor: pointer; font-size: 0.95rem; font-weight: 600;
+      transition: opacity 0.2s;
     }
+    .btn-confirm-del:hover { opacity: 0.85; }
+
+    .confirm-text { color: var(--text-muted); font-size: 0.95rem; margin-bottom: 4px; }
+
+    .error-msg { color: var(--danger); font-size: 0.85rem; min-height: 18px; margin-top: 4px; }
   </style>
 </head>
 <body>
@@ -247,19 +208,27 @@
             <th>Entrata</th>
             <th>Uscita</th>
             <th>Ore lavorate</th>
+            <th></th>
           </tr>
         </thead>
         <tbody id="presenceTable">
-          <tr class="empty-row"><td colspan="4">Caricamento...</td></tr>
+          <tr class="empty-row"><td colspan="5">Caricamento...</td></tr>
         </tbody>
+        <tfoot>
+          <tr>
+            <td colspan="3" id="monthLabel">Totale mese corrente</td>
+            <td id="monthTotal">—</td>
+            <td></td>
+          </tr>
+        </tfoot>
       </table>
     </div>
   </div>
 
-  <!-- Modal -->
+  <!-- Modal aggiungi / modifica -->
   <div class="modal-overlay" id="modalOverlay">
     <div class="modal">
-      <div class="modal-title">Aggiungi Presenza</div>
+      <div class="modal-title" id="modalTitle">Aggiungi Presenza</div>
       <form id="addForm">
         <div class="form-group">
           <label>Data</label>
@@ -276,9 +245,21 @@
         <div id="addError" class="error-msg"></div>
         <div class="modal-actions">
           <button type="button" class="btn-cancel" id="closeModalBtn">Annulla</button>
-          <button type="submit" class="btn-save">Salva</button>
+          <button type="submit" class="btn-save" id="saveBtn">Salva</button>
         </div>
       </form>
+    </div>
+  </div>
+
+  <!-- Modal conferma eliminazione -->
+  <div class="modal-overlay" id="confirmOverlay">
+    <div class="modal">
+      <div class="modal-title">Elimina presenza</div>
+      <p class="confirm-text">Sei sicuro di voler eliminare questa presenza? L'operazione non è reversibile.</p>
+      <div class="modal-actions" style="margin-top:24px">
+        <button class="btn-cancel" id="confirmCancel">Annulla</button>
+        <button class="btn-confirm-del" id="confirmOk">Elimina</button>
+      </div>
     </div>
   </div>
 
@@ -286,11 +267,17 @@
     import { auth, db } from './js/firebase-config.js';
     import { onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
     import {
-      doc, getDoc, addDoc, collection, query, where, onSnapshot, Timestamp
+      doc, getDoc, addDoc, updateDoc, deleteDoc,
+      collection, query, where, onSnapshot, Timestamp
     } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
 
     let currentUser = null;
-    let userData   = null;
+    let userData    = null;
+    let editId      = null;
+    let deleteId    = null;
+
+    const MONTH_NAMES = ['gennaio','febbraio','marzo','aprile','maggio','giugno',
+                         'luglio','agosto','settembre','ottobre','novembre','dicembre'];
 
     function fmtTime(ts) {
       if (!ts) return '—';
@@ -299,7 +286,7 @@
 
     function fmtDate(s) {
       const [y, m, d] = s.split('-');
-      const date = new Date(y, m - 1, d);
+      const date = new Date(Number(y), Number(m) - 1, Number(d));
       return date.toLocaleDateString('it-IT', { weekday: 'short', day: 'numeric', month: 'short', year: 'numeric' });
     }
 
@@ -317,7 +304,172 @@
       return `${n.getFullYear()}-${String(n.getMonth()+1).padStart(2,'0')}-${String(n.getDate()).padStart(2,'0')}`;
     }
 
-    // Auth guard
+    function currentMonthPrefix() {
+      const n = new Date();
+      return `${n.getFullYear()}-${String(n.getMonth()+1).padStart(2,'0')}`;
+    }
+
+    function toTimestamp(dateStr, timeStr) {
+      const [h, m]    = timeStr.split(':').map(Number);
+      const [y, mo, d] = dateStr.split('-').map(Number);
+      return Timestamp.fromDate(new Date(y, mo - 1, d, h, m, 0));
+    }
+
+    // --- Render table ---
+    function renderTable(all) {
+      const tbody = document.getElementById('presenceTable');
+
+      if (all.length === 0) {
+        tbody.innerHTML = '<tr class="empty-row"><td colspan="5">Nessuna presenza registrata</td></tr>';
+      } else {
+        tbody.innerHTML = all.map(p => `
+          <tr>
+            <td>${fmtDate(p.data)}</td>
+            <td>${fmtTime(p.oraEntrata)}</td>
+            <td>${fmtTime(p.oraUscita)}</td>
+            <td class="ore-cell">${calcDuration(p.oraEntrata, p.oraUscita)}</td>
+            <td class="actions-cell">
+              <button class="btn-edit" data-id="${p.id}">Modifica</button>
+              <button class="btn-del"  data-id="${p.id}">Elimina</button>
+            </td>
+          </tr>
+        `).join('');
+      }
+
+      // Running total for current month
+      const prefix = currentMonthPrefix();
+      const now    = new Date();
+      const monthName = MONTH_NAMES[now.getMonth()];
+      const monthShifts = all.filter(p => p.data.startsWith(prefix) && p.oraEntrata && p.oraUscita);
+      const totalMs = monthShifts.reduce((sum, p) => sum + (p.oraUscita.toDate() - p.oraEntrata.toDate()), 0);
+      const th = Math.floor(totalMs / 3600000);
+      const tm = Math.floor((totalMs % 3600000) / 60000);
+      const totalStr = totalMs > 0 ? (tm > 0 ? `${th}h ${tm}m` : `${th}h`) : '0h';
+
+      document.getElementById('monthLabel').textContent =
+        `Totale ${monthName} ${now.getFullYear()}`;
+      document.getElementById('monthTotal').textContent = totalStr;
+    }
+
+    // --- Modal add/edit ---
+    function openAddModal() {
+      editId = null;
+      document.getElementById('modalTitle').textContent = 'Aggiungi Presenza';
+      document.getElementById('addData').value    = todayStr();
+      document.getElementById('addEntrata').value = '';
+      document.getElementById('addUscita').value  = '';
+      document.getElementById('addError').textContent = '';
+      document.getElementById('saveBtn').textContent = 'Salva';
+      document.getElementById('modalOverlay').classList.add('open');
+    }
+
+    function openEditModal(shift) {
+      editId = shift.id;
+      document.getElementById('modalTitle').textContent = 'Modifica Presenza';
+      document.getElementById('addData').value    = shift.data;
+      document.getElementById('addEntrata').value = shift.oraEntrata
+        ? shift.oraEntrata.toDate().toTimeString().slice(0, 5) : '';
+      document.getElementById('addUscita').value  = shift.oraUscita
+        ? shift.oraUscita.toDate().toTimeString().slice(0, 5) : '';
+      document.getElementById('addError').textContent = '';
+      document.getElementById('saveBtn').textContent = 'Salva modifiche';
+      document.getElementById('modalOverlay').classList.add('open');
+    }
+
+    function closeModal() {
+      document.getElementById('modalOverlay').classList.remove('open');
+    }
+
+    document.getElementById('openModalBtn').addEventListener('click', openAddModal);
+    document.getElementById('closeModalBtn').addEventListener('click', closeModal);
+    document.getElementById('modalOverlay').addEventListener('click', (e) => {
+      if (e.target === document.getElementById('modalOverlay')) closeModal();
+    });
+
+    document.getElementById('addForm').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const btn     = document.getElementById('saveBtn');
+      const errorEl = document.getElementById('addError');
+      errorEl.textContent = '';
+
+      const data     = document.getElementById('addData').value;
+      const entrataT = document.getElementById('addEntrata').value;
+      const uscitaT  = document.getElementById('addUscita').value;
+
+      if (uscitaT && uscitaT <= entrataT) {
+        errorEl.textContent = "L'ora di uscita deve essere dopo l'entrata";
+        return;
+      }
+
+      btn.disabled = true;
+      const origText = btn.textContent;
+      btn.textContent = 'Salvataggio...';
+
+      try {
+        const payload = {
+          userId:     currentUser.uid,
+          userName:   userData.nome,
+          data,
+          oraEntrata: toTimestamp(data, entrataT),
+          oraUscita:  uscitaT ? toTimestamp(data, uscitaT) : null,
+        };
+
+        if (editId) {
+          await updateDoc(doc(db, 'presenze', editId), payload);
+        } else {
+          await addDoc(collection(db, 'presenze'), payload);
+        }
+        closeModal();
+      } catch (err) {
+        console.error(err);
+        errorEl.textContent = 'Errore nel salvataggio, riprova.';
+      } finally {
+        btn.disabled = false;
+        btn.textContent = origText;
+      }
+    });
+
+    // --- Confirm delete modal ---
+    function openConfirmModal(id) {
+      deleteId = id;
+      document.getElementById('confirmOverlay').classList.add('open');
+    }
+
+    function closeConfirmModal() {
+      document.getElementById('confirmOverlay').classList.remove('open');
+      deleteId = null;
+    }
+
+    document.getElementById('confirmCancel').addEventListener('click', closeConfirmModal);
+    document.getElementById('confirmOverlay').addEventListener('click', (e) => {
+      if (e.target === document.getElementById('confirmOverlay')) closeConfirmModal();
+    });
+
+    document.getElementById('confirmOk').addEventListener('click', async () => {
+      if (!deleteId) return;
+      try {
+        await deleteDoc(doc(db, 'presenze', deleteId));
+      } catch (err) {
+        console.error(err);
+      }
+      closeConfirmModal();
+    });
+
+    // --- Event delegation for edit/delete buttons ---
+    let allShifts = [];
+    document.getElementById('presenceTable').addEventListener('click', (e) => {
+      const id = e.target.dataset.id;
+      if (!id) return;
+      if (e.target.classList.contains('btn-edit')) {
+        const shift = allShifts.find(s => s.id === id);
+        if (shift) openEditModal(shift);
+      }
+      if (e.target.classList.contains('btn-del')) {
+        openConfirmModal(id);
+      }
+    });
+
+    // --- Auth guard + Firestore listener ---
     onAuthStateChanged(auth, async (user) => {
       if (!user) { window.location.href = 'index.html'; return; }
       currentUser = user;
@@ -332,29 +484,16 @@
       onSnapshot(
         query(collection(db, 'presenze'), where('userId', '==', user.uid)),
         (snap) => {
-          const all = snap.docs
+          allShifts = snap.docs
             .map(d => ({ id: d.id, ...d.data() }))
             .filter(p => p.oraEntrata)
             .sort((a, b) => b.oraEntrata.toDate() - a.oraEntrata.toDate());
-
-          const tbody = document.getElementById('presenceTable');
-          if (all.length === 0) {
-            tbody.innerHTML = '<tr class="empty-row"><td colspan="4">Nessuna presenza registrata</td></tr>';
-            return;
-          }
-          tbody.innerHTML = all.map(p => `
-            <tr>
-              <td>${fmtDate(p.data)}</td>
-              <td>${fmtTime(p.oraEntrata)}</td>
-              <td>${fmtTime(p.oraUscita)}</td>
-              <td class="ore-cell">${calcDuration(p.oraEntrata, p.oraUscita)}</td>
-            </tr>
-          `).join('');
+          renderTable(allShifts);
         },
         (err) => {
           console.error(err);
           document.getElementById('presenceTable').innerHTML =
-            '<tr class="empty-row"><td colspan="4">Errore di connessione. Ricarica la pagina.</td></tr>';
+            '<tr class="empty-row"><td colspan="5">Errore di connessione. Ricarica la pagina.</td></tr>';
         }
       );
     });
@@ -362,67 +501,6 @@
     document.getElementById('logoutBtn').addEventListener('click', async () => {
       await signOut(auth);
       window.location.href = 'index.html';
-    });
-
-    // Modal
-    function openModal() {
-      document.getElementById('addData').value = todayStr();
-      document.getElementById('addEntrata').value = '';
-      document.getElementById('addUscita').value = '';
-      document.getElementById('addError').textContent = '';
-      document.getElementById('modalOverlay').classList.add('open');
-    }
-
-    function closeModal() {
-      document.getElementById('modalOverlay').classList.remove('open');
-    }
-
-    document.getElementById('openModalBtn').addEventListener('click', openModal);
-    document.getElementById('closeModalBtn').addEventListener('click', closeModal);
-    document.getElementById('modalOverlay').addEventListener('click', (e) => {
-      if (e.target === document.getElementById('modalOverlay')) closeModal();
-    });
-
-    document.getElementById('addForm').addEventListener('submit', async (e) => {
-      e.preventDefault();
-      const btn = e.target.querySelector('.btn-save');
-      const errorEl = document.getElementById('addError');
-      errorEl.textContent = '';
-
-      const data     = document.getElementById('addData').value;
-      const entrataT = document.getElementById('addEntrata').value;
-      const uscitaT  = document.getElementById('addUscita').value;
-
-      if (uscitaT && uscitaT <= entrataT) {
-        errorEl.textContent = "L'ora di uscita deve essere dopo l'entrata";
-        return;
-      }
-
-      btn.disabled = true;
-      btn.textContent = 'Salvataggio...';
-
-      function toTimestamp(dateStr, timeStr) {
-        const [h, m] = timeStr.split(':').map(Number);
-        const [y, mo, d] = dateStr.split('-').map(Number);
-        return Timestamp.fromDate(new Date(y, mo - 1, d, h, m, 0));
-      }
-
-      try {
-        await addDoc(collection(db, 'presenze'), {
-          userId:     currentUser.uid,
-          userName:   userData.nome,
-          data:       data,
-          oraEntrata: toTimestamp(data, entrataT),
-          oraUscita:  uscitaT ? toTimestamp(data, uscitaT) : null,
-        });
-        closeModal();
-      } catch (err) {
-        console.error(err);
-        errorEl.textContent = 'Errore nel salvataggio, riprova.';
-      } finally {
-        btn.disabled = false;
-        btn.textContent = 'Salva';
-      }
     });
   </script>
 </body>
