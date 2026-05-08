@@ -214,32 +214,25 @@
 
       document.getElementById('userName').textContent = userData.nome;
 
-      // Today's most recent shift (for the clock-in/out button)
-      const today = todayStr();
+      // Single listener on all user's presenze, filter/sort client-side
       onSnapshot(
-        query(collection(db, 'presenze'),
-          where('userId', '==', user.uid),
-          where('data', '==', today),
-          orderBy('oraEntrata', 'desc')),
+        query(collection(db, 'presenze'), where('userId', '==', user.uid)),
         (snap) => {
-          const shifts = snap.docs.map(d => ({ id: d.id, ...d.data() }));
-          renderTimerSection(shifts[0] ?? null);
-        }
-      );
+          const all = snap.docs
+            .map(d => ({ id: d.id, ...d.data() }))
+            .filter(p => p.oraEntrata)
+            .sort((a, b) => b.oraEntrata.toDate() - a.oraEntrata.toDate());
 
-      // Full history
-      onSnapshot(
-        query(collection(db, 'presenze'),
-          where('userId', '==', user.uid),
-          orderBy('oraEntrata', 'desc')),
-        (snap) => {
+          const today = todayStr();
+          const todayShifts = all.filter(p => p.data === today);
+          renderTimerSection(todayShifts[0] ?? null);
+
           const tbody = document.getElementById('presenceTable');
-          if (snap.empty) {
+          if (all.length === 0) {
             tbody.innerHTML = '<tr><td colspan="5" class="empty-state">Nessuna presenza registrata</td></tr>';
             return;
           }
-          tbody.innerHTML = snap.docs.map(d => {
-            const p = d.data();
+          tbody.innerHTML = all.map(p => {
             const ip = !p.oraUscita;
             return `<tr class="${ip ? 'in-progress' : ''}">
               <td>${fmtDate(p.data)}</td>
@@ -249,6 +242,11 @@
               <td><span class="badge ${ip ? 'badge-in' : 'badge-out'}">${ip ? '● In servizio' : 'Completato'}</span></td>
             </tr>`;
           }).join('');
+        },
+        (err) => {
+          console.error('Firestore error:', err);
+          document.getElementById('timerSection').innerHTML =
+            '<p class="error-msg">Errore di connessione. Ricarica la pagina.</p>';
         }
       );
     });
