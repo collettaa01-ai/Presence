@@ -5,23 +5,153 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Presence - Admin</title>
   <link rel="stylesheet" href="css/style.css">
+  <style>
+    body { background: var(--bg); }
+
+    .header {
+      background: var(--primary); color: white;
+      padding: 16px 20px;
+      display: flex; align-items: center; justify-content: space-between;
+    }
+    .header h1 { font-size: 1.1rem; font-weight: 600; }
+    .header .user-info { font-size: 0.82rem; opacity: 0.85; }
+
+    .page { max-width: 960px; margin: 0 auto; padding: 20px 16px; }
+
+    /* Stats */
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px; margin-bottom: 20px;
+    }
+    @media (max-width: 480px) { .stats-grid { grid-template-columns: 1fr 1fr; } }
+    .stat-card {
+      background: white; border-radius: 12px; padding: 16px;
+      text-align: center; box-shadow: var(--shadow);
+      border-left: 4px solid var(--primary-light);
+    }
+    .stat-value { font-size: 1.8rem; font-weight: 700; color: var(--primary); }
+    .stat-label { font-size: 0.75rem; color: var(--text-muted); margin-top: 4px; }
+
+    /* Card container */
+    .card {
+      background: white; border-radius: 14px;
+      padding: 20px; box-shadow: var(--shadow);
+    }
+    @media (max-width: 600px) { .card { padding: 14px; } }
+
+    /* Filter bar */
+    .filter-bar {
+      display: flex; gap: 10px; align-items: center;
+      flex-wrap: wrap; margin-bottom: 16px;
+    }
+    .filter-bar label { font-size: 0.85rem; font-weight: 600; color: var(--text-muted); }
+    .filter-bar input {
+      padding: 8px 12px; border: 1.5px solid var(--border);
+      border-radius: 8px; font-size: 0.9rem; background: white;
+      min-height: 40px;
+    }
+    .filter-bar input:focus { outline: none; border-color: var(--primary); }
+    @media (max-width: 600px) {
+      .filter-bar { gap: 8px; }
+      .filter-bar label { width: 100%; margin-bottom: -4px; }
+      .filter-bar input { flex: 1; min-width: 0; }
+    }
+
+    .btn-clear {
+      padding: 8px 14px; background: var(--bg);
+      border: 1.5px solid var(--border); border-radius: 8px;
+      cursor: pointer; font-size: 0.85rem; font-weight: 600;
+      color: var(--text-muted); min-height: 40px; white-space: nowrap;
+    }
+    .btn-clear:hover { background: var(--border); }
+
+    .card-title {
+      font-size: 0.75rem; font-weight: 700; text-transform: uppercase;
+      letter-spacing: 0.5px; color: var(--text-muted); margin-bottom: 14px;
+    }
+    .live-dot {
+      display: inline-block; width: 7px; height: 7px;
+      border-radius: 50%; background: var(--primary-light);
+      margin-right: 4px; animation: pulse 2s infinite;
+    }
+    @keyframes pulse {
+      0%,100% { box-shadow: 0 0 0 3px rgba(82,183,136,0.3); }
+      50%      { box-shadow: 0 0 0 6px rgba(82,183,136,0.15); }
+    }
+
+    /* Table */
+    .table-wrapper { overflow-x: auto; }
+    table { width: 100%; border-collapse: collapse; font-size: 0.9rem; }
+    thead tr { border-bottom: 2px solid var(--border); }
+    th {
+      padding: 10px 12px; text-align: left;
+      font-size: 0.72rem; font-weight: 700;
+      text-transform: uppercase; letter-spacing: 0.5px; color: var(--text-muted);
+      white-space: nowrap;
+    }
+    td { padding: 12px; border-bottom: 1px solid var(--border); }
+    tbody tr:last-child td { border-bottom: none; }
+    tr.in-progress td { background: var(--accent); }
+    tbody tr:not(.in-progress):hover td { background: var(--bg); }
+
+    .badge {
+      padding: 3px 10px; border-radius: 20px;
+      font-size: 0.75rem; font-weight: 600; white-space: nowrap;
+    }
+    .badge-in  { background: var(--accent); color: var(--primary); }
+    .badge-out { background: #F8F9FA; color: var(--text-muted); border: 1px solid var(--border); }
+
+    /* Table → cards on mobile */
+    @media (max-width: 640px) {
+      .table-wrapper { overflow: visible; }
+      table thead { display: none; }
+      table tbody tr {
+        display: block; background: white;
+        border: 1px solid var(--border); border-radius: 14px;
+        margin-bottom: 10px; padding: 4px 16px;
+        box-shadow: 0 1px 5px rgba(0,0,0,0.06);
+      }
+      table tbody tr.in-progress { background: var(--accent); border-color: var(--primary-light); }
+      table tbody tr.empty-row { box-shadow: none; border: none; background: none; }
+      table tbody td {
+        display: flex; justify-content: space-between; align-items: center;
+        padding: 10px 0; border-bottom: 1px solid var(--border); font-size: 0.9rem;
+      }
+      table tbody td:last-child { border-bottom: none; }
+      table tbody td[data-label]::before {
+        content: attr(data-label);
+        font-weight: 600; color: var(--text-muted);
+        font-size: 0.73rem; text-transform: uppercase;
+        letter-spacing: 0.3px; flex-shrink: 0; margin-right: 10px;
+      }
+    }
+
+    .empty-state { text-align: center; color: var(--text-muted); padding: 36px; font-size: 0.9rem; }
+    @media (max-width: 640px) {
+      .empty-row { display: block !important; }
+      .empty-row td { display: block !important; border: none; }
+    }
+  </style>
 </head>
 <body>
+
   <div class="header">
-    <h1>🍽️ Presence — Admin</h1>
+    <div>
+      <h1>🍽️ Presence — Admin</h1>
+    </div>
     <div style="display:flex;align-items:center;gap:12px">
       <span class="user-info" id="adminName"></span>
       <button class="btn-logout" id="logoutBtn">Esci</button>
     </div>
   </div>
 
-  <div class="container" style="margin-top:24px">
+  <div class="page">
 
-    <!-- Stats -->
     <div class="stats-grid">
       <div class="stat-card">
         <div class="stat-value" id="statIn">—</div>
-        <div class="stat-label">Attualmente in servizio</div>
+        <div class="stat-label">In servizio ora</div>
       </div>
       <div class="stat-card">
         <div class="stat-value" id="statTotal">—</div>
@@ -29,122 +159,108 @@
       </div>
       <div class="stat-card">
         <div class="stat-value" id="statMonth">—</div>
-        <div class="stat-label">Presenze questo mese</div>
+        <div class="stat-label">Questo mese</div>
       </div>
     </div>
 
-    <!-- Table -->
     <div class="card">
       <div class="filter-bar">
-        <label>Data:</label>
+        <label>Data</label>
         <input type="date" id="filterDate">
-        <label>Dipendente:</label>
-        <input type="text" id="filterName" placeholder="Tutti" style="width:160px">
-        <button class="btn btn-primary" id="clearFilters" style="padding:8px 16px;font-size:0.85rem">
-          Azzera filtri
-        </button>
+        <label>Dipendente</label>
+        <input type="text" id="filterName" placeholder="Tutti" style="width:140px">
+        <button class="btn-clear" id="clearFilters">Azzera</button>
       </div>
+
       <div class="card-title">
-        Registro presenze
-        <span style="color:var(--primary-light);font-size:0.7rem;margin-left:8px">
-          <span class="live-dot"></span>LIVE
-        </span>
+        <span class="live-dot"></span>Registro presenze in tempo reale
       </div>
+
       <div class="table-wrapper">
         <table>
           <thead>
             <tr>
-              <th>Dipendente</th>
-              <th>Data</th>
-              <th>Entrata</th>
-              <th>Uscita</th>
-              <th>Ore</th>
-              <th>Stato</th>
+              <th>Dipendente</th><th>Data</th>
+              <th>Entrata</th><th>Uscita</th>
+              <th>Ore</th><th>Stato</th>
             </tr>
           </thead>
           <tbody id="adminTable">
-            <tr><td colspan="6" class="empty-state">Caricamento...</td></tr>
+            <tr class="empty-row"><td colspan="6" class="empty-state">Caricamento...</td></tr>
           </tbody>
         </table>
       </div>
     </div>
+
   </div>
 
   <script type="module">
     import { auth, db } from './js/firebase-config.js';
+    import { onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
     import {
-      onAuthStateChanged, signOut
-    } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
-    import {
-      doc, getDoc, collection, query, orderBy, onSnapshot
+      doc, getDoc, collection, query, where, onSnapshot
     } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
 
-    let allPresenze = [];
-    let unsubscribe = null;
+    let allPresenze = [], unsubscribe = null;
 
     function fmtTime(ts) {
       if (!ts) return '—';
-      return ts.toDate().toLocaleTimeString('it-IT', { hour: '2-digit', minute: '2-digit' });
+      return ts.toDate().toLocaleTimeString('it-IT', { hour:'2-digit', minute:'2-digit' });
     }
-
     function fmtDate(s) {
-      const [y, m, d] = s.split('-');
-      return `${d}/${m}/${y}`;
+      const [y,m,d] = s.split('-');
+      return new Date(+y,+m-1,+d).toLocaleDateString('it-IT',
+        { day:'numeric', month:'short', year:'numeric' });
     }
-
-    function calcDuration(entrata, uscita) {
-      if (!entrata || !uscita) return '—';
-      const ms = uscita.toDate() - entrata.toDate();
-      const h  = Math.floor(ms / 3600000);
-      const m  = Math.floor((ms % 3600000) / 60000);
-      return `${h}h ${m}m`;
+    function calcDur(a, b) {
+      if (!a || !b) return '—';
+      const ms = b.toDate() - a.toDate();
+      if (ms <= 0) return '—';
+      const h = Math.floor(ms/3600000), m = Math.floor((ms%3600000)/60000);
+      return m ? `${h}h ${m}m` : `${h}h`;
     }
-
     function todayStr() {
       const n = new Date();
       return `${n.getFullYear()}-${String(n.getMonth()+1).padStart(2,'0')}-${String(n.getDate()).padStart(2,'0')}`;
     }
-
-    function thisMonthPrefix() {
+    function monthPrefix() {
       const n = new Date();
       return `${n.getFullYear()}-${String(n.getMonth()+1).padStart(2,'0')}`;
     }
 
     function renderTable() {
-      const filterDate = document.getElementById('filterDate').value;
-      const filterName = document.getElementById('filterName').value.toLowerCase().trim();
-
+      const fd = document.getElementById('filterDate').value;
+      const fn = document.getElementById('filterName').value.toLowerCase().trim();
       let rows = allPresenze;
-      if (filterDate) rows = rows.filter(p => p.data === filterDate);
-      if (filterName) rows = rows.filter(p => p.userName.toLowerCase().includes(filterName));
+      if (fd) rows = rows.filter(p => p.data === fd);
+      if (fn) rows = rows.filter(p => p.userName?.toLowerCase().includes(fn));
 
       const tbody = document.getElementById('adminTable');
-      if (rows.length === 0) {
-        tbody.innerHTML = '<tr><td colspan="6" class="empty-state">Nessuna presenza per i filtri selezionati</td></tr>';
+      if (!rows.length) {
+        tbody.innerHTML = '<tr class="empty-row"><td colspan="6" class="empty-state">Nessuna presenza trovata</td></tr>';
       } else {
         tbody.innerHTML = rows.map(p => {
           const ip = !p.oraUscita;
           return `<tr class="${ip ? 'in-progress' : ''}">
-            <td><strong>${p.userName}</strong></td>
-            <td>${fmtDate(p.data)}</td>
-            <td>${fmtTime(p.oraEntrata)}</td>
-            <td>${fmtTime(p.oraUscita)}</td>
-            <td>${calcDuration(p.oraEntrata, p.oraUscita)}</td>
-            <td><span class="badge ${ip ? 'badge-in' : 'badge-out'}">${ip ? '● In servizio' : 'Completato'}</span></td>
+            <td data-label="Dipendente"><strong>${p.userName ?? '—'}</strong></td>
+            <td data-label="Data">${fmtDate(p.data)}</td>
+            <td data-label="Entrata">${fmtTime(p.oraEntrata)}</td>
+            <td data-label="Uscita">${fmtTime(p.oraUscita)}</td>
+            <td data-label="Ore">${calcDur(p.oraEntrata, p.oraUscita)}</td>
+            <td data-label="Stato">
+              <span class="badge ${ip ? 'badge-in' : 'badge-out'}">${ip ? '● In servizio' : 'Completato'}</span>
+            </td>
           </tr>`;
         }).join('');
       }
 
-      // Stats (always based on full data, not filtered)
-      const today = todayStr();
-      const month = thisMonthPrefix();
+      const today = todayStr(), mPrefix = monthPrefix();
       const todayRows = allPresenze.filter(p => p.data === today);
       document.getElementById('statIn').textContent    = todayRows.filter(p => !p.oraUscita).length;
       document.getElementById('statTotal').textContent = todayRows.length;
-      document.getElementById('statMonth').textContent = allPresenze.filter(p => p.data.startsWith(month)).length;
+      document.getElementById('statMonth').textContent = allPresenze.filter(p => p.data.startsWith(mPrefix)).length;
     }
 
-    // Default filter = today
     document.getElementById('filterDate').value = todayStr();
     document.getElementById('filterDate').addEventListener('change', renderTable);
     document.getElementById('filterName').addEventListener('input', renderTable);
@@ -154,23 +270,21 @@
       renderTable();
     });
 
-    // Auth guard
-    onAuthStateChanged(auth, async (user) => {
+    onAuthStateChanged(auth, async user => {
       if (!user) { window.location.href = 'index.html'; return; }
-
-      const snap = await getDoc(doc(db, 'users', user.uid));
+      const snap = await getDoc(doc(db,'users',user.uid));
       if (!snap.exists() || snap.data().ruolo !== 'admin') {
-        window.location.href = 'dashboard.html';
-        return;
+        window.location.href = 'dashboard.html'; return;
       }
-
       document.getElementById('adminName').textContent = snap.data().nome;
 
-      // Real-time listener on entire presenze collection
       unsubscribe = onSnapshot(
-        query(collection(db, 'presenze'), orderBy('oraEntrata', 'desc')),
-        (snap) => {
-          allPresenze = snap.docs.map(d => ({ id: d.id, ...d.data() }));
+        query(collection(db,'presenze')),
+        snap => {
+          allPresenze = snap.docs
+            .map(d => ({id:d.id,...d.data()}))
+            .filter(p => p.oraEntrata)
+            .sort((a,b) => b.oraEntrata.toDate() - a.oraEntrata.toDate());
           renderTable();
         }
       );
