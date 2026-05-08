@@ -25,6 +25,7 @@
       overflow: hidden;
     }
 
+    /* Header */
     .box-header {
       background: var(--primary);
       color: white;
@@ -33,38 +34,83 @@
       align-items: center;
       justify-content: space-between;
     }
-
-    .box-header h2 { font-size: 1.1rem; font-weight: 600; }
+    .box-header h2  { font-size: 1.1rem; font-weight: 600; }
     .box-header .user-name { font-size: 0.85rem; opacity: 0.85; margin-top: 2px; }
 
-    .box-body { padding: 24px; }
+    /* Tab nav */
+    .tab-nav {
+      display: flex;
+      border-bottom: 2px solid var(--border);
+      background: white;
+    }
+    .tab-nav-btn {
+      flex: 1;
+      padding: 14px;
+      background: none;
+      border: none;
+      border-bottom: 3px solid transparent;
+      margin-bottom: -2px;
+      cursor: pointer;
+      font-size: 0.95rem;
+      font-weight: 600;
+      color: var(--text-muted);
+      transition: color 0.2s, border-color 0.2s;
+    }
+    .tab-nav-btn.active {
+      color: var(--primary);
+      border-bottom-color: var(--primary);
+    }
 
+    /* Panes */
+    .tab-pane { display: none; padding: 24px; }
+    .tab-pane.active { display: block; }
+
+    /* Toolbar */
     .box-toolbar {
       display: flex;
       align-items: center;
       justify-content: space-between;
       margin-bottom: 20px;
     }
-
     .box-toolbar h3 { font-size: 1rem; font-weight: 700; color: var(--text); }
 
-    .btn-add-presence {
-      background: var(--primary);
+    /* FAB add button */
+    .btn-fab {
+      display: flex;
+      align-items: center;
+      gap: 9px;
+      background: linear-gradient(135deg, #52B788, #2D6A4F);
       color: white;
       border: none;
-      border-radius: 8px;
-      padding: 9px 18px;
+      border-radius: 50px;
+      padding: 9px 20px 9px 14px;
       font-size: 0.9rem;
-      font-weight: 600;
+      font-weight: 700;
       cursor: pointer;
-      transition: background 0.2s;
+      box-shadow: 0 4px 14px rgba(45,106,79,0.35);
+      transition: transform 0.2s, box-shadow 0.2s;
     }
-    .btn-add-presence:hover { background: var(--primary-dark); }
+    .btn-fab:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(45,106,79,0.45);
+    }
+    .btn-fab:active { transform: translateY(0); }
+    .fab-circle {
+      width: 26px;
+      height: 26px;
+      background: rgba(255,255,255,0.25);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.3rem;
+      line-height: 1;
+      font-weight: 400;
+    }
 
+    /* Table */
     table { width: 100%; border-collapse: collapse; font-size: 0.92rem; }
-
     thead tr { border-bottom: 2px solid var(--border); }
-
     th {
       padding: 10px 12px;
       text-align: left;
@@ -74,68 +120,104 @@
       letter-spacing: 0.5px;
       color: var(--text-muted);
     }
-
     td { padding: 13px 12px; border-bottom: 1px solid var(--border); color: var(--text); }
     tr:last-child td { border-bottom: none; }
     tbody tr:hover td { background: var(--bg); }
-
     .ore-cell { font-weight: 700; color: var(--primary); }
-
-    .actions-cell { white-space: nowrap; }
+    .actions-cell { white-space: nowrap; text-align: right; }
 
     .btn-edit, .btn-del {
       border: none;
       border-radius: 6px;
-      padding: 5px 10px;
+      padding: 5px 11px;
       font-size: 0.78rem;
       font-weight: 600;
       cursor: pointer;
-      transition: opacity 0.2s;
+      transition: opacity 0.15s;
     }
-    .btn-edit { background: #E8F4FD; color: #2980B9; margin-right: 6px; }
-    .btn-edit:hover { opacity: 0.75; }
+    .btn-edit { background: #EBF5FB; color: #2E86C1; margin-right: 5px; }
     .btn-del  { background: #FDEDED; color: var(--danger); }
-    .btn-del:hover  { opacity: 0.75; }
+    .btn-edit:hover, .btn-del:hover { opacity: 0.7; }
 
     /* Total row */
     tfoot tr td {
       background: var(--accent);
       font-weight: 700;
       color: var(--primary-dark);
-      padding: 14px 12px;
+      padding: 13px 12px;
       border-top: 2px solid var(--primary-light);
-      font-size: 0.92rem;
     }
 
-    .empty-row td {
+    .empty-row td, .empty-state {
       text-align: center;
       color: var(--text-muted);
       padding: 40px;
       font-size: 0.9rem;
     }
 
-    /* Modal shared */
+    /* Storico */
+    .storico-month { margin-bottom: 28px; }
+    .storico-month:last-child { margin-bottom: 0; }
+    .storico-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: var(--accent);
+      border-radius: 10px;
+      padding: 12px 16px;
+      margin-bottom: 12px;
+    }
+    .storico-month-name {
+      font-size: 1rem;
+      font-weight: 700;
+      color: var(--primary-dark);
+      text-transform: capitalize;
+    }
+    .storico-total {
+      font-size: 0.85rem;
+      font-weight: 700;
+      color: var(--primary);
+      background: white;
+      border-radius: 20px;
+      padding: 4px 12px;
+    }
+
+    /* Modal */
     .modal-overlay {
       display: none;
       position: fixed;
       inset: 0;
-      background: rgba(0,0,0,0.5);
+      background: rgba(0,0,0,0.45);
       z-index: 100;
       align-items: center;
       justify-content: center;
       padding: 16px;
     }
-    .modal-overlay.open { display: flex; }
+    .modal-overlay.open {
+      display: flex;
+      animation: overlayIn 0.2s ease-out;
+    }
+    .modal-overlay.open .modal {
+      animation: modalIn 0.28s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+
+    @keyframes overlayIn {
+      from { opacity: 0; }
+      to   { opacity: 1; }
+    }
+    @keyframes modalIn {
+      from { opacity: 0; transform: translateY(28px) scale(0.95); }
+      to   { opacity: 1; transform: translateY(0)    scale(1);    }
+    }
 
     .modal {
       background: var(--card);
-      border-radius: 16px;
+      border-radius: 18px;
       padding: 28px;
       width: 100%;
       max-width: 360px;
-      box-shadow: 0 8px 32px rgba(0,0,0,0.2);
+      box-shadow: 0 12px 40px rgba(0,0,0,0.18);
     }
-
     .modal-title { font-size: 1.1rem; font-weight: 700; margin-bottom: 20px; }
 
     .form-group { display: flex; flex-direction: column; gap: 6px; margin-bottom: 14px; }
@@ -151,7 +233,6 @@
     .form-group input:focus { outline: none; border-color: var(--primary); }
 
     .modal-actions { display: flex; gap: 10px; margin-top: 20px; }
-
     .btn-cancel {
       flex: 1; padding: 12px;
       background: var(--bg);
@@ -179,7 +260,7 @@
     }
     .btn-confirm-del:hover { opacity: 0.85; }
 
-    .confirm-text { color: var(--text-muted); font-size: 0.95rem; margin-bottom: 4px; }
+    .confirm-text { color: var(--text-muted); font-size: 0.93rem; line-height: 1.5; }
 
     .error-msg { color: var(--danger); font-size: 0.85rem; min-height: 18px; margin-top: 4px; }
   </style>
@@ -187,6 +268,7 @@
 <body>
 
   <div class="main-box">
+
     <div class="box-header">
       <div>
         <h2>🍽️ Presence</h2>
@@ -195,10 +277,19 @@
       <button class="btn-logout" id="logoutBtn">Esci</button>
     </div>
 
-    <div class="box-body">
+    <div class="tab-nav">
+      <button class="tab-nav-btn active" data-tab="presenza">Presenza</button>
+      <button class="tab-nav-btn"        data-tab="storico">Storico</button>
+    </div>
+
+    <!-- TAB: Presenza -->
+    <div id="tab-presenza" class="tab-pane active">
       <div class="box-toolbar">
-        <h3>Le mie presenze</h3>
-        <button class="btn-add-presence" id="openModalBtn">+ Aggiungi presenza</button>
+        <h3 id="presenzaMonthTitle">Le mie presenze</h3>
+        <button class="btn-fab" id="openModalBtn">
+          <span class="fab-circle">+</span>
+          Aggiungi
+        </button>
       </div>
 
       <table>
@@ -207,7 +298,7 @@
             <th>Giorno</th>
             <th>Entrata</th>
             <th>Uscita</th>
-            <th>Ore lavorate</th>
+            <th>Ore</th>
             <th></th>
           </tr>
         </thead>
@@ -217,12 +308,20 @@
         <tfoot>
           <tr>
             <td colspan="3" id="monthLabel">Totale mese corrente</td>
-            <td id="monthTotal">—</td>
+            <td id="monthTotal" class="ore-cell">—</td>
             <td></td>
           </tr>
         </tfoot>
       </table>
     </div>
+
+    <!-- TAB: Storico -->
+    <div id="tab-storico" class="tab-pane">
+      <div id="storicoContent">
+        <p class="empty-state">Caricamento...</p>
+      </div>
+    </div>
+
   </div>
 
   <!-- Modal aggiungi / modifica -->
@@ -255,10 +354,10 @@
   <div class="modal-overlay" id="confirmOverlay">
     <div class="modal">
       <div class="modal-title">Elimina presenza</div>
-      <p class="confirm-text">Sei sicuro di voler eliminare questa presenza? L'operazione non è reversibile.</p>
+      <p class="confirm-text">Sei sicuro di voler eliminare questa presenza?<br>L'operazione non è reversibile.</p>
       <div class="modal-actions" style="margin-top:24px">
         <button class="btn-cancel" id="confirmCancel">Annulla</button>
-        <button class="btn-confirm-del" id="confirmOk">Elimina</button>
+        <button class="btn-confirm-del" id="confirmOk">Sì, elimina</button>
       </div>
     </div>
   </div>
@@ -275,10 +374,12 @@
     let userData    = null;
     let editId      = null;
     let deleteId    = null;
+    let allShifts   = [];
 
     const MONTH_NAMES = ['gennaio','febbraio','marzo','aprile','maggio','giugno',
                          'luglio','agosto','settembre','ottobre','novembre','dicembre'];
 
+    // --- Helpers ---
     function fmtTime(ts) {
       if (!ts) return '—';
       return ts.toDate().toLocaleTimeString('it-IT', { hour: '2-digit', minute: '2-digit' });
@@ -286,8 +387,8 @@
 
     function fmtDate(s) {
       const [y, m, d] = s.split('-');
-      const date = new Date(Number(y), Number(m) - 1, Number(d));
-      return date.toLocaleDateString('it-IT', { weekday: 'short', day: 'numeric', month: 'short', year: 'numeric' });
+      return new Date(Number(y), Number(m)-1, Number(d))
+        .toLocaleDateString('it-IT', { weekday: 'short', day: 'numeric', month: 'short', year: 'numeric' });
     }
 
     function calcDuration(entrata, uscita) {
@@ -304,25 +405,41 @@
       return `${n.getFullYear()}-${String(n.getMonth()+1).padStart(2,'0')}-${String(n.getDate()).padStart(2,'0')}`;
     }
 
-    function currentMonthPrefix() {
-      const n = new Date();
-      return `${n.getFullYear()}-${String(n.getMonth()+1).padStart(2,'0')}`;
-    }
-
     function toTimestamp(dateStr, timeStr) {
-      const [h, m]    = timeStr.split(':').map(Number);
+      const [h, m]     = timeStr.split(':').map(Number);
       const [y, mo, d] = dateStr.split('-').map(Number);
-      return Timestamp.fromDate(new Date(y, mo - 1, d, h, m, 0));
+      return Timestamp.fromDate(new Date(y, mo-1, d, h, m, 0));
     }
 
-    // --- Render table ---
-    function renderTable(all) {
-      const tbody = document.getElementById('presenceTable');
+    function calcTotalMs(shifts) {
+      return shifts
+        .filter(p => p.oraEntrata && p.oraUscita)
+        .reduce((sum, p) => sum + (p.oraUscita.toDate() - p.oraEntrata.toDate()), 0);
+    }
 
-      if (all.length === 0) {
-        tbody.innerHTML = '<tr class="empty-row"><td colspan="5">Nessuna presenza registrata</td></tr>';
+    function fmtMs(ms) {
+      if (ms <= 0) return '0h';
+      const h = Math.floor(ms / 3600000);
+      const m = Math.floor((ms % 3600000) / 60000);
+      return m > 0 ? `${h}h ${m}m` : `${h}h`;
+    }
+
+    // --- Render Presenza tab (current month) ---
+    function renderPresenza(all) {
+      const now    = new Date();
+      const prefix = `${now.getFullYear()}-${String(now.getMonth()+1).padStart(2,'0')}`;
+      const month  = MONTH_NAMES[now.getMonth()];
+
+      const current = all.filter(p => p.data.startsWith(prefix));
+
+      document.getElementById('presenzaMonthTitle').textContent =
+        `${month.charAt(0).toUpperCase() + month.slice(1)} ${now.getFullYear()}`;
+
+      const tbody = document.getElementById('presenceTable');
+      if (current.length === 0) {
+        tbody.innerHTML = '<tr class="empty-row"><td colspan="5">Nessuna presenza questo mese</td></tr>';
       } else {
-        tbody.innerHTML = all.map(p => `
+        tbody.innerHTML = current.map(p => `
           <tr>
             <td>${fmtDate(p.data)}</td>
             <td>${fmtTime(p.oraEntrata)}</td>
@@ -332,47 +449,90 @@
               <button class="btn-edit" data-id="${p.id}">Modifica</button>
               <button class="btn-del"  data-id="${p.id}">Elimina</button>
             </td>
-          </tr>
-        `).join('');
+          </tr>`).join('');
       }
 
-      // Running total for current month
-      const prefix = currentMonthPrefix();
-      const now    = new Date();
-      const monthName = MONTH_NAMES[now.getMonth()];
-      const monthShifts = all.filter(p => p.data.startsWith(prefix) && p.oraEntrata && p.oraUscita);
-      const totalMs = monthShifts.reduce((sum, p) => sum + (p.oraUscita.toDate() - p.oraEntrata.toDate()), 0);
-      const th = Math.floor(totalMs / 3600000);
-      const tm = Math.floor((totalMs % 3600000) / 60000);
-      const totalStr = totalMs > 0 ? (tm > 0 ? `${th}h ${tm}m` : `${th}h`) : '0h';
-
-      document.getElementById('monthLabel').textContent =
-        `Totale ${monthName} ${now.getFullYear()}`;
-      document.getElementById('monthTotal').textContent = totalStr;
+      document.getElementById('monthLabel').textContent = `Totale ${month} ${now.getFullYear()}`;
+      document.getElementById('monthTotal').textContent = fmtMs(calcTotalMs(current));
     }
+
+    // --- Render Storico tab ---
+    function renderStorico(all) {
+      const el = document.getElementById('storicoContent');
+      if (all.length === 0) {
+        el.innerHTML = '<p class="empty-state">Nessuna presenza registrata</p>';
+        return;
+      }
+
+      const groups = {};
+      all.forEach(p => {
+        const key = p.data.slice(0, 7);
+        if (!groups[key]) groups[key] = [];
+        groups[key].push(p);
+      });
+
+      const sorted = Object.keys(groups).sort((a, b) => b.localeCompare(a));
+
+      el.innerHTML = sorted.map(key => {
+        const [y, m]   = key.split('-');
+        const monthName = MONTH_NAMES[Number(m)-1];
+        const shifts    = groups[key].sort((a, b) => a.oraEntrata.toDate() - b.oraEntrata.toDate());
+        const totalStr  = fmtMs(calcTotalMs(shifts));
+
+        return `
+          <div class="storico-month">
+            <div class="storico-header">
+              <span class="storico-month-name">${monthName} ${y}</span>
+              <span class="storico-total">${totalStr}</span>
+            </div>
+            <table>
+              <thead>
+                <tr><th>Giorno</th><th>Entrata</th><th>Uscita</th><th>Ore</th></tr>
+              </thead>
+              <tbody>
+                ${shifts.map(p => `
+                  <tr>
+                    <td>${fmtDate(p.data)}</td>
+                    <td>${fmtTime(p.oraEntrata)}</td>
+                    <td>${fmtTime(p.oraUscita)}</td>
+                    <td class="ore-cell">${calcDuration(p.oraEntrata, p.oraUscita)}</td>
+                  </tr>`).join('')}
+              </tbody>
+            </table>
+          </div>`;
+      }).join('');
+    }
+
+    // --- Tab switching ---
+    document.querySelectorAll('.tab-nav-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        document.querySelectorAll('.tab-nav-btn').forEach(b => b.classList.remove('active'));
+        document.querySelectorAll('.tab-pane').forEach(p => p.classList.remove('active'));
+        btn.classList.add('active');
+        document.getElementById('tab-' + btn.dataset.tab).classList.add('active');
+      });
+    });
 
     // --- Modal add/edit ---
     function openAddModal() {
       editId = null;
-      document.getElementById('modalTitle').textContent = 'Aggiungi Presenza';
-      document.getElementById('addData').value    = todayStr();
-      document.getElementById('addEntrata').value = '';
-      document.getElementById('addUscita').value  = '';
-      document.getElementById('addError').textContent = '';
-      document.getElementById('saveBtn').textContent = 'Salva';
+      document.getElementById('modalTitle').textContent   = 'Aggiungi Presenza';
+      document.getElementById('addData').value            = todayStr();
+      document.getElementById('addEntrata').value         = '';
+      document.getElementById('addUscita').value          = '';
+      document.getElementById('addError').textContent     = '';
+      document.getElementById('saveBtn').textContent      = 'Salva';
       document.getElementById('modalOverlay').classList.add('open');
     }
 
     function openEditModal(shift) {
       editId = shift.id;
-      document.getElementById('modalTitle').textContent = 'Modifica Presenza';
-      document.getElementById('addData').value    = shift.data;
-      document.getElementById('addEntrata').value = shift.oraEntrata
-        ? shift.oraEntrata.toDate().toTimeString().slice(0, 5) : '';
-      document.getElementById('addUscita').value  = shift.oraUscita
-        ? shift.oraUscita.toDate().toTimeString().slice(0, 5) : '';
-      document.getElementById('addError').textContent = '';
-      document.getElementById('saveBtn').textContent = 'Salva modifiche';
+      document.getElementById('modalTitle').textContent   = 'Modifica Presenza';
+      document.getElementById('addData').value            = shift.data;
+      document.getElementById('addEntrata').value         = shift.oraEntrata?.toDate().toTimeString().slice(0,5) ?? '';
+      document.getElementById('addUscita').value          = shift.oraUscita?.toDate().toTimeString().slice(0,5) ?? '';
+      document.getElementById('addError').textContent     = '';
+      document.getElementById('saveBtn').textContent      = 'Salva modifiche';
       document.getElementById('modalOverlay').classList.add('open');
     }
 
@@ -407,13 +567,10 @@
 
       try {
         const payload = {
-          userId:     currentUser.uid,
-          userName:   userData.nome,
-          data,
+          userId: currentUser.uid, userName: userData.nome, data,
           oraEntrata: toTimestamp(data, entrataT),
           oraUscita:  uscitaT ? toTimestamp(data, uscitaT) : null,
         };
-
         if (editId) {
           await updateDoc(doc(db, 'presenze', editId), payload);
         } else {
@@ -424,12 +581,12 @@
         console.error(err);
         errorEl.textContent = 'Errore nel salvataggio, riprova.';
       } finally {
-        btn.disabled = false;
+        btn.disabled  = false;
         btn.textContent = origText;
       }
     });
 
-    // --- Confirm delete modal ---
+    // --- Confirm delete ---
     function openConfirmModal(id) {
       deleteId = id;
       document.getElementById('confirmOverlay').classList.add('open');
@@ -437,7 +594,6 @@
 
     function closeConfirmModal() {
       document.getElementById('confirmOverlay').classList.remove('open');
-      deleteId = null;
     }
 
     document.getElementById('confirmCancel').addEventListener('click', closeConfirmModal);
@@ -446,17 +602,17 @@
     });
 
     document.getElementById('confirmOk').addEventListener('click', async () => {
-      if (!deleteId) return;
-      try {
-        await deleteDoc(doc(db, 'presenze', deleteId));
-      } catch (err) {
-        console.error(err);
-      }
+      const idToDelete = deleteId;
       closeConfirmModal();
+      if (!idToDelete) return;
+      try {
+        await deleteDoc(doc(db, 'presenze', idToDelete));
+      } catch (err) {
+        console.error('Errore eliminazione:', err);
+      }
     });
 
-    // --- Event delegation for edit/delete buttons ---
-    let allShifts = [];
+    // --- Event delegation per edit/delete ---
     document.getElementById('presenceTable').addEventListener('click', (e) => {
       const id = e.target.dataset.id;
       if (!id) return;
@@ -469,7 +625,7 @@
       }
     });
 
-    // --- Auth guard + Firestore listener ---
+    // --- Auth + Firestore ---
     onAuthStateChanged(auth, async (user) => {
       if (!user) { window.location.href = 'index.html'; return; }
       currentUser = user;
@@ -488,13 +644,10 @@
             .map(d => ({ id: d.id, ...d.data() }))
             .filter(p => p.oraEntrata)
             .sort((a, b) => b.oraEntrata.toDate() - a.oraEntrata.toDate());
-          renderTable(allShifts);
+          renderPresenza(allShifts);
+          renderStorico(allShifts);
         },
-        (err) => {
-          console.error(err);
-          document.getElementById('presenceTable').innerHTML =
-            '<tr class="empty-row"><td colspan="5">Errore di connessione. Ricarica la pagina.</td></tr>';
-        }
+        (err) => console.error(err)
       );
     });
 
