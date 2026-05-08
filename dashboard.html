@@ -3,51 +3,260 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Presence - Dashboard</title>
+  <title>Presence</title>
   <link rel="stylesheet" href="css/style.css">
+  <style>
+    body {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-start;
+      padding: 32px 16px;
+      background: var(--bg);
+    }
+
+    .main-box {
+      width: 100%;
+      max-width: 700px;
+      background: var(--card);
+      border-radius: 20px;
+      box-shadow: var(--shadow);
+      overflow: hidden;
+    }
+
+    .box-header {
+      background: var(--primary);
+      color: white;
+      padding: 20px 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .box-header h2 {
+      font-size: 1.1rem;
+      font-weight: 600;
+    }
+
+    .box-header .user-name {
+      font-size: 0.85rem;
+      opacity: 0.85;
+    }
+
+    .box-body {
+      padding: 24px;
+    }
+
+    .box-toolbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 20px;
+    }
+
+    .box-toolbar h3 {
+      font-size: 1rem;
+      font-weight: 700;
+      color: var(--text);
+    }
+
+    .btn-add-presence {
+      background: var(--primary);
+      color: white;
+      border: none;
+      border-radius: 8px;
+      padding: 9px 18px;
+      font-size: 0.9rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+
+    .btn-add-presence:hover {
+      background: var(--primary-dark);
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.95rem;
+    }
+
+    thead tr {
+      border-bottom: 2px solid var(--border);
+    }
+
+    th {
+      padding: 10px 14px;
+      text-align: left;
+      font-size: 0.78rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      color: var(--text-muted);
+    }
+
+    td {
+      padding: 14px;
+      border-bottom: 1px solid var(--border);
+      color: var(--text);
+    }
+
+    tr:last-child td {
+      border-bottom: none;
+    }
+
+    tbody tr:hover td {
+      background: var(--bg);
+    }
+
+    .ore-cell {
+      font-weight: 700;
+      color: var(--primary);
+    }
+
+    .empty-row td {
+      text-align: center;
+      color: var(--text-muted);
+      padding: 40px;
+      font-size: 0.9rem;
+    }
+
+    /* Modal */
+    .modal-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.5);
+      z-index: 100;
+      align-items: center;
+      justify-content: center;
+      padding: 16px;
+    }
+
+    .modal-overlay.open {
+      display: flex;
+    }
+
+    .modal {
+      background: var(--card);
+      border-radius: 16px;
+      padding: 28px;
+      width: 100%;
+      max-width: 360px;
+      box-shadow: 0 8px 32px rgba(0,0,0,0.2);
+    }
+
+    .modal-title {
+      font-size: 1.1rem;
+      font-weight: 700;
+      margin-bottom: 20px;
+    }
+
+    .form-group {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      margin-bottom: 14px;
+    }
+
+    .form-group label {
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: var(--text-muted);
+    }
+
+    .form-group input {
+      padding: 11px 14px;
+      border: 1.5px solid var(--border);
+      border-radius: 8px;
+      font-size: 1rem;
+      background: var(--bg);
+      width: 100%;
+    }
+
+    .form-group input:focus {
+      outline: none;
+      border-color: var(--primary);
+    }
+
+    .modal-actions {
+      display: flex;
+      gap: 10px;
+      margin-top: 20px;
+    }
+
+    .btn-cancel {
+      flex: 1;
+      padding: 12px;
+      background: var(--bg);
+      border: 1.5px solid var(--border);
+      border-radius: 10px;
+      cursor: pointer;
+      font-size: 0.95rem;
+      font-weight: 600;
+      color: var(--text-muted);
+    }
+
+    .btn-save {
+      flex: 1;
+      padding: 12px;
+      background: var(--primary);
+      color: white;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+      font-size: 0.95rem;
+      font-weight: 600;
+      transition: background 0.2s;
+    }
+
+    .btn-save:hover { background: var(--primary-dark); }
+    .btn-save:disabled { opacity: 0.6; cursor: not-allowed; }
+
+    .error-msg {
+      color: var(--danger);
+      font-size: 0.85rem;
+      min-height: 18px;
+      margin-top: 4px;
+    }
+  </style>
 </head>
 <body>
-  <div class="header">
-    <h1>🍽️ Presence</h1>
-    <div style="display:flex;align-items:center;gap:12px">
-      <span class="user-info" id="userName"></span>
+
+  <div class="main-box">
+    <div class="box-header">
+      <div>
+        <h2>🍽️ Presence</h2>
+        <div class="user-name" id="userName"></div>
+      </div>
       <button class="btn-logout" id="logoutBtn">Esci</button>
     </div>
-  </div>
 
-  <div class="container" style="margin-top:24px">
-    <!-- Clock card -->
-    <div class="card">
-      <div class="current-time" id="currentTime"></div>
-      <div id="timerSection"><p class="empty-state">Caricamento...</p></div>
-    </div>
+    <div class="box-body">
+      <div class="box-toolbar">
+        <h3>Le mie presenze</h3>
+        <button class="btn-add-presence" id="openModalBtn">+ Aggiungi presenza</button>
+      </div>
 
-    <!-- History -->
-    <div class="card">
-      <div class="card-title" style="display:flex;align-items:center;justify-content:space-between">
-        Le tue presenze
-        <button class="btn-add" id="openModalBtn">+ Aggiungi</button>
-      </div>
-      <div class="table-wrapper">
-        <table>
-          <thead>
-            <tr>
-              <th>Data</th>
-              <th>Entrata</th>
-              <th>Uscita</th>
-              <th>Ore</th>
-              <th>Stato</th>
-            </tr>
-          </thead>
-          <tbody id="presenceTable">
-            <tr><td colspan="5" class="empty-state">Caricamento...</td></tr>
-          </tbody>
-        </table>
-      </div>
+      <table>
+        <thead>
+          <tr>
+            <th>Giorno</th>
+            <th>Entrata</th>
+            <th>Uscita</th>
+            <th>Ore lavorate</th>
+          </tr>
+        </thead>
+        <tbody id="presenceTable">
+          <tr class="empty-row"><td colspan="4">Caricamento...</td></tr>
+        </tbody>
+      </table>
     </div>
   </div>
 
-  <!-- Modal aggiungi presenza -->
+  <!-- Modal -->
   <div class="modal-overlay" id="modalOverlay">
     <div class="modal">
       <div class="modal-title">Aggiungi Presenza</div>
@@ -66,8 +275,8 @@
         </div>
         <div id="addError" class="error-msg"></div>
         <div class="modal-actions">
-          <button type="button" class="btn-secondary" id="closeModalBtn">Annulla</button>
-          <button type="submit" class="btn btn-primary" style="flex:1">Salva</button>
+          <button type="button" class="btn-cancel" id="closeModalBtn">Annulla</button>
+          <button type="submit" class="btn-save">Salva</button>
         </div>
       </form>
     </div>
@@ -75,28 +284,13 @@
 
   <script type="module">
     import { auth, db } from './js/firebase-config.js';
+    import { onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
     import {
-      onAuthStateChanged, signOut
-    } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
-    import {
-      doc, getDoc, addDoc, updateDoc,
-      collection, query, where, orderBy, onSnapshot, Timestamp
+      doc, getDoc, addDoc, collection, query, where, onSnapshot, Timestamp
     } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
 
     let currentUser = null;
     let userData   = null;
-    let timerInterval = null;
-
-    // Live clock
-    function updateClock() {
-      document.getElementById('currentTime').textContent =
-        new Date().toLocaleString('it-IT', {
-          weekday: 'long', day: 'numeric', month: 'long',
-          hour: '2-digit', minute: '2-digit', second: '2-digit'
-        });
-    }
-    updateClock();
-    setInterval(updateClock, 1000);
 
     function fmtTime(ts) {
       if (!ts) return '—';
@@ -105,101 +299,22 @@
 
     function fmtDate(s) {
       const [y, m, d] = s.split('-');
-      return `${d}/${m}/${y}`;
+      const date = new Date(y, m - 1, d);
+      return date.toLocaleDateString('it-IT', { weekday: 'short', day: 'numeric', month: 'short', year: 'numeric' });
     }
 
     function calcDuration(entrata, uscita) {
       if (!entrata || !uscita) return '—';
       const ms = uscita.toDate() - entrata.toDate();
-      const h  = Math.floor(ms / 3600000);
-      const m  = Math.floor((ms % 3600000) / 60000);
-      return `${h}h ${m}m`;
+      if (ms <= 0) return '—';
+      const h = Math.floor(ms / 3600000);
+      const m = Math.floor((ms % 3600000) / 60000);
+      return m > 0 ? `${h}h ${m}m` : `${h}h`;
     }
 
     function todayStr() {
       const n = new Date();
       return `${n.getFullYear()}-${String(n.getMonth()+1).padStart(2,'0')}-${String(n.getDate()).padStart(2,'0')}`;
-    }
-
-    function startTimer(from) {
-      clearInterval(timerInterval);
-      timerInterval = setInterval(() => {
-        const ms = Date.now() - from.getTime();
-        const h  = String(Math.floor(ms / 3600000)).padStart(2, '0');
-        const m  = String(Math.floor((ms % 3600000) / 60000)).padStart(2, '0');
-        const s  = String(Math.floor((ms % 60000) / 1000)).padStart(2, '0');
-        const el = document.getElementById('liveTimer');
-        if (el) el.textContent = `${h}:${m}:${s}`;
-      }, 1000);
-    }
-
-    function renderTimerSection(shift) {
-      const el = document.getElementById('timerSection');
-      clearInterval(timerInterval);
-
-      if (!shift) {
-        el.innerHTML = `
-          <div class="status-bar">
-            <div class="status-dot"></div>
-            <span class="status-text">Non in servizio</span>
-          </div>
-          <button class="btn-entrata" id="actionBtn">▶&nbsp; Segna Entrata</button>`;
-        document.getElementById('actionBtn').addEventListener('click', handleEntrata);
-
-      } else if (!shift.oraUscita) {
-        el.innerHTML = `
-          <div class="status-bar">
-            <div class="status-dot attivo"></div>
-            <span class="status-text">In servizio dalle <strong>${fmtTime(shift.oraEntrata)}</strong></span>
-          </div>
-          <div class="timer" id="liveTimer">00:00:00</div>
-          <button class="btn-uscita" id="actionBtn">■&nbsp; Segna Uscita</button>`;
-        document.getElementById('actionBtn').addEventListener('click', () => handleUscita(shift.id));
-        startTimer(shift.oraEntrata.toDate());
-
-      } else {
-        el.innerHTML = `
-          <div class="status-bar">
-            <div class="status-dot"></div>
-            <span class="status-text">Turno completato</span>
-          </div>
-          <div class="shift-summary">
-            ${fmtTime(shift.oraEntrata)} → ${fmtTime(shift.oraUscita)}
-            &nbsp;|&nbsp; ${calcDuration(shift.oraEntrata, shift.oraUscita)}
-          </div>
-          <button class="btn-entrata" id="actionBtn">▶&nbsp; Nuovo Turno</button>`;
-        document.getElementById('actionBtn').addEventListener('click', handleEntrata);
-      }
-    }
-
-    async function handleEntrata() {
-      const btn = document.getElementById('actionBtn');
-      btn.disabled = true;
-      try {
-        await addDoc(collection(db, 'presenze'), {
-          userId:     currentUser.uid,
-          userName:   userData.nome,
-          data:       todayStr(),
-          oraEntrata: Timestamp.now(),
-          oraUscita:  null,
-        });
-      } catch (err) {
-        console.error(err);
-        btn.disabled = false;
-      }
-    }
-
-    async function handleUscita(shiftId) {
-      const btn = document.getElementById('actionBtn');
-      btn.disabled = true;
-      try {
-        await updateDoc(doc(db, 'presenze', shiftId), {
-          oraUscita: Timestamp.now()
-        });
-      } catch (err) {
-        console.error(err);
-        btn.disabled = false;
-      }
     }
 
     // Auth guard
@@ -214,7 +329,6 @@
 
       document.getElementById('userName').textContent = userData.nome;
 
-      // Single listener on all user's presenze, filter/sort client-side
       onSnapshot(
         query(collection(db, 'presenze'), where('userId', '==', user.uid)),
         (snap) => {
@@ -223,36 +337,29 @@
             .filter(p => p.oraEntrata)
             .sort((a, b) => b.oraEntrata.toDate() - a.oraEntrata.toDate());
 
-          const today = todayStr();
-          const todayShifts = all.filter(p => p.data === today);
-          renderTimerSection(todayShifts[0] ?? null);
-
           const tbody = document.getElementById('presenceTable');
           if (all.length === 0) {
-            tbody.innerHTML = '<tr><td colspan="5" class="empty-state">Nessuna presenza registrata</td></tr>';
+            tbody.innerHTML = '<tr class="empty-row"><td colspan="4">Nessuna presenza registrata</td></tr>';
             return;
           }
-          tbody.innerHTML = all.map(p => {
-            const ip = !p.oraUscita;
-            return `<tr class="${ip ? 'in-progress' : ''}">
+          tbody.innerHTML = all.map(p => `
+            <tr>
               <td>${fmtDate(p.data)}</td>
               <td>${fmtTime(p.oraEntrata)}</td>
               <td>${fmtTime(p.oraUscita)}</td>
-              <td>${calcDuration(p.oraEntrata, p.oraUscita)}</td>
-              <td><span class="badge ${ip ? 'badge-in' : 'badge-out'}">${ip ? '● In servizio' : 'Completato'}</span></td>
-            </tr>`;
-          }).join('');
+              <td class="ore-cell">${calcDuration(p.oraEntrata, p.oraUscita)}</td>
+            </tr>
+          `).join('');
         },
         (err) => {
-          console.error('Firestore error:', err);
-          document.getElementById('timerSection').innerHTML =
-            '<p class="error-msg">Errore di connessione. Ricarica la pagina.</p>';
+          console.error(err);
+          document.getElementById('presenceTable').innerHTML =
+            '<tr class="empty-row"><td colspan="4">Errore di connessione. Ricarica la pagina.</td></tr>';
         }
       );
     });
 
     document.getElementById('logoutBtn').addEventListener('click', async () => {
-      clearInterval(timerInterval);
       await signOut(auth);
       window.location.href = 'index.html';
     });
@@ -278,13 +385,13 @@
 
     document.getElementById('addForm').addEventListener('submit', async (e) => {
       e.preventDefault();
-      const btn = e.target.querySelector('[type="submit"]');
+      const btn = e.target.querySelector('.btn-save');
       const errorEl = document.getElementById('addError');
       errorEl.textContent = '';
 
-      const data      = document.getElementById('addData').value;
-      const entrataT  = document.getElementById('addEntrata').value;
-      const uscitaT   = document.getElementById('addUscita').value;
+      const data     = document.getElementById('addData').value;
+      const entrataT = document.getElementById('addEntrata').value;
+      const uscitaT  = document.getElementById('addUscita').value;
 
       if (uscitaT && uscitaT <= entrataT) {
         errorEl.textContent = "L'ora di uscita deve essere dopo l'entrata";
