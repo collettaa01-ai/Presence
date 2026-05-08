@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Presence</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <div class="login-container">
+    <div class="logo">
+      <h1>🍽️ Presence</h1>
+      <p>Gestione presenze ristorante</p>
+    </div>
+
+    <div class="auth-card">
+      <div class="tabs">
+        <button class="tab-btn active" data-tab="login">Accedi</button>
+        <button class="tab-btn" data-tab="register">Registrati</button>
+      </div>
+
+      <div id="tab-login" class="tab-content active">
+        <form id="loginForm">
+          <input type="email" id="loginEmail" placeholder="Email" required autocomplete="email">
+          <input type="password" id="loginPassword" placeholder="Password" required autocomplete="current-password">
+          <button type="submit" class="btn btn-primary">Accedi</button>
+        </form>
+        <div id="loginError" class="error-msg"></div>
+      </div>
+
+      <div id="tab-register" class="tab-content">
+        <form id="registerForm">
+          <input type="text" id="registerName" placeholder="Nome e Cognome" required>
+          <input type="email" id="registerEmail" placeholder="Email" required autocomplete="email">
+          <input type="password" id="registerPassword" placeholder="Password (min. 6 caratteri)" required minlength="6" autocomplete="new-password">
+          <button type="submit" class="btn btn-primary">Registrati</button>
+        </form>
+        <div id="registerError" class="error-msg"></div>
+      </div>
+    </div>
+  </div>
+
+  <script type="module">
+    import { auth, db } from './js/firebase-config.js';
+    import {
+      signInWithEmailAndPassword,
+      createUserWithEmailAndPassword,
+      onAuthStateChanged
+    } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
+    import {
+      doc, setDoc, getDoc
+    } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+
+    // Tab switching
+    document.querySelectorAll('.tab-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+        document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+        btn.classList.add('active');
+        document.getElementById('tab-' + btn.dataset.tab).classList.add('active');
+        document.getElementById('loginError').textContent = '';
+        document.getElementById('registerError').textContent = '';
+      });
+    });
+
+    // If already logged in, redirect
+    onAuthStateChanged(auth, async (user) => {
+      if (!user) return;
+      try {
+        const snap = await getDoc(doc(db, 'users', user.uid));
+        if (snap.exists() && snap.data().ruolo === 'admin') {
+          window.location.href = 'admin.html';
+        } else {
+          window.location.href = 'dashboard.html';
+        }
+      } catch {
+        window.location.href = 'dashboard.html';
+      }
+    });
+
+    // Login
+    document.getElementById('loginForm').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const btn = e.target.querySelector('button');
+      const errorEl = document.getElementById('loginError');
+      errorEl.textContent = '';
+      btn.disabled = true;
+      btn.textContent = 'Accesso in corso...';
+      try {
+        await signInWithEmailAndPassword(
+          auth,
+          document.getElementById('loginEmail').value,
+          document.getElementById('loginPassword').value
+        );
+      } catch (err) {
+        errorEl.textContent = errMsg(err.code);
+        btn.disabled = false;
+        btn.textContent = 'Accedi';
+      }
+    });
+
+    // Register
+    document.getElementById('registerForm').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const btn = e.target.querySelector('button');
+      const errorEl = document.getElementById('registerError');
+      errorEl.textContent = '';
+      btn.disabled = true;
+      btn.textContent = 'Registrazione in corso...';
+      const name = document.getElementById('registerName').value.trim();
+      const email = document.getElementById('registerEmail').value;
+      const password = document.getElementById('registerPassword').value;
+      try {
+        const { user } = await createUserWithEmailAndPassword(auth, email, password);
+        await setDoc(doc(db, 'users', user.uid), {
+          nome: name,
+          email: email,
+          ruolo: 'user',
+          createdAt: new Date().toISOString()
+        });
+      } catch (err) {
+        errorEl.textContent = errMsg(err.code);
+        btn.disabled = false;
+        btn.textContent = 'Registrati';
+      }
+    });
+
+    function errMsg(code) {
+      const map = {
+        'auth/user-not-found':       'Utente non trovato',
+        'auth/wrong-password':       'Password errata',
+        'auth/invalid-credential':   'Email o password errati',
+        'auth/email-already-in-use': 'Email già registrata',
+        'auth/weak-password':        'Password troppo debole (min. 6 caratteri)',
+        'auth/invalid-email':        'Email non valida',
+        'auth/too-many-requests':    'Troppi tentativi, riprova tra poco',
+      };
+      return map[code] || 'Errore: ' + code;
+    }
+  </script>
+</body>
+</html>

@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Presence - Admin</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <div class="header">
+    <h1>🍽️ Presence — Admin</h1>
+    <div style="display:flex;align-items:center;gap:12px">
+      <span class="user-info" id="adminName"></span>
+      <button class="btn-logout" id="logoutBtn">Esci</button>
+    </div>
+  </div>
+
+  <div class="container" style="margin-top:24px">
+
+    <!-- Stats -->
+    <div class="stats-grid">
+      <div class="stat-card">
+        <div class="stat-value" id="statIn">—</div>
+        <div class="stat-label">Attualmente in servizio</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-value" id="statTotal">—</div>
+        <div class="stat-label">Presenze oggi</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-value" id="statMonth">—</div>
+        <div class="stat-label">Presenze questo mese</div>
+      </div>
+    </div>
+
+    <!-- Table -->
+    <div class="card">
+      <div class="filter-bar">
+        <label>Data:</label>
+        <input type="date" id="filterDate">
+        <label>Dipendente:</label>
+        <input type="text" id="filterName" placeholder="Tutti" style="width:160px">
+        <button class="btn btn-primary" id="clearFilters" style="padding:8px 16px;font-size:0.85rem">
+          Azzera filtri
+        </button>
+      </div>
+      <div class="card-title">
+        Registro presenze
+        <span style="color:var(--primary-light);font-size:0.7rem;margin-left:8px">
+          <span class="live-dot"></span>LIVE
+        </span>
+      </div>
+      <div class="table-wrapper">
+        <table>
+          <thead>
+            <tr>
+              <th>Dipendente</th>
+              <th>Data</th>
+              <th>Entrata</th>
+              <th>Uscita</th>
+              <th>Ore</th>
+              <th>Stato</th>
+            </tr>
+          </thead>
+          <tbody id="adminTable">
+            <tr><td colspan="6" class="empty-state">Caricamento...</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <script type="module">
+    import { auth, db } from './js/firebase-config.js';
+    import {
+      onAuthStateChanged, signOut
+    } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
+    import {
+      doc, getDoc, collection, query, orderBy, onSnapshot
+    } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+
+    let allPresenze = [];
+    let unsubscribe = null;
+
+    function fmtTime(ts) {
+      if (!ts) return '—';
+      return ts.toDate().toLocaleTimeString('it-IT', { hour: '2-digit', minute: '2-digit' });
+    }
+
+    function fmtDate(s) {
+      const [y, m, d] = s.split('-');
+      return `${d}/${m}/${y}`;
+    }
+
+    function calcDuration(entrata, uscita) {
+      if (!entrata || !uscita) return '—';
+      const ms = uscita.toDate() - entrata.toDate();
+      const h  = Math.floor(ms / 3600000);
+      const m  = Math.floor((ms % 3600000) / 60000);
+      return `${h}h ${m}m`;
+    }
+
+    function todayStr() {
+      const n = new Date();
+      return `${n.getFullYear()}-${String(n.getMonth()+1).padStart(2,'0')}-${String(n.getDate()).padStart(2,'0')}`;
+    }
+
+    function thisMonthPrefix() {
+      const n = new Date();
+      return `${n.getFullYear()}-${String(n.getMonth()+1).padStart(2,'0')}`;
+    }
+
+    function renderTable() {
+      const filterDate = document.getElementById('filterDate').value;
+      const filterName = document.getElementById('filterName').value.toLowerCase().trim();
+
+      let rows = allPresenze;
+      if (filterDate) rows = rows.filter(p => p.data === filterDate);
+      if (filterName) rows = rows.filter(p => p.userName.toLowerCase().includes(filterName));
+
+      const tbody = document.getElementById('adminTable');
+      if (rows.length === 0) {
+        tbody.innerHTML = '<tr><td colspan="6" class="empty-state">Nessuna presenza per i filtri selezionati</td></tr>';
+      } else {
+        tbody.innerHTML = rows.map(p => {
+          const ip = !p.oraUscita;
+          return `<tr class="${ip ? 'in-progress' : ''}">
+            <td><strong>${p.userName}</strong></td>
+            <td>${fmtDate(p.data)}</td>
+            <td>${fmtTime(p.oraEntrata)}</td>
+            <td>${fmtTime(p.oraUscita)}</td>
+            <td>${calcDuration(p.oraEntrata, p.oraUscita)}</td>
+            <td><span class="badge ${ip ? 'badge-in' : 'badge-out'}">${ip ? '● In servizio' : 'Completato'}</span></td>
+          </tr>`;
+        }).join('');
+      }
+
+      // Stats (always based on full data, not filtered)
+      const today = todayStr();
+      const month = thisMonthPrefix();
+      const todayRows = allPresenze.filter(p => p.data === today);
+      document.getElementById('statIn').textContent    = todayRows.filter(p => !p.oraUscita).length;
+      document.getElementById('statTotal').textContent = todayRows.length;
+      document.getElementById('statMonth').textContent = allPresenze.filter(p => p.data.startsWith(month)).length;
+    }
+
+    // Default filter = today
+    document.getElementById('filterDate').value = todayStr();
+    document.getElementById('filterDate').addEventListener('change', renderTable);
+    document.getElementById('filterName').addEventListener('input', renderTable);
+    document.getElementById('clearFilters').addEventListener('click', () => {
+      document.getElementById('filterDate').value = '';
+      document.getElementById('filterName').value = '';
+      renderTable();
+    });
+
+    // Auth guard
+    onAuthStateChanged(auth, async (user) => {
+      if (!user) { window.location.href = 'index.html'; return; }
+
+      const snap = await getDoc(doc(db, 'users', user.uid));
+      if (!snap.exists() || snap.data().ruolo !== 'admin') {
+        window.location.href = 'dashboard.html';
+        return;
+      }
+
+      document.getElementById('adminName').textContent = snap.data().nome;
+
+      // Real-time listener on entire presenze collection
+      unsubscribe = onSnapshot(
+        query(collection(db, 'presenze'), orderBy('oraEntrata', 'desc')),
+        (snap) => {
+          allPresenze = snap.docs.map(d => ({ id: d.id, ...d.data() }));
+          renderTable();
+        }
+      );
+    });
+
+    document.getElementById('logoutBtn').addEventListener('click', async () => {
+      if (unsubscribe) unsubscribe();
+      await signOut(auth);
+      window.location.href = 'index.html';
+    });
+  </script>
+</body>
+</html>
