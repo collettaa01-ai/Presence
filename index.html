@@ -33,6 +33,7 @@
           <input type="text" id="registerName" placeholder="Nome e Cognome" required>
           <input type="email" id="registerEmail" placeholder="Email" required autocomplete="email">
           <input type="password" id="registerPassword" placeholder="Password (min. 6 caratteri)" required minlength="6" autocomplete="new-password">
+          <input type="password" id="adminCode" placeholder="Codice admin (solo per il responsabile)" autocomplete="off">
           <button type="submit" class="btn btn-primary">Registrati</button>
         </form>
         <div id="registerError" class="error-msg"></div>
@@ -41,7 +42,7 @@
   </div>
 
   <script type="module">
-    import { auth, db } from './js/firebase-config.js';
+    import { auth, db, ADMIN_CODE } from './js/firebase-config.js';
     import {
       signInWithEmailAndPassword,
       createUserWithEmailAndPassword,
@@ -110,12 +111,14 @@
       const name = document.getElementById('registerName').value.trim();
       const email = document.getElementById('registerEmail').value;
       const password = document.getElementById('registerPassword').value;
+      const code = document.getElementById('adminCode').value.trim();
+      const ruolo = code === ADMIN_CODE ? 'admin' : 'user';
       try {
         const { user } = await createUserWithEmailAndPassword(auth, email, password);
         await setDoc(doc(db, 'users', user.uid), {
           nome: name,
           email: email,
-          ruolo: 'user',
+          ruolo: ruolo,
           createdAt: new Date().toISOString()
         });
       } catch (err) {

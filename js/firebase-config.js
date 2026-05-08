@@ -14,3 +14,6 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 export const auth = getAuth(app);
 export const db = getFirestore(app);
+
+// Cambia questo codice segreto e comunicalo solo al tuo capo
+export const ADMIN_CODE = 'CAPO2024';
