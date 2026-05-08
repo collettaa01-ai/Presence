@@ -24,7 +24,10 @@
 
     <!-- History -->
     <div class="card">
-      <div class="card-title">Le tue presenze</div>
+      <div class="card-title" style="display:flex;align-items:center;justify-content:space-between">
+        Le tue presenze
+        <button class="btn-add" id="openModalBtn">+ Aggiungi</button>
+      </div>
       <div class="table-wrapper">
         <table>
           <thead>
@@ -41,6 +44,32 @@
           </tbody>
         </table>
       </div>
+    </div>
+  </div>
+
+  <!-- Modal aggiungi presenza -->
+  <div class="modal-overlay" id="modalOverlay">
+    <div class="modal">
+      <div class="modal-title">Aggiungi Presenza</div>
+      <form id="addForm">
+        <div class="form-group">
+          <label>Data</label>
+          <input type="date" id="addData" required>
+        </div>
+        <div class="form-group">
+          <label>Ora entrata</label>
+          <input type="time" id="addEntrata" required>
+        </div>
+        <div class="form-group">
+          <label>Ora uscita <span style="font-weight:400">(opzionale)</span></label>
+          <input type="time" id="addUscita">
+        </div>
+        <div id="addError" class="error-msg"></div>
+        <div class="modal-actions">
+          <button type="button" class="btn-secondary" id="closeModalBtn">Annulla</button>
+          <button type="submit" class="btn btn-primary" style="flex:1">Salva</button>
+        </div>
+      </form>
     </div>
   </div>
 
@@ -228,6 +257,67 @@
       clearInterval(timerInterval);
       await signOut(auth);
       window.location.href = 'index.html';
+    });
+
+    // Modal
+    function openModal() {
+      document.getElementById('addData').value = todayStr();
+      document.getElementById('addEntrata').value = '';
+      document.getElementById('addUscita').value = '';
+      document.getElementById('addError').textContent = '';
+      document.getElementById('modalOverlay').classList.add('open');
+    }
+
+    function closeModal() {
+      document.getElementById('modalOverlay').classList.remove('open');
+    }
+
+    document.getElementById('openModalBtn').addEventListener('click', openModal);
+    document.getElementById('closeModalBtn').addEventListener('click', closeModal);
+    document.getElementById('modalOverlay').addEventListener('click', (e) => {
+      if (e.target === document.getElementById('modalOverlay')) closeModal();
+    });
+
+    document.getElementById('addForm').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const btn = e.target.querySelector('[type="submit"]');
+      const errorEl = document.getElementById('addError');
+      errorEl.textContent = '';
+
+      const data      = document.getElementById('addData').value;
+      const entrataT  = document.getElementById('addEntrata').value;
+      const uscitaT   = document.getElementById('addUscita').value;
+
+      if (uscitaT && uscitaT <= entrataT) {
+        errorEl.textContent = "L'ora di uscita deve essere dopo l'entrata";
+        return;
+      }
+
+      btn.disabled = true;
+      btn.textContent = 'Salvataggio...';
+
+      function toTimestamp(dateStr, timeStr) {
+        const [h, m] = timeStr.split(':').map(Number);
+        const [y, mo, d] = dateStr.split('-').map(Number);
+        return Timestamp.fromDate(new Date(y, mo - 1, d, h, m, 0));
+      }
+
+      try {
+        await addDoc(collection(db, 'presenze'), {
+          userId:     currentUser.uid,
+          userName:   userData.nome,
+          data:       data,
+          oraEntrata: toTimestamp(data, entrataT),
+          oraUscita:  uscitaT ? toTimestamp(data, uscitaT) : null,
+        });
+        closeModal();
+      } catch (err) {
+        console.error(err);
+        errorEl.textContent = 'Errore nel salvataggio, riprova.';
+      } finally {
+        btn.disabled = false;
+        btn.textContent = 'Salva';
+      }
     });
   </script>
 </body>
