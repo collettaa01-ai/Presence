@@ -25,7 +25,6 @@
     }
     @media (max-width: 600px) { .main-box { border-radius: 0; min-height: 100vh; box-shadow: none; } }
 
-    /* Header */
     .box-header {
       background: var(--primary); color: white;
       padding: 16px 20px;
@@ -62,11 +61,9 @@
     .tab-pane.active { display: block; }
     @media (max-width: 600px) { .tab-pane { padding: 14px; padding-bottom: 96px; } }
 
-    /* Toolbar */
     .box-toolbar { display: flex; align-items: center; justify-content: space-between; margin-bottom: 16px; }
     .box-toolbar h3 { font-size: 1rem; font-weight: 700; }
 
-    /* FAB */
     .btn-fab {
       display: flex; align-items: center; gap: 8px;
       background: linear-gradient(135deg, #52B788, #2D6A4F);
@@ -76,7 +73,6 @@
       transition: transform 0.2s, box-shadow 0.2s; white-space: nowrap;
     }
     .btn-fab:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(45,106,79,0.45); }
-    .btn-fab:active { transform: translateY(0); }
     .fab-circle {
       width: 24px; height: 24px; background: rgba(255,255,255,0.25); border-radius: 50%;
       display: flex; align-items: center; justify-content: center; font-size: 1.2rem; line-height: 1;
@@ -88,6 +84,14 @@
         box-shadow: 0 6px 22px rgba(45,106,79,0.45);
       }
     }
+
+    /* Badge turno */
+    .badge-turno {
+      display: inline-block; padding: 2px 9px; border-radius: 20px;
+      font-size: 0.7rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.3px;
+    }
+    .badge-turno.pranzo { background: #FFF3CD; color: #856404; }
+    .badge-turno.cena   { background: #E8D5F5; color: #5B2C8D; }
 
     /* Table */
     table { width: 100%; border-collapse: collapse; font-size: 0.9rem; }
@@ -106,7 +110,6 @@
     .btn-del  { background: #FDEDED; color: var(--danger); }
     .btn-edit:hover, .btn-del:hover { opacity: 0.7; }
 
-    /* Mobile cards */
     @media (max-width: 600px) {
       table thead { display: none; }
       table tbody tr {
@@ -129,14 +132,12 @@
       .btn-edit, .btn-del { padding: 8px 14px; font-size: 0.82rem; }
     }
 
-    /* Total bar */
     .total-bar {
       display: flex; justify-content: space-between; align-items: center;
       background: var(--accent); border-radius: 10px;
       padding: 13px 14px; margin-top: 14px;
       font-weight: 700; color: var(--primary-dark); font-size: 0.92rem;
     }
-
     .empty-row td { text-align: center; color: var(--text-muted); padding: 36px; font-size: 0.9rem; }
     @media (max-width: 600px) {
       .empty-row { display: block !important; }
@@ -153,7 +154,7 @@
     .storico-month-name { font-size: 0.98rem; font-weight: 700; color: var(--primary-dark); text-transform: capitalize; }
     .storico-total { font-size: 0.82rem; font-weight: 700; color: var(--primary); background: white; border-radius: 20px; padding: 4px 12px; white-space: nowrap; }
 
-    /* Modal overlay */
+    /* Modal */
     .modal-overlay {
       display: none; position: fixed; inset: 0;
       background: rgba(0,0,0,0.45); z-index: 100;
@@ -163,14 +164,12 @@
     .modal-overlay.open .modal { animation: modalIn 0.28s cubic-bezier(0.34,1.56,0.64,1); }
     @keyframes overlayIn { from { opacity: 0; } to { opacity: 1; } }
     @keyframes modalIn { from { opacity:0; transform:translateY(28px) scale(0.95); } to { opacity:1; transform:translateY(0) scale(1); } }
-
     @media (max-width: 600px) {
       .modal-overlay { align-items: flex-end; padding: 0; overflow: hidden; }
       .modal-overlay.open .modal { animation: sheetIn 0.3s cubic-bezier(0.25,1,0.5,1); }
       @keyframes sheetIn { from { transform: translateY(100%); } to { transform: translateY(0); } }
       .modal { border-radius: 22px 22px 0 0 !important; max-width: 100% !important; padding-bottom: 36px !important; width: 100% !important; }
     }
-
     .modal {
       background: white; border-radius: 18px; padding: 26px;
       width: 100%; max-width: 400px; box-shadow: 0 12px 40px rgba(0,0,0,0.18);
@@ -179,15 +178,29 @@
     @media (max-width: 600px) { .modal-handle { display: block; } }
     .modal-title { font-size: 1.1rem; font-weight: 700; margin-bottom: 18px; }
 
+    /* Turno pills */
+    .turno-pills { display: flex; gap: 8px; margin-bottom: 2px; }
+    .turno-pill {
+      flex: 1; padding: 11px; border: 2px solid var(--border); border-radius: 10px;
+      background: white; cursor: pointer; font-size: 0.92rem; font-weight: 600;
+      color: var(--text-muted); text-align: center; transition: all 0.15s;
+    }
+    .turno-pill.sel-pranzo { border-color: #F4A261; background: #FFF3CD; color: #856404; }
+    .turno-pill.sel-cena   { border-color: #9B59B6; background: #E8D5F5; color: #5B2C8D; }
+
     .form-group { display: flex; flex-direction: column; gap: 5px; margin-bottom: 13px; }
     .form-group label { font-size: 0.84rem; font-weight: 600; color: var(--text-muted); }
     .form-group input, .form-group select {
       width: 100%; padding: 12px 14px;
       border: 1.5px solid var(--border); border-radius: 8px;
       font-size: 1rem; background: var(--bg); min-height: 48px;
+      -webkit-appearance: none;
     }
     .form-group input:focus, .form-group select:focus { outline: none; border-color: var(--primary); }
-
+    .form-group select {
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%236C757D' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
+      background-repeat: no-repeat; background-position: right 14px center; padding-right: 36px; cursor: pointer;
+    }
     .modal-actions { display: flex; gap: 10px; margin-top: 18px; }
     .btn-cancel {
       flex: 1; padding: 13px; background: var(--bg);
@@ -210,11 +223,8 @@
     .confirm-text { color: var(--text-muted); font-size: 0.92rem; line-height: 1.55; }
     .error-msg { color: var(--danger); font-size: 0.84rem; min-height: 18px; margin-top: 4px; }
 
-    /* Profile modal */
-    .profile-info-row {
-      display: flex; justify-content: space-between; align-items: center;
-      padding: 12px 0; border-bottom: 1px solid var(--border);
-    }
+    /* Profile */
+    .profile-info-row { display: flex; justify-content: space-between; align-items: center; padding: 12px 0; border-bottom: 1px solid var(--border); }
     .profile-info-row:last-of-type { border-bottom: none; }
     .profile-info-label { font-size: 0.8rem; font-weight: 600; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.3px; }
     .profile-info-value { font-size: 0.95rem; font-weight: 500; color: var(--text); }
@@ -243,7 +253,7 @@
         <div class="sub" id="headerMansione"></div>
       </div>
       <div class="header-right">
-        <button class="btn-avatar" id="profileBtn" title="Profilo"></button>
+        <button class="btn-avatar" id="profileBtn"></button>
         <button class="btn-logout" id="logoutBtn">Esci</button>
       </div>
     </div>
@@ -253,15 +263,18 @@
       <button class="tab-nav-btn"        data-tab="storico">Storico</button>
     </div>
 
-    <!-- TAB Presenza -->
     <div id="tab-presenza" class="tab-pane active">
       <div class="box-toolbar">
         <h3 id="presenzaTitle">Questo mese</h3>
         <button class="btn-fab" id="openModalBtn"><span class="fab-circle">+</span>Aggiungi</button>
       </div>
       <table>
-        <thead><tr><th>Giorno</th><th>Entrata</th><th>Uscita</th><th>Ore</th><th></th></tr></thead>
-        <tbody id="presenceTable"><tr class="empty-row"><td colspan="5">Caricamento…</td></tr></tbody>
+        <thead>
+          <tr><th>Giorno</th><th>Turno</th><th>Entrata</th><th>Uscita</th><th>Ore</th><th></th></tr>
+        </thead>
+        <tbody id="presenceTable">
+          <tr class="empty-row"><td colspan="6">Caricamento…</td></tr>
+        </tbody>
       </table>
       <div class="total-bar">
         <span id="monthLabel">Totale mese</span>
@@ -269,7 +282,6 @@
       </div>
     </div>
 
-    <!-- TAB Storico -->
     <div id="tab-storico" class="tab-pane">
       <div id="storicoContent"><p style="text-align:center;color:var(--text-muted);padding:36px">Caricamento…</p></div>
     </div>
@@ -281,26 +293,49 @@
       <div class="modal-handle"></div>
       <div class="modal-title" id="modalTitle">Aggiungi Presenza</div>
       <form id="addForm">
+        <!-- Turno pills -->
+        <div class="form-group">
+          <label>Turno</label>
+          <div class="turno-pills">
+            <button type="button" class="turno-pill" id="pillPranzo" data-val="pranzo">☀️ Pranzo</button>
+            <button type="button" class="turno-pill" id="pillCena"   data-val="cena">🌙 Cena</button>
+          </div>
+          <input type="hidden" id="addTurno">
+        </div>
+        <!-- Mansione -->
+        <div class="form-group">
+          <label>Mansione</label>
+          <select id="addMansione" required>
+            <option value="">Seleziona mansione…</option>
+            <option value="Cameriere">Cameriere</option>
+            <option value="Cuoco/Aiutocuoco">Cuoco / Aiutocuoco</option>
+            <option value="Lavapiatti">Lavapiatti</option>
+            <option value="Manager">Manager</option>
+          </select>
+        </div>
+        <!-- Data -->
         <div class="form-group"><label>Data</label><input type="date" id="addData" required></div>
+        <!-- Ora entrata -->
         <div class="form-group"><label>Ora entrata</label><input type="time" id="addEntrata" required></div>
+        <!-- Ora uscita -->
         <div class="form-group"><label>Ora uscita <span style="font-weight:400">(opzionale)</span></label><input type="time" id="addUscita"></div>
         <div id="addError" class="error-msg"></div>
         <div class="modal-actions">
           <button type="button" class="btn-cancel" id="closeModalBtn">Annulla</button>
-          <button type="submit" class="btn-save" id="saveBtn">Salva</button>
+          <button type="submit" class="btn-save"   id="saveBtn">Salva</button>
         </div>
       </form>
     </div>
   </div>
 
-  <!-- Modal conferma elimina -->
+  <!-- Modal elimina -->
   <div class="modal-overlay" id="confirmOverlay">
     <div class="modal">
       <div class="modal-handle"></div>
       <div class="modal-title">Elimina presenza</div>
       <p class="confirm-text">Sei sicuro di voler eliminare questa presenza? L'operazione non è reversibile.</p>
       <div class="modal-actions" style="margin-top:20px">
-        <button class="btn-cancel" id="confirmCancel">Annulla</button>
+        <button class="btn-cancel"      id="confirmCancel">Annulla</button>
         <button class="btn-confirm-del" id="confirmOk">Sì, elimina</button>
       </div>
     </div>
@@ -337,30 +372,59 @@
       collection, query, where, onSnapshot, Timestamp
     } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
 
+    if ('serviceWorker' in navigator) navigator.serviceWorker.register('sw.js').catch(() => {});
+
     let currentUser = null, userData = null;
     let editId = null, deleteId = null, allShifts = [];
+    let selectedTurno = '';
 
     const MONTHS = ['gennaio','febbraio','marzo','aprile','maggio','giugno',
                     'luglio','agosto','settembre','ottobre','novembre','dicembre'];
 
+    const pad     = x => String(x).padStart(2, '0');
     const fmtTime = ts => ts ? ts.toDate().toLocaleTimeString('it-IT',{hour:'2-digit',minute:'2-digit'}) : '—';
-    const fmtDate = s => { const [y,m,d]=s.split('-'); return new Date(+y,+m-1,+d).toLocaleDateString('it-IT',{weekday:'short',day:'numeric',month:'short',year:'numeric'}); };
+    const fmtDate = s  => { const [y,m,d]=s.split('-'); return new Date(+y,+m-1,+d).toLocaleDateString('it-IT',{weekday:'short',day:'numeric',month:'short',year:'numeric'}); };
     const calcDur = (a,b) => { if(!a||!b) return '—'; const ms=b.toDate()-a.toDate(); if(ms<=0) return '—'; const h=Math.floor(ms/3600000),m=Math.floor((ms%3600000)/60000); return m?`${h}h ${m}m`:`${h}h`; };
-    const todayStr = () => { const n=new Date(); return `${n.getFullYear()}-${String(n.getMonth()+1).padStart(2,'0')}-${String(n.getDate()).padStart(2,'0')}`; };
-    const toTS = (d,t) => { const [h,m]=t.split(':').map(Number),[y,mo,dd]=d.split('-').map(Number); return Timestamp.fromDate(new Date(y,mo-1,dd,h,m,0)); };
+    const todayStr= () => { const n=new Date(); return `${n.getFullYear()}-${pad(n.getMonth()+1)}-${pad(n.getDate())}`; };
+    const nowTime = () => { const n=new Date(); return `${pad(n.getHours())}:${pad(n.getMinutes())}`; };
+    const toTS    = (d,t) => { const [h,m]=t.split(':').map(Number),[y,mo,dd]=d.split('-').map(Number); return Timestamp.fromDate(new Date(y,mo-1,dd,h,m,0)); };
     const totalMs = list => list.filter(p=>p.oraEntrata&&p.oraUscita).reduce((s,p)=>s+(p.oraUscita.toDate()-p.oraEntrata.toDate()),0);
-    const fmtMs  = ms => { if(ms<=0) return '0h'; const h=Math.floor(ms/3600000),m=Math.floor((ms%3600000)/60000); return m?`${h}h ${m}m`:`${h}h`; };
-    const initials = (n,c) => ((n||'')[0]||'').toUpperCase() + ((c||'')[0]||'').toUpperCase();
+    const fmtMs   = ms => { if(ms<=0) return '0h'; const h=Math.floor(ms/3600000),m=Math.floor((ms%3600000)/60000); return m?`${h}h ${m}m`:`${h}h`; };
+    const initials= (n,c) => ((n||'')[0]||'').toUpperCase() + ((c||'')[0]||'').toUpperCase();
+    const turnoLabel = t => t==='pranzo' ? '☀️ Pranzo' : t==='cena' ? '🌙 Cena' : '—';
+    const turnoClass = t => t==='pranzo' ? 'pranzo' : t==='cena' ? 'cena' : '';
 
+    // ── Turno pills ───────────────────────────────────────────
+    function selectTurno(val) {
+      selectedTurno = val;
+      document.getElementById('addTurno').value = val;
+      document.getElementById('pillPranzo').className = 'turno-pill' + (val==='pranzo' ? ' sel-pranzo' : '');
+      document.getElementById('pillCena').className   = 'turno-pill' + (val==='cena'   ? ' sel-cena'   : '');
+    }
+    document.getElementById('pillPranzo').addEventListener('click', () => selectTurno('pranzo'));
+    document.getElementById('pillCena').addEventListener('click',   () => selectTurno('cena'));
+
+    // ── Tabs ──────────────────────────────────────────────────
+    document.querySelectorAll('.tab-nav-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        document.querySelectorAll('.tab-nav-btn').forEach(b => b.classList.remove('active'));
+        document.querySelectorAll('.tab-pane').forEach(p => p.classList.remove('active'));
+        btn.classList.add('active');
+        document.getElementById('tab-'+btn.dataset.tab).classList.add('active');
+      });
+    });
+
+    // ── Render presenza tab ───────────────────────────────────
     function renderPresenza(all) {
-      const now=new Date(), prefix=`${now.getFullYear()}-${String(now.getMonth()+1).padStart(2,'0')}`;
-      const month=MONTHS[now.getMonth()], curr=all.filter(p=>p.data.startsWith(prefix));
+      const now = new Date(), prefix = `${now.getFullYear()}-${pad(now.getMonth()+1)}`;
+      const month = MONTHS[now.getMonth()], curr = all.filter(p => p.data.startsWith(prefix));
       document.getElementById('presenzaTitle').textContent = `${month.charAt(0).toUpperCase()+month.slice(1)} ${now.getFullYear()}`;
-      const tbody=document.getElementById('presenceTable');
-      tbody.innerHTML = curr.length===0
-        ? '<tr class="empty-row"><td colspan="5">Nessuna presenza questo mese</td></tr>'
-        : curr.map(p=>`<tr>
+      const tbody = document.getElementById('presenceTable');
+      tbody.innerHTML = curr.length === 0
+        ? '<tr class="empty-row"><td colspan="6">Nessuna presenza questo mese</td></tr>'
+        : curr.map(p => `<tr>
             <td data-label="Giorno">${fmtDate(p.data)}</td>
+            <td data-label="Turno"><span class="badge-turno ${turnoClass(p.turno)}">${turnoLabel(p.turno)}</span></td>
             <td data-label="Entrata">${fmtTime(p.oraEntrata)}</td>
             <td data-label="Uscita">${fmtTime(p.oraUscita)}</td>
             <td data-label="Ore" class="ore-cell">${calcDur(p.oraEntrata,p.oraUscita)}</td>
@@ -368,130 +432,168 @@
               <button class="btn-edit" data-id="${p.id}">Modifica</button>
               <button class="btn-del"  data-id="${p.id}">Elimina</button>
             </td></tr>`).join('');
-      document.getElementById('monthLabel').textContent=`Totale ${month} ${now.getFullYear()}`;
-      document.getElementById('monthTotal').textContent=fmtMs(totalMs(curr));
+      document.getElementById('monthLabel').textContent = `Totale ${month} ${now.getFullYear()}`;
+      document.getElementById('monthTotal').textContent = fmtMs(totalMs(curr));
     }
 
+    // ── Render storico tab ────────────────────────────────────
     function renderStorico(all) {
-      const el=document.getElementById('storicoContent');
-      if(!all.length){el.innerHTML='<p style="text-align:center;color:var(--text-muted);padding:36px">Nessuna presenza</p>';return;}
-      const groups={};
-      all.forEach(p=>{const k=p.data.slice(0,7);(groups[k]=groups[k]||[]).push(p);});
-      el.innerHTML=Object.keys(groups).sort((a,b)=>b.localeCompare(a)).map(key=>{
-        const [y,m]=key.split('-'), name=MONTHS[+m-1];
-        const list=groups[key].sort((a,b)=>a.oraEntrata.toDate()-b.oraEntrata.toDate());
+      const el = document.getElementById('storicoContent');
+      if (!all.length) { el.innerHTML = '<p style="text-align:center;color:var(--text-muted);padding:36px">Nessuna presenza</p>'; return; }
+      const groups = {};
+      all.forEach(p => { const k = p.data.slice(0,7); (groups[k] = groups[k]||[]).push(p); });
+      el.innerHTML = Object.keys(groups).sort((a,b) => b.localeCompare(a)).map(key => {
+        const [y, m] = key.split('-'), name = MONTHS[+m-1];
+        const list = groups[key].sort((a,b) => a.oraEntrata.toDate()-b.oraEntrata.toDate());
         return `<div class="storico-month">
           <div class="storico-header">
             <span class="storico-month-name">${name} ${y}</span>
             <span class="storico-total">${fmtMs(totalMs(list))}</span>
           </div>
-          <table><thead><tr><th>Giorno</th><th>Entrata</th><th>Uscita</th><th>Ore</th></tr></thead>
-          <tbody>${list.map(p=>`<tr>
-            <td data-label="Giorno">${fmtDate(p.data)}</td>
-            <td data-label="Entrata">${fmtTime(p.oraEntrata)}</td>
-            <td data-label="Uscita">${fmtTime(p.oraUscita)}</td>
-            <td data-label="Ore" class="ore-cell">${calcDur(p.oraEntrata,p.oraUscita)}</td>
-          </tr>`).join('')}</tbody></table></div>`;
+          <table>
+            <thead><tr><th>Giorno</th><th>Turno</th><th>Entrata</th><th>Uscita</th><th>Ore</th></tr></thead>
+            <tbody>${list.map(p => `<tr>
+              <td data-label="Giorno">${fmtDate(p.data)}</td>
+              <td data-label="Turno"><span class="badge-turno ${turnoClass(p.turno)}">${turnoLabel(p.turno)}</span></td>
+              <td data-label="Entrata">${fmtTime(p.oraEntrata)}</td>
+              <td data-label="Uscita">${fmtTime(p.oraUscita)}</td>
+              <td data-label="Ore" class="ore-cell">${calcDur(p.oraEntrata,p.oraUscita)}</td>
+            </tr>`).join('')}</tbody>
+          </table>
+        </div>`;
       }).join('');
     }
 
-    // Tabs
-    document.querySelectorAll('.tab-nav-btn').forEach(btn=>{
-      btn.addEventListener('click',()=>{
-        document.querySelectorAll('.tab-nav-btn').forEach(b=>b.classList.remove('active'));
-        document.querySelectorAll('.tab-pane').forEach(p=>p.classList.remove('active'));
-        btn.classList.add('active');
-        document.getElementById('tab-'+btn.dataset.tab).classList.add('active');
-      });
-    });
-
-    // Modal add/edit
+    // ── Modal ─────────────────────────────────────────────────
     const overlay = document.getElementById('modalOverlay');
-    function openAddModal(){ editId=null; document.getElementById('modalTitle').textContent='Aggiungi Presenza'; document.getElementById('addData').value=todayStr(); document.getElementById('addEntrata').value=''; document.getElementById('addUscita').value=''; document.getElementById('addError').textContent=''; document.getElementById('saveBtn').textContent='Salva'; overlay.classList.add('open'); }
-    function openEditModal(s){ editId=s.id; document.getElementById('modalTitle').textContent='Modifica Presenza'; document.getElementById('addData').value=s.data; document.getElementById('addEntrata').value=s.oraEntrata?.toDate().toTimeString().slice(0,5)??''; document.getElementById('addUscita').value=s.oraUscita?.toDate().toTimeString().slice(0,5)??''; document.getElementById('addError').textContent=''; document.getElementById('saveBtn').textContent='Salva modifiche'; overlay.classList.add('open'); }
-    function closeModal(){ overlay.classList.remove('open'); }
+
+    function openAddModal() {
+      editId = null;
+      document.getElementById('modalTitle').textContent = 'Aggiungi Presenza';
+      document.getElementById('addData').value = todayStr();
+      document.getElementById('addEntrata').value = nowTime();
+      document.getElementById('addUscita').value = '';
+      document.getElementById('addMansione').value = userData?.mansione || '';
+      document.getElementById('addError').textContent = '';
+      document.getElementById('saveBtn').textContent = 'Salva';
+      selectTurno('pranzo');
+      overlay.classList.add('open');
+    }
+
+    function openEditModal(s) {
+      editId = s.id;
+      document.getElementById('modalTitle').textContent = 'Modifica Presenza';
+      document.getElementById('addData').value = s.data;
+      document.getElementById('addEntrata').value = s.oraEntrata?.toDate().toTimeString().slice(0,5) ?? '';
+      document.getElementById('addUscita').value  = s.oraUscita?.toDate().toTimeString().slice(0,5)  ?? '';
+      document.getElementById('addMansione').value = s.userMansione || '';
+      document.getElementById('addError').textContent = '';
+      document.getElementById('saveBtn').textContent = 'Salva modifiche';
+      selectTurno(s.turno || 'pranzo');
+      overlay.classList.add('open');
+    }
+
+    function closeModal() { overlay.classList.remove('open'); }
 
     document.getElementById('openModalBtn').addEventListener('click', openAddModal);
     document.getElementById('closeModalBtn').addEventListener('click', closeModal);
-    overlay.addEventListener('click', e=>{ if(e.target===overlay) closeModal(); });
+    overlay.addEventListener('click', e => { if (e.target === overlay) closeModal(); });
 
-    document.getElementById('addForm').addEventListener('submit', async e=>{
+    document.getElementById('addForm').addEventListener('submit', async e => {
       e.preventDefault();
-      const btn=document.getElementById('saveBtn'), err=document.getElementById('addError');
-      err.textContent='';
-      const data=document.getElementById('addData').value, ein=document.getElementById('addEntrata').value, usc=document.getElementById('addUscita').value;
-      if(usc&&usc<=ein){err.textContent="L'uscita deve essere dopo l'entrata";return;}
-      const orig=btn.textContent; btn.disabled=true; btn.textContent='Salvataggio…';
+      const btn = document.getElementById('saveBtn'), err = document.getElementById('addError');
+      err.textContent = '';
+      const turno    = document.getElementById('addTurno').value;
+      const mansione = document.getElementById('addMansione').value;
+      const data     = document.getElementById('addData').value;
+      const ein      = document.getElementById('addEntrata').value;
+      const usc      = document.getElementById('addUscita').value;
+      if (!turno)    { err.textContent = 'Seleziona il turno.'; return; }
+      if (!mansione) { err.textContent = 'Seleziona la mansione.'; return; }
+      if (usc && usc <= ein) { err.textContent = "L'uscita deve essere dopo l'entrata"; return; }
+      const orig = btn.textContent; btn.disabled = true; btn.textContent = 'Salvataggio…';
       try {
-        const payload={userId:currentUser.uid,userName:`${userData.nome} ${userData.cognome||''}`.trim(),userMansione:userData.mansione||'',data,oraEntrata:toTS(data,ein),oraUscita:usc?toTS(data,usc):null};
-        if(editId) await updateDoc(doc(db,'presenze',editId),payload);
-        else       await addDoc(collection(db,'presenze'),payload);
+        const payload = {
+          userId: currentUser.uid,
+          userName: `${userData.nome} ${userData.cognome||''}`.trim(),
+          userMansione: mansione,
+          turno,
+          data,
+          oraEntrata: toTS(data, ein),
+          oraUscita: usc ? toTS(data, usc) : null,
+        };
+        if (editId) await updateDoc(doc(db,'presenze',editId), payload);
+        else        await addDoc(collection(db,'presenze'), payload);
         closeModal();
-      } catch(ex){console.error(ex);err.textContent='Errore nel salvataggio.';}
-      finally{btn.disabled=false;btn.textContent=orig;}
+      } catch (ex) { err.textContent = 'Errore nel salvataggio.'; console.error(ex); }
+      finally { btn.disabled = false; btn.textContent = orig; }
     });
 
-    // Confirm delete
-    const confirmOv=document.getElementById('confirmOverlay');
-    function openConfirm(id){deleteId=id;confirmOv.classList.add('open');}
-    function closeConfirm(){confirmOv.classList.remove('open');}
-    document.getElementById('confirmCancel').addEventListener('click',closeConfirm);
-    confirmOv.addEventListener('click',e=>{if(e.target===confirmOv)closeConfirm();});
-    document.getElementById('confirmOk').addEventListener('click',async()=>{
-      const id=deleteId; closeConfirm(); if(!id)return;
-      try{await deleteDoc(doc(db,'presenze',id));}catch(e){console.error(e);}
+    // ── Delete ────────────────────────────────────────────────
+    const confirmOv = document.getElementById('confirmOverlay');
+    function openConfirm(id) { deleteId = id; confirmOv.classList.add('open'); }
+    function closeConfirm()  { confirmOv.classList.remove('open'); }
+    document.getElementById('confirmCancel').addEventListener('click', closeConfirm);
+    confirmOv.addEventListener('click', e => { if (e.target === confirmOv) closeConfirm(); });
+    document.getElementById('confirmOk').addEventListener('click', async () => {
+      const id = deleteId; closeConfirm(); if (!id) return;
+      try { await deleteDoc(doc(db,'presenze',id)); } catch(e) { console.error(e); }
     });
 
-    // Event delegation
-    document.getElementById('presenceTable').addEventListener('click',e=>{
-      const id=e.target.dataset.id; if(!id)return;
-      if(e.target.classList.contains('btn-edit')) openEditModal(allShifts.find(s=>s.id===id));
-      if(e.target.classList.contains('btn-del'))  openConfirm(id);
+    document.getElementById('presenceTable').addEventListener('click', e => {
+      const id = e.target.dataset.id; if (!id) return;
+      if (e.target.classList.contains('btn-edit')) openEditModal(allShifts.find(s => s.id === id));
+      if (e.target.classList.contains('btn-del'))  openConfirm(id);
     });
 
-    // Profile modal
-    const profileOv=document.getElementById('profileOverlay');
-    document.getElementById('profileBtn').addEventListener('click',()=>{
-      document.getElementById('profileAvatar').textContent=initials(userData?.nome,userData?.cognome);
-      document.getElementById('profileName').textContent=`${userData?.nome||''} ${userData?.cognome||''}`.trim();
-      document.getElementById('profileMansione').textContent=userData?.mansione||'';
-      document.getElementById('profileEmail').textContent=currentUser?.email||'';
-      document.getElementById('resetMsg').textContent='';
+    // ── Profile ───────────────────────────────────────────────
+    const profileOv = document.getElementById('profileOverlay');
+    document.getElementById('profileBtn').addEventListener('click', () => {
+      document.getElementById('profileAvatar').textContent = initials(userData?.nome, userData?.cognome);
+      document.getElementById('profileName').textContent = `${userData?.nome||''} ${userData?.cognome||''}`.trim();
+      document.getElementById('profileMansione').textContent = userData?.mansione || '';
+      document.getElementById('profileEmail').textContent = currentUser?.email || '';
+      document.getElementById('resetMsg').textContent = '';
       profileOv.classList.add('open');
     });
-    document.getElementById('closeProfileBtn').addEventListener('click',()=>profileOv.classList.remove('open'));
-    profileOv.addEventListener('click',e=>{if(e.target===profileOv)profileOv.classList.remove('open');});
-    document.getElementById('resetPwBtn').addEventListener('click',async()=>{
-      try{
-        await sendPasswordResetEmail(auth,currentUser.email);
-        document.getElementById('resetMsg').textContent='Email di reset inviata a '+currentUser.email;
-      }catch(e){document.getElementById('resetMsg').textContent='Errore: '+e.message;}
+    document.getElementById('closeProfileBtn').addEventListener('click', () => profileOv.classList.remove('open'));
+    profileOv.addEventListener('click', e => { if (e.target === profileOv) profileOv.classList.remove('open'); });
+    document.getElementById('resetPwBtn').addEventListener('click', async () => {
+      try {
+        await sendPasswordResetEmail(auth, currentUser.email);
+        document.getElementById('resetMsg').textContent = 'Email di reset inviata a ' + currentUser.email;
+      } catch(e) { document.getElementById('resetMsg').textContent = 'Errore: ' + e.message; }
     });
 
-    // Auth + data
-    onAuthStateChanged(auth, async user=>{
-      if(!user){window.location.href='index.html';return;}
-      currentUser=user;
-      const snap=await getDoc(doc(db,'users',user.uid));
-      if(!snap.exists()){window.location.href='index.html';return;}
-      userData=snap.data();
-      if(userData.ruolo==='admin'){window.location.href='admin.html';return;}
-      const fullName=`${userData.nome||''} ${userData.cognome||''}`.trim();
-      document.getElementById('headerName').textContent=fullName||'Presenza';
-      document.getElementById('headerMansione').textContent=userData.mansione||'';
-      document.getElementById('profileBtn').textContent=initials(userData.nome,userData.cognome);
+    // ── Auth ──────────────────────────────────────────────────
+    onAuthStateChanged(auth, async user => {
+      if (!user) { window.location.href = 'index.html'; return; }
+      currentUser = user;
+      const snap = await getDoc(doc(db,'users',user.uid));
+      if (!snap.exists()) { window.location.href = 'index.html'; return; }
+      userData = snap.data();
+      if (userData.ruolo === 'admin') { window.location.href = 'admin.html'; return; }
+      const fullName = `${userData.nome||''} ${userData.cognome||''}`.trim();
+      document.getElementById('headerName').textContent = fullName || 'Presenza';
+      document.getElementById('headerMansione').textContent = userData.mansione || '';
+      document.getElementById('profileBtn').textContent = initials(userData.nome, userData.cognome);
 
       onSnapshot(
-        query(collection(db,'presenze'),where('userId','==',user.uid)),
-        snap=>{
-          allShifts=snap.docs.map(d=>({id:d.id,...d.data()})).filter(p=>p.oraEntrata).sort((a,b)=>b.oraEntrata.toDate()-a.oraEntrata.toDate());
-          renderPresenza(allShifts); renderStorico(allShifts);
+        query(collection(db,'presenze'), where('userId','==',user.uid)),
+        snap => {
+          allShifts = snap.docs.map(d => ({id:d.id,...d.data()}))
+            .filter(p => p.oraEntrata)
+            .sort((a,b) => b.oraEntrata.toDate()-a.oraEntrata.toDate());
+          renderPresenza(allShifts);
+          renderStorico(allShifts);
         },
-        err=>console.error(err)
+        err => console.error(err)
       );
     });
 
-    document.getElementById('logoutBtn').addEventListener('click',async()=>{await signOut(auth);window.location.href='index.html';});
+    document.getElementById('logoutBtn').addEventListener('click', async () => {
+      await signOut(auth); window.location.href = 'index.html';
+    });
   </script>
 </body>
 </html>

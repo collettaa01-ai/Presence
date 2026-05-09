@@ -16,13 +16,12 @@
 
     /* ── Header ── */
     .header {
-      background: var(--primary); color: white;
-      padding: 14px 20px;
+      background: var(--primary); color: white; padding: 14px 20px;
       display: flex; align-items: center; justify-content: space-between;
       box-shadow: 0 2px 8px rgba(0,0,0,0.15);
       position: sticky; top: 0; z-index: 50;
     }
-    .header h1 { font-size: 1.15rem; font-weight: 700; letter-spacing: -0.3px; }
+    .header h1 { font-size: 1.15rem; font-weight: 700; }
     .header-right { display: flex; align-items: center; gap: 10px; }
     .avatar-btn {
       width: 36px; height: 36px; border-radius: 50%;
@@ -49,37 +48,30 @@
       flex: 1; padding: 10px 0 8px;
       background: none; border: none; cursor: pointer;
       display: flex; flex-direction: column; align-items: center; gap: 4px;
-      color: var(--text-muted);
-      font-size: 0.65rem; font-weight: 700;
-      text-transform: uppercase; letter-spacing: 0.5px;
-      transition: color 0.2s;
+      color: var(--text-muted); font-size: 0.65rem; font-weight: 700;
+      text-transform: uppercase; letter-spacing: 0.5px; transition: color 0.2s;
     }
     .nav-btn.active { color: var(--primary); }
     .nav-btn svg { width: 22px; height: 22px; }
 
-    /* ── Greeting card ── */
+    /* ── Home page ── */
     .greeting-card {
-      background: white; border-radius: 18px;
-      box-shadow: var(--shadow); padding: 22px 20px; margin-bottom: 16px;
+      background: white; border-radius: 18px; box-shadow: var(--shadow);
+      padding: 22px 20px; margin-bottom: 16px;
     }
     .greeting-date { font-size: 0.78rem; color: var(--text-muted); text-transform: capitalize; font-weight: 600; }
     .greeting-text { font-size: 1.35rem; font-weight: 700; color: var(--text); margin-top: 6px; }
     .greeting-sub  { font-size: 0.88rem; color: var(--text-muted); margin-top: 3px; }
 
-    /* ── Home stats ── */
-    .home-stats {
-      display: grid; grid-template-columns: repeat(3,1fr); gap: 12px; margin-bottom: 16px;
-    }
+    .home-stats { display: grid; grid-template-columns: repeat(3,1fr); gap: 12px; margin-bottom: 16px; }
     @media (max-width: 380px) { .home-stats { grid-template-columns: 1fr 1fr; } }
     .home-stat {
-      background: white; border-radius: 14px;
-      box-shadow: var(--shadow); padding: 16px 12px;
-      text-align: center; border-left: 4px solid var(--primary-light);
+      background: white; border-radius: 14px; box-shadow: var(--shadow);
+      padding: 16px 12px; text-align: center; border-left: 4px solid var(--primary-light);
     }
     .home-stat-val { font-size: 1.7rem; font-weight: 700; color: var(--primary); }
     .home-stat-lbl { font-size: 0.72rem; color: var(--text-muted); margin-top: 3px; }
 
-    /* ── Orari card ── */
     .orari-card { background: white; border-radius: 14px; box-shadow: var(--shadow); overflow: hidden; }
     .orari-card-header {
       padding: 16px 18px 14px; border-bottom: 1px solid var(--border);
@@ -88,25 +80,21 @@
     .orari-card-title { font-size: 0.72rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; color: var(--text-muted); }
     .btn-new-orari {
       background: var(--primary); color: white;
-      border: none; border-radius: 8px;
-      padding: 7px 14px; font-size: 0.82rem; font-weight: 700;
-      cursor: pointer; transition: background 0.2s;
+      border: none; border-radius: 8px; padding: 7px 14px;
+      font-size: 0.82rem; font-weight: 700; cursor: pointer; transition: background 0.2s;
     }
     .btn-new-orari:hover { background: var(--primary-dark); }
-    .orario-item {
-      padding: 12px 18px; border-bottom: 1px solid var(--border);
-      display: flex; align-items: center; gap: 12px;
-    }
+    .orario-item { padding: 12px 18px; border-bottom: 1px solid var(--border); display: flex; align-items: center; gap: 12px; }
     .orario-item:last-child { border-bottom: none; }
-    .orari-mini-avatar {
+    .orari-mini-av {
       width: 36px; height: 36px; border-radius: 50%;
       background: var(--accent); color: var(--primary);
       font-size: 0.72rem; font-weight: 700;
       display: flex; align-items: center; justify-content: center; flex-shrink: 0;
     }
-    .orario-name  { font-size: 0.9rem; font-weight: 700; }
-    .orario-week  { font-size: 0.78rem; color: var(--text-muted); }
-    .orari-empty  { padding: 32px; text-align: center; color: var(--text-muted); font-size: 0.88rem; }
+    .orario-name { font-size: 0.9rem; font-weight: 700; }
+    .orario-week { font-size: 0.78rem; color: var(--text-muted); }
+    .orari-empty { padding: 32px; text-align: center; color: var(--text-muted); font-size: 0.88rem; }
 
     /* ── FAB ── */
     .fab {
@@ -121,126 +109,181 @@
     .fab:hover { background: var(--primary-dark); transform: scale(1.08); }
     .fab.hidden { display: none; }
 
-    /* ── Daily box ── */
-    .daily-box {
-      background: white; border-radius: 18px;
-      box-shadow: var(--shadow); overflow: hidden; margin-bottom: 20px;
+    /* ── G/S/M pill tabs ── */
+    .gsm-bar {
+      display: flex; gap: 6px; margin-bottom: 20px;
     }
-    .daily-header {
-      background: var(--primary); color: white;
-      padding: 14px 18px 12px;
+    .gsm-pill {
+      flex: 1; padding: 8px 4px; border: none; border-radius: 10px;
+      background: white; box-shadow: var(--shadow);
+      font-size: 0.85rem; font-weight: 700; color: var(--text-muted);
+      cursor: pointer; transition: all 0.18s;
+    }
+    .gsm-pill.active { background: var(--primary); color: white; }
+
+    /* ── G view ── */
+    .g-date-nav {
       display: flex; align-items: center; justify-content: space-between;
+      margin-bottom: 16px; gap: 8px;
     }
-    .daily-date  { font-size: 1rem; font-weight: 700; text-transform: capitalize; }
-    .daily-count {
-      font-size: 0.78rem; background: rgba(255,255,255,0.22);
-      padding: 3px 10px; border-radius: 20px; font-weight: 600;
+    .g-date-label {
+      flex: 1; text-align: center;
+      font-size: 0.92rem; font-weight: 700; color: var(--text); text-transform: capitalize;
     }
-    .daily-item {
-      display: flex; align-items: center; gap: 12px;
-      padding: 12px 18px; border-bottom: 1px solid var(--border);
+    .nav-arrow {
+      width: 36px; height: 36px; border-radius: 10px;
+      border: 1.5px solid var(--border); background: white;
+      font-size: 1.1rem; cursor: pointer; display: flex; align-items: center; justify-content: center;
+      color: var(--text); transition: background 0.15s; flex-shrink: 0;
     }
-    .daily-item:last-child { border-bottom: none; }
-    .daily-avatar {
-      width: 40px; height: 40px; border-radius: 50%;
-      background: var(--accent); color: var(--primary);
-      font-size: 0.8rem; font-weight: 700;
-      display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+    .nav-arrow:hover { background: var(--bg); }
+
+    /* ── Turno section ── */
+    .turno-section { background: white; border-radius: 16px; box-shadow: var(--shadow); overflow: hidden; margin-bottom: 16px; }
+    .turno-head {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 14px 16px 12px; border-bottom: 1px solid var(--border);
     }
-    .daily-info  { flex: 1; min-width: 0; }
-    .daily-name  { font-size: 0.92rem; font-weight: 700; color: var(--text); }
-    .daily-mans  { font-size: 0.75rem; color: var(--text-muted); margin-top: 1px; }
-    .daily-times { font-size: 0.78rem; color: var(--text-muted); margin-top: 3px; }
-    .daily-status { display: flex; align-items: center; gap: 5px; flex-shrink: 0; text-align: right; }
+    .turno-tag {
+      font-size: 0.88rem; font-weight: 700;
+      padding: 4px 12px; border-radius: 20px; display: inline-block;
+    }
+    .turno-tag.pranzo { background: #FFF3CD; color: #856404; }
+    .turno-tag.cena   { background: #E8D5F5; color: #5B2C8D; }
+    .turno-live { display: flex; align-items: center; gap: 5px; }
+    .live-txt  { font-size: 0.75rem; font-weight: 700; color: var(--primary); }
+    .turno-done-badge { font-size: 0.75rem; font-weight: 700; color: var(--text-muted); }
+    .turno-empty { padding: 28px; text-align: center; color: var(--text-muted); font-size: 0.85rem; }
+
+    /* ── Turno table (desktop) ── */
+    .turno-table-wrap { overflow-x: auto; }
+    .turno-table { width: 100%; border-collapse: collapse; font-size: 0.88rem; }
+    .turno-table th {
+      padding: 9px 12px; text-align: left; font-size: 0.7rem; font-weight: 700;
+      text-transform: uppercase; letter-spacing: 0.4px; color: var(--text-muted);
+      border-bottom: 2px solid var(--border);
+    }
+    .turno-table td { padding: 10px 12px; border-bottom: 1px solid var(--border); vertical-align: middle; }
+    .turno-table tbody tr:last-child td { border-bottom: none; }
+
+    /* Mansione cell */
+    .mans-cell {
+      border-right: 2px solid var(--border) !important;
+      min-width: 120px; vertical-align: top !important;
+      padding: 12px !important;
+    }
+    .mans-name { font-size: 0.85rem; font-weight: 700; color: var(--text); margin-bottom: 5px; }
+    .mans-status { display: flex; align-items: center; gap: 4px; font-size: 0.72rem; }
+    .mans-status.going { color: var(--primary); }
+    .mans-status.done  { color: var(--text-muted); }
+    .check-badge { font-size: 0.82rem; color: var(--primary-light); font-weight: 700; }
+    .mans-cell.mans-going { background: rgba(82,183,136,0.05); }
+    .mans-cell.mans-done  { background: #FAFAFA; }
+
+    /* User cell */
+    .user-cell { display: flex; align-items: center; gap: 7px; font-weight: 600; font-size: 0.88rem; }
+    .check-user { color: var(--primary-light); font-size: 0.8rem; font-weight: 700; }
+    .time-cell  { font-size: 0.88rem; color: var(--text); }
+    .time-cell.active { color: var(--text-muted); font-style: italic; }
+
+    /* Animated dots */
+    .dots-anim span {
+      display: inline-block; animation: dotFade 1.5s infinite; opacity: 0;
+    }
+    .dots-anim span:nth-child(1) { animation-delay: 0s; }
+    .dots-anim span:nth-child(2) { animation-delay: 0.3s; }
+    .dots-anim span:nth-child(3) { animation-delay: 0.6s; }
+    @keyframes dotFade { 0%,60%,100% { opacity:0; } 30% { opacity:1; } }
+
+    /* Pulsing dots */
     .dot-active {
-      width: 9px; height: 9px; border-radius: 50%;
-      background: var(--primary-light);
-      animation: pulse 2s infinite; flex-shrink: 0;
+      display: inline-block; width: 9px; height: 9px; border-radius: 50%;
+      background: var(--primary-light); animation: pulse 2s infinite; flex-shrink: 0;
     }
-    .dot-done {
-      width: 18px; height: 18px; border-radius: 50%;
-      background: var(--primary-light); color: white;
-      font-size: 0.65rem; display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+    .dot-sm-pulse {
+      display: inline-block; width: 7px; height: 7px; border-radius: 50%;
+      background: var(--primary-light); animation: pulse 2s infinite; flex-shrink: 0;
     }
-    .status-label        { font-size: 0.72rem; font-weight: 600; }
-    .status-label.active { color: var(--primary); }
-    .status-label.done   { color: var(--text-muted); }
-    .daily-empty { padding: 32px; text-align: center; color: var(--text-muted); font-size: 0.88rem; }
+    .dot-user-pulse {
+      display: inline-block; width: 8px; height: 8px; border-radius: 50%;
+      background: var(--primary-light); animation: pulse 2s infinite; flex-shrink: 0;
+    }
+    @keyframes pulse {
+      0%,100% { box-shadow: 0 0 0 2px rgba(82,183,136,0.3); }
+      50%      { box-shadow: 0 0 0 5px rgba(82,183,136,0.12); }
+    }
 
-    /* ── Storico rounded box ── */
-    .storico-box {
-      background: white; border-radius: 18px;
-      box-shadow: var(--shadow); overflow: hidden;
+    /* ── Mobile turno cards (hidden on desktop) ── */
+    .turno-mobile { display: none; padding: 4px 0; }
+    .mobile-mans-block { border-bottom: 1px solid var(--border); }
+    .mobile-mans-block:last-child { border-bottom: none; }
+    .mobile-mans-hdr {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 11px 16px; background: #FAFAFA;
     }
-    .storico-header {
-      padding: 16px 18px 14px; border-bottom: 1px solid var(--border);
-      display: flex; align-items: center; justify-content: space-between; gap: 12px;
-      flex-wrap: wrap;
+    .mobile-mans-hdr.going { background: rgba(82,183,136,0.06); }
+    .mobile-mans-hdr-name { font-size: 0.85rem; font-weight: 700; color: var(--text); }
+    .mobile-mans-hdr .mans-status { font-size: 0.72rem; }
+    .mobile-user-row {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 10px 16px; border-top: 1px solid var(--border);
     }
-    .storico-title { font-size: 0.72rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; color: var(--text-muted); }
-    .filter-mese-wrap { display: flex; align-items: center; gap: 8px; }
-    .filter-mese-wrap label { font-size: 0.78rem; font-weight: 600; color: var(--text-muted); white-space: nowrap; }
-    #filterMese {
-      padding: 7px 28px 7px 11px;
-      border: 1.5px solid var(--border); border-radius: 10px;
-      font-size: 0.85rem; background: var(--bg); color: var(--text);
-      -webkit-appearance: none; cursor: pointer;
-      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%236C757D' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
-      background-repeat: no-repeat; background-position: right 10px center;
-    }
-    #filterMese:focus { outline: none; border-color: var(--primary); }
+    .mobile-user-left { display: flex; align-items: center; gap: 7px; }
+    .mobile-user-name { font-size: 0.88rem; font-weight: 600; }
+    .mobile-times { font-size: 0.82rem; color: var(--text-muted); display: flex; align-items: center; gap: 4px; }
+    .time-arrow { opacity: 0.4; }
 
-    /* ── Bar chart ── */
-    .chart-body { padding: 16px 14px 8px; }
-    .chart-scroll { overflow-x: auto; padding-bottom: 4px; }
-    .chart-empty { text-align: center; color: var(--text-muted); padding: 40px 20px; font-size: 0.88rem; }
-    .chart-bar { transition: opacity 0.15s; }
-    .chart-bar:hover { opacity: 0.82; }
+    @media (max-width: 620px) {
+      .turno-table-wrap { display: none; }
+      .turno-mobile     { display: block; }
+    }
 
-    /* ── Totali ── */
-    .totali-section { padding: 14px 18px 18px; border-top: 1px solid var(--border); }
-    .totali-title { font-size: 0.7rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; color: var(--text-muted); margin-bottom: 10px; }
-    .totali-grid { display: flex; flex-wrap: wrap; gap: 8px; }
-    .totali-chip {
-      display: flex; align-items: center; gap: 8px;
-      background: var(--accent); border-radius: 10px;
-      padding: 7px 12px;
+    /* ── S view (week) ── */
+    .week-nav, .month-nav {
+      display: flex; align-items: center; justify-content: space-between;
+      margin-bottom: 16px; gap: 8px;
     }
-    .totali-chip-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--primary); flex-shrink: 0; }
-    .totali-chip-name { font-size: 0.78rem; color: var(--text-muted); font-weight: 600; }
-    .totali-chip-val  { font-size: 0.88rem; color: var(--primary); font-weight: 700; }
+    .week-label, .month-label {
+      flex: 1; text-align: center; font-size: 0.92rem; font-weight: 700; color: var(--text); text-transform: capitalize;
+    }
+    .day-chips { display: grid; grid-template-columns: repeat(7, 1fr); gap: 6px; margin-bottom: 14px; }
+    .day-chip {
+      border: 1.5px solid var(--border); border-radius: 12px;
+      padding: 8px 4px; background: white; cursor: pointer;
+      display: flex; flex-direction: column; align-items: center; gap: 4px;
+      transition: all 0.15s; position: relative;
+    }
+    .day-chip:hover { border-color: var(--primary); }
+    .day-chip.today  { border-color: var(--primary); background: var(--accent); }
+    .day-chip.has-data .day-num { color: var(--primary); font-weight: 700; }
+    .day-name { font-size: 0.62rem; font-weight: 700; text-transform: uppercase; color: var(--text-muted); }
+    .day-num  { font-size: 1rem; font-weight: 600; color: var(--text); }
+    .day-dot  {
+      width: 6px; height: 6px; border-radius: 50%; background: var(--primary-light);
+      position: absolute; bottom: 5px;
+    }
 
-    /* ── Bar popup ── */
-    .bar-popup-overlay {
-      display: none; position: fixed; inset: 0;
-      background: rgba(0,0,0,0.45); z-index: 200;
-      align-items: center; justify-content: center; padding: 24px;
+    /* ── M view (calendar) ── */
+    .cal-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 4px; margin-bottom: 14px; }
+    .cal-hdr  { text-align: center; font-size: 0.62rem; font-weight: 700; text-transform: uppercase; color: var(--text-muted); padding: 4px 0 6px; }
+    .cal-cell {
+      aspect-ratio: 1; border: 1.5px solid transparent; border-radius: 10px;
+      background: transparent; cursor: pointer;
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
+      gap: 2px; font-size: 0.82rem; font-weight: 500; color: var(--text);
+      transition: all 0.15s; padding: 0;
     }
-    .bar-popup-overlay.open { display: flex; }
-    .bar-popup {
-      background: white; border-radius: 18px;
-      padding: 24px 22px; max-width: 320px; width: 100%;
-      box-shadow: 0 8px 32px rgba(0,0,0,0.2);
-      animation: popIn 0.2s ease;
-      text-align: center;
-    }
-    @keyframes popIn {
-      from { transform: scale(0.88); opacity: 0; }
-      to   { transform: scale(1);    opacity: 1; }
-    }
-    .bar-popup-icon { font-size: 2rem; margin-bottom: 10px; }
-    .bar-popup-text { font-size: 0.95rem; color: var(--text); line-height: 1.5; }
-    .bar-popup-text strong { color: var(--primary); }
-    .bar-popup-close {
-      margin-top: 18px; padding: 11px 24px;
-      background: var(--accent); color: var(--primary);
-      border: none; border-radius: 10px;
-      font-size: 0.9rem; font-weight: 700; cursor: pointer;
-      transition: background 0.2s;
-    }
-    .bar-popup-close:hover { background: #c2e9cb; }
+    .cal-cell:not(.empty):hover { border-color: var(--primary); background: var(--accent); }
+    .cal-cell.today { background: var(--primary); color: white; border-color: var(--primary); }
+    .cal-cell.today .cal-dot { background: rgba(255,255,255,0.7); }
+    .cal-cell.has-data { font-weight: 700; }
+    .cal-cell.empty { cursor: default; }
+    .cal-dot { width: 5px; height: 5px; border-radius: 50%; background: var(--primary-light); }
+    .cal-day-num { font-size: 0.82rem; }
 
-    /* ── Modals (shared) ── */
+    .nav-hint { text-align: center; font-size: 0.78rem; color: var(--text-muted); margin-top: 4px; }
+
+    /* ── Modals ── */
     .modal-overlay {
       display: none; position: fixed; inset: 0;
       background: rgba(0,0,0,0.5); z-index: 100;
@@ -251,71 +294,53 @@
     .modal {
       background: white; border-radius: 20px 20px 0 0;
       width: 100%; max-height: 90vh; overflow-y: auto;
-      padding: 24px 20px 32px;
-      animation: slideUp 0.25s ease;
+      padding: 24px 20px 32px; animation: slideUp 0.25s ease;
     }
     @media (min-width: 600px) { .modal { border-radius: 18px; max-width: 520px; max-height: 85vh; } }
-    @keyframes slideUp {
-      from { transform: translateY(40px); opacity: 0; }
-      to   { transform: translateY(0);    opacity: 1; }
-    }
-    .modal-handle {
-      width: 40px; height: 4px; background: var(--border);
-      border-radius: 4px; margin: 0 auto 20px;
-    }
+    @keyframes slideUp { from { transform:translateY(40px); opacity:0; } to { transform:translateY(0); opacity:1; } }
+    .modal-handle { width: 40px; height: 4px; background: var(--border); border-radius: 4px; margin: 0 auto 20px; }
     @media (min-width: 600px) { .modal-handle { display: none; } }
-    .modal-title { font-size: 1.1rem; font-weight: 700; color: var(--text); margin-bottom: 20px; }
-    .form-group  { display: flex; flex-direction: column; gap: 5px; margin-bottom: 12px; }
+    .modal-title  { font-size: 1.1rem; font-weight: 700; color: var(--text); margin-bottom: 20px; }
+
+    .form-group { display: flex; flex-direction: column; gap: 5px; margin-bottom: 12px; }
     .form-group label { font-size: 0.78rem; font-weight: 700; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.4px; }
     .form-group input, .form-group select {
       width: 100%; padding: 11px 13px;
       border: 1.5px solid var(--border); border-radius: 10px;
-      font-size: 0.92rem; background: var(--bg); color: var(--text);
-      -webkit-appearance: none;
+      font-size: 0.92rem; background: var(--bg); color: var(--text); -webkit-appearance: none;
     }
     .form-group input:focus, .form-group select:focus { outline: none; border-color: var(--primary); }
     .form-group select {
       background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%236C757D' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
-      background-repeat: no-repeat; background-position: right 12px center;
-      padding-right: 32px; cursor: pointer;
+      background-repeat: no-repeat; background-position: right 12px center; padding-right: 32px; cursor: pointer;
     }
-
-    /* Giorni grid */
     .giorni-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px; margin-bottom: 12px; }
     @media (max-width: 420px) { .giorni-grid { grid-template-columns: 1fr 1fr; } }
-    .giorno-block { border: 1.5px solid var(--border); border-radius: 10px; padding: 10px 10px 8px; }
+    .giorno-block { border: 1.5px solid var(--border); border-radius: 10px; padding: 10px; }
     .giorno-label { font-size: 0.7rem; font-weight: 700; color: var(--primary); text-transform: uppercase; letter-spacing: 0.4px; margin-bottom: 6px; }
     .giorno-block input[type="time"] {
-      width: 100%; padding: 6px 8px;
-      border: 1.5px solid var(--border); border-radius: 8px;
+      width: 100%; padding: 6px 8px; border: 1.5px solid var(--border); border-radius: 8px;
       font-size: 0.82rem; background: white; color: var(--text); margin-bottom: 4px;
     }
     .giorno-block input[type="time"]:focus { outline: none; border-color: var(--primary); }
-    .giorno-off-label { font-size: 0.68rem; color: var(--text-muted); display: flex; align-items: center; gap: 4px; margin-top: 2px; cursor: pointer; }
-
+    .giorno-off-label { font-size: 0.68rem; color: var(--text-muted); display: flex; align-items: center; gap: 4px; cursor: pointer; }
     .modal-actions { display: flex; gap: 10px; margin-top: 20px; }
     .btn-modal-cancel {
-      flex: 1; padding: 13px;
-      background: var(--bg); border: 1.5px solid var(--border);
-      border-radius: 12px; cursor: pointer;
-      font-size: 0.95rem; font-weight: 600; color: var(--text-muted);
-      transition: background 0.2s;
+      flex: 1; padding: 13px; background: var(--bg);
+      border: 1.5px solid var(--border); border-radius: 12px;
+      cursor: pointer; font-size: 0.95rem; font-weight: 600; color: var(--text-muted);
     }
     .btn-modal-cancel:hover { background: var(--border); }
     .btn-modal-save {
-      flex: 2; padding: 13px;
-      background: var(--primary); color: white;
+      flex: 2; padding: 13px; background: var(--primary); color: white;
       border: none; border-radius: 12px; cursor: pointer;
       font-size: 0.95rem; font-weight: 700; transition: background 0.2s;
     }
-    .btn-modal-save:hover { background: var(--primary-dark); }
+    .btn-modal-save:hover  { background: var(--primary-dark); }
     .btn-modal-save:disabled { opacity: 0.6; cursor: not-allowed; }
 
     /* Profile */
-    .profile-field {
-      display: flex; justify-content: space-between; align-items: center;
-      padding: 12px 0; border-bottom: 1px solid var(--border);
-    }
+    .profile-field { display: flex; justify-content: space-between; align-items: center; padding: 12px 0; border-bottom: 1px solid var(--border); }
     .profile-field:last-of-type { border-bottom: none; }
     .profile-field-label { font-size: 0.78rem; font-weight: 700; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.4px; }
     .profile-field-val   { font-size: 0.92rem; color: var(--text); font-weight: 500; }
@@ -326,14 +351,9 @@
       font-size: 0.95rem; font-weight: 700; transition: background 0.2s;
     }
     .btn-reset-pw:hover { background: #c2e9cb; }
-    .profile-msg { font-size: 0.82rem; text-align: center; margin-top: 10px; min-height: 18px; }
-    .profile-msg.ok  { color: var(--primary); }
-    .profile-msg.err { color: var(--danger); }
-
-    @keyframes pulse {
-      0%,100% { box-shadow: 0 0 0 3px rgba(82,183,136,0.3); }
-      50%      { box-shadow: 0 0 0 6px rgba(82,183,136,0.15); }
-    }
+    .profile-msg    { font-size: 0.82rem; text-align: center; margin-top: 10px; min-height: 18px; }
+    .profile-msg.ok { color: var(--primary); }
+    .profile-msg.err{ color: var(--danger); }
   </style>
 </head>
 <body>
@@ -347,30 +367,18 @@
     </div>
   </div>
 
-  <!-- ══ HOME page (default) ══ -->
+  <!-- ══ HOME ══ -->
   <div id="pageHome" class="page active">
-
     <div class="greeting-card">
       <div class="greeting-date" id="homeDate"></div>
       <div class="greeting-text" id="homeGreeting"></div>
       <div class="greeting-sub"  id="homeSub"></div>
     </div>
-
     <div class="home-stats">
-      <div class="home-stat">
-        <div class="home-stat-val" id="statIn">—</div>
-        <div class="home-stat-lbl">In servizio</div>
-      </div>
-      <div class="home-stat">
-        <div class="home-stat-val" id="statToday">—</div>
-        <div class="home-stat-lbl">Presenze oggi</div>
-      </div>
-      <div class="home-stat">
-        <div class="home-stat-val" id="statMonth">—</div>
-        <div class="home-stat-lbl">Questo mese</div>
-      </div>
+      <div class="home-stat"><div class="home-stat-val" id="statIn">—</div><div class="home-stat-lbl">In servizio</div></div>
+      <div class="home-stat"><div class="home-stat-val" id="statToday">—</div><div class="home-stat-lbl">Presenze oggi</div></div>
+      <div class="home-stat"><div class="home-stat-val" id="statMonth">—</div><div class="home-stat-lbl">Questo mese</div></div>
     </div>
-
     <div class="orari-card">
       <div class="orari-card-header">
         <span class="orari-card-title">Orari settimanali</span>
@@ -378,41 +386,48 @@
       </div>
       <div id="orariList"><div class="orari-empty">Nessun orario salvato</div></div>
     </div>
-
   </div>
 
-  <!-- ══ PRESENZE page ══ -->
+  <!-- ══ PRESENZE ══ -->
   <div id="pagePresenze" class="page">
-
-    <!-- Daily box -->
-    <div class="daily-box">
-      <div class="daily-header">
-        <span class="daily-date" id="dailyDateLabel"></span>
-        <span class="daily-count" id="dailyCount">0 presenze</span>
-      </div>
-      <div id="dailyList"><div class="daily-empty">Caricamento...</div></div>
+    <!-- G / S / M selector -->
+    <div class="gsm-bar">
+      <button class="gsm-pill active" data-gsm="G">G</button>
+      <button class="gsm-pill" data-gsm="S">S</button>
+      <button class="gsm-pill" data-gsm="M">M</button>
     </div>
 
-    <!-- Storico box -->
-    <div class="storico-box">
-      <div class="storico-header">
-        <span class="storico-title">Storico presenze</span>
-        <div class="filter-mese-wrap">
-          <label for="filterMese">Mese</label>
-          <select id="filterMese"></select>
-        </div>
+    <!-- G view -->
+    <div id="viewG">
+      <div class="g-date-nav">
+        <button class="nav-arrow" id="gPrev">‹</button>
+        <div class="g-date-label" id="gDateLabel"></div>
+        <button class="nav-arrow" id="gNext">›</button>
       </div>
-      <div class="chart-body">
-        <div class="chart-scroll" id="chartWrap">
-          <div class="chart-empty">Caricamento...</div>
-        </div>
-      </div>
-      <div class="totali-section" id="totaliSection" style="display:none">
-        <div class="totali-title">Totali del mese</div>
-        <div class="totali-grid" id="totaliGrid"></div>
-      </div>
+      <div id="gContent"></div>
     </div>
 
+    <!-- S view -->
+    <div id="viewS" style="display:none">
+      <div class="week-nav">
+        <button class="nav-arrow" id="sPrev">‹</button>
+        <div class="week-label" id="sWeekLabel"></div>
+        <button class="nav-arrow" id="sNext">›</button>
+      </div>
+      <div class="day-chips" id="sChips"></div>
+      <p class="nav-hint">Tocca un giorno per vedere le presenze</p>
+    </div>
+
+    <!-- M view -->
+    <div id="viewM" style="display:none">
+      <div class="month-nav">
+        <button class="nav-arrow" id="mPrev">‹</button>
+        <div class="month-label" id="mMonthLabel"></div>
+        <button class="nav-arrow" id="mNext">›</button>
+      </div>
+      <div class="cal-grid" id="mCal"></div>
+      <p class="nav-hint">Tocca un giorno per vedere le presenze</p>
+    </div>
   </div>
 
   <!-- FAB -->
@@ -447,10 +462,7 @@
         <label>Dipendente</label>
         <select id="orariDipendente"><option value="">Seleziona dipendente…</option></select>
       </div>
-      <div class="form-group">
-        <label>Settimana dal</label>
-        <input type="date" id="orariSettimana">
-      </div>
+      <div class="form-group"><label>Settimana dal</label><input type="date" id="orariSettimana"></div>
       <div class="giorni-grid" id="giorniGrid"></div>
       <div class="modal-actions">
         <button class="btn-modal-cancel" id="cancelOrari">Annulla</button>
@@ -464,26 +476,11 @@
     <div class="modal">
       <div class="modal-handle"></div>
       <div class="modal-title">Il mio profilo</div>
-      <div class="profile-field">
-        <span class="profile-field-label">Nome</span>
-        <span class="profile-field-val" id="profNome"></span>
-      </div>
-      <div class="profile-field">
-        <span class="profile-field-label">Cognome</span>
-        <span class="profile-field-val" id="profCognome"></span>
-      </div>
-      <div class="profile-field">
-        <span class="profile-field-label">Email</span>
-        <span class="profile-field-val" id="profEmail"></span>
-      </div>
-      <div class="profile-field">
-        <span class="profile-field-label">Ruolo</span>
-        <span class="profile-field-val">Admin / Responsabile</span>
-      </div>
-      <div class="profile-field">
-        <span class="profile-field-label">Password</span>
-        <span class="profile-field-val">••••••••</span>
-      </div>
+      <div class="profile-field"><span class="profile-field-label">Nome</span><span class="profile-field-val" id="profNome"></span></div>
+      <div class="profile-field"><span class="profile-field-label">Cognome</span><span class="profile-field-val" id="profCognome"></span></div>
+      <div class="profile-field"><span class="profile-field-label">Email</span><span class="profile-field-val" id="profEmail"></span></div>
+      <div class="profile-field"><span class="profile-field-label">Ruolo</span><span class="profile-field-val">Admin / Responsabile</span></div>
+      <div class="profile-field"><span class="profile-field-label">Password</span><span class="profile-field-val">••••••••</span></div>
       <button class="btn-reset-pw" id="btnResetPw">Reimposta password via email</button>
       <div class="profile-msg" id="profileMsg"></div>
       <div class="modal-actions" style="margin-top:14px">
@@ -492,100 +489,272 @@
     </div>
   </div>
 
-  <!-- Bar popup -->
-  <div class="bar-popup-overlay" id="barPopupOverlay">
-    <div class="bar-popup">
-      <div class="bar-popup-icon">⏱️</div>
-      <div class="bar-popup-text" id="barPopupText"></div>
-      <button class="bar-popup-close" id="barPopupClose">Chiudi</button>
-    </div>
-  </div>
-
   <script type="module">
     import { auth, db } from './js/firebase-config.js';
-    import {
-      onAuthStateChanged, signOut, sendPasswordResetEmail
-    } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
+    import { onAuthStateChanged, signOut, sendPasswordResetEmail } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
     import {
       doc, getDoc, getDocs, collection, query,
       onSnapshot, addDoc, serverTimestamp
     } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
 
-    // ── Service Worker ────────────────────────────────────────
-    if ('serviceWorker' in navigator) {
-      navigator.serviceWorker.register('sw.js').catch(() => {});
-    }
+    if ('serviceWorker' in navigator) navigator.serviceWorker.register('sw.js').catch(() => {});
 
     // ── Helpers ───────────────────────────────────────────────
-    const pad = x => String(x).padStart(2, '0');
-    const initials = (n, c) => ((n||'')[0]||'').toUpperCase() + ((c||'')[0]||'').toUpperCase();
+    const pad     = x => String(x).padStart(2,'0');
+    const initials= (n,c) => ((n||'')[0]||'').toUpperCase()+((c||'')[0]||'').toUpperCase();
+    const fmtTime = ts => ts ? ts.toDate().toLocaleTimeString('it-IT',{hour:'2-digit',minute:'2-digit'}) : '—';
+    const esc     = s  => String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
 
-    function todayStr() {
-      const d = new Date();
-      return `${d.getFullYear()}-${pad(d.getMonth()+1)}-${pad(d.getDate())}`;
+    function todayStr() { const d=new Date(); return `${d.getFullYear()}-${pad(d.getMonth()+1)}-${pad(d.getDate())}`; }
+    function monthPrefix() { const d=new Date(); return `${d.getFullYear()}-${pad(d.getMonth()+1)}`; }
+    function longDate(dateStr) {
+      const [y,m,d] = dateStr.split('-').map(Number);
+      return new Date(y,m-1,d).toLocaleDateString('it-IT',{weekday:'long',day:'numeric',month:'long',year:'numeric'});
     }
-    function monthPrefix() {
-      const d = new Date();
-      return `${d.getFullYear()}-${pad(d.getMonth()+1)}`;
+    function shortDate(dateStr) {
+      const [y,m,d] = dateStr.split('-').map(Number);
+      return new Date(y,m-1,d).toLocaleDateString('it-IT',{weekday:'short',day:'numeric',month:'short'});
     }
-    function fmtTime(ts) {
-      if (!ts) return '—';
-      return ts.toDate().toLocaleTimeString('it-IT', {hour:'2-digit', minute:'2-digit'});
+    function addDays(dateStr, n) {
+      const [y,m,d] = dateStr.split('-').map(Number);
+      const dt = new Date(y,m-1,d);
+      dt.setDate(dt.getDate()+n);
+      return `${dt.getFullYear()}-${pad(dt.getMonth()+1)}-${pad(dt.getDate())}`;
     }
-    function calcDur(a, b) {
-      if (!a || !b) return '—';
-      const ms = b.toDate() - a.toDate();
-      if (ms <= 0) return '—';
-      const h = Math.floor(ms/3600000), m = Math.floor((ms%3600000)/60000);
-      return m ? `${h}h ${m}m` : `${h}h`;
+    function getMonday(dateStr) {
+      const [y,m,d] = dateStr.split('-').map(Number);
+      const dt = new Date(y,m-1,d);
+      const dow = dt.getDay()||7;
+      dt.setDate(dt.getDate()-dow+1);
+      return `${dt.getFullYear()}-${pad(dt.getMonth()+1)}-${pad(dt.getDate())}`;
     }
-    function formatHours(h) {
-      const hh = Math.floor(h), mm = Math.round((h - hh) * 60);
-      return mm ? `${hh}h ${mm}m` : `${hh}h`;
-    }
-    function longDate(d = new Date()) {
-      return d.toLocaleDateString('it-IT', {weekday:'long', day:'numeric', month:'long', year:'numeric'});
-    }
-    function monthLabel(prefix) {
-      const [y, m] = prefix.split('-');
-      const names = ['Gennaio','Febbraio','Marzo','Aprile','Maggio','Giugno',
-                     'Luglio','Agosto','Settembre','Ottobre','Novembre','Dicembre'];
-      return `${names[+m-1]} ${y}`;
-    }
-    function lastDayOf(prefix) {
-      const [y, m] = prefix.split('-').map(Number);
-      return new Date(y, m, 0).getDate();
-    }
-    function esc(s) {
-      return String(s)
-        .replace(/&/g,'&amp;').replace(/"/g,'&quot;')
-        .replace(/</g,'&lt;').replace(/>/g,'&gt;');
-    }
+    const MONTH_NAMES = ['Gennaio','Febbraio','Marzo','Aprile','Maggio','Giugno',
+                         'Luglio','Agosto','Settembre','Ottobre','Novembre','Dicembre'];
+    const DAY_SHORT   = ['Lun','Mar','Mer','Gio','Ven','Sab','Dom'];
 
     // ── State ─────────────────────────────────────────────────
     let allPresenze = [], allUsers = [], allOrari = [];
     let currentUser = null, userData = null;
     let unsubPresenze = null, unsubOrari = null;
+    let gDate   = todayStr();
+    let sMonday = getMonday(todayStr());
+    let mMonth  = monthPrefix();
+    let activeGSM = 'G';
 
-    // ── Nav ───────────────────────────────────────────────────
+    // ── Bottom nav ────────────────────────────────────────────
     document.querySelectorAll('.nav-btn').forEach(btn => {
       btn.addEventListener('click', () => {
         document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
         document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
         btn.classList.add('active');
         document.getElementById(btn.dataset.page).classList.add('active');
-        const onHome = btn.dataset.page === 'pageHome';
-        document.getElementById('fab').classList.toggle('hidden', !onHome);
+        document.getElementById('fab').classList.toggle('hidden', btn.dataset.page !== 'pageHome');
       });
     });
 
-    // ── Greeting ──────────────────────────────────────────────
-    function setGreeting(nome) {
-      const h = new Date().getHours();
-      const g = h < 12 ? 'Buongiorno' : h < 18 ? 'Buon pomeriggio' : 'Buonasera';
-      document.getElementById('homeDate').textContent = longDate();
-      document.getElementById('homeGreeting').textContent = `${g}, ${nome}!`;
-      document.getElementById('homeSub').textContent = 'Benvenuto nel pannello admin.';
+    // ── G/S/M pill tabs ───────────────────────────────────────
+    document.querySelectorAll('.gsm-pill').forEach(btn => {
+      btn.addEventListener('click', () => switchGSM(btn.dataset.gsm));
+    });
+
+    function switchGSM(mode) {
+      activeGSM = mode;
+      document.querySelectorAll('.gsm-pill').forEach(b => b.classList.toggle('active', b.dataset.gsm === mode));
+      document.getElementById('viewG').style.display = mode === 'G' ? '' : 'none';
+      document.getElementById('viewS').style.display = mode === 'S' ? '' : 'none';
+      document.getElementById('viewM').style.display = mode === 'M' ? '' : 'none';
+      if (mode === 'G') renderGView();
+      if (mode === 'S') renderSView();
+      if (mode === 'M') renderMView();
+    }
+
+    // ── G view ────────────────────────────────────────────────
+    document.getElementById('gPrev').addEventListener('click', () => { gDate = addDays(gDate,-1); renderGView(); });
+    document.getElementById('gNext').addEventListener('click', () => { gDate = addDays(gDate, 1); renderGView(); });
+
+    function renderGView() {
+      document.getElementById('gDateLabel').textContent = longDate(gDate);
+      const rows = allPresenze.filter(p => p.data === gDate);
+      const pranzo = rows.filter(p => !p.turno || p.turno === 'pranzo');
+      const cena   = rows.filter(p => p.turno === 'cena');
+      document.getElementById('gContent').innerHTML =
+        buildTurnoHTML('pranzo', pranzo) +
+        buildTurnoHTML('cena',   cena);
+    }
+
+    function buildTurnoHTML(turno, rows) {
+      const label      = turno === 'pranzo' ? '☀️ Turno Pranzo' : '🌙 Turno Cena';
+      const labelClass = turno === 'pranzo' ? 'pranzo' : 'cena';
+      const anyActive  = rows.some(p => !p.oraUscita);
+
+      // Group by mansione
+      const mansMap = {};
+      [...rows]
+        .sort((a,b) => (a.userMansione||'').localeCompare(b.userMansione||''))
+        .forEach(p => {
+          const m = p.userMansione || '—';
+          (mansMap[m] = mansMap[m]||[]).push(p);
+        });
+      const mansList = Object.keys(mansMap);
+
+      if (!mansList.length) {
+        return `<div class="turno-section">
+          <div class="turno-head">
+            <span class="turno-tag ${labelClass}">${label}</span>
+          </div>
+          <div class="turno-empty">Nessuna presenza registrata per questo turno</div>
+        </div>`;
+      }
+
+      // ── Desktop table (with rowspan) ──
+      let tbodyHTML = '';
+      mansList.forEach(mans => {
+        const users   = mansMap[mans];
+        const allDone = users.every(u => u.oraUscita);
+        users.forEach((u, idx) => {
+          const active = !u.oraUscita;
+          tbodyHTML += '<tr>';
+          if (idx === 0) {
+            tbodyHTML += `<td rowspan="${users.length}" class="mans-cell ${allDone ? 'mans-done' : 'mans-going'}">
+              <div class="mans-name">${esc(mans)}</div>
+              <div class="mans-status ${allDone ? 'done' : 'going'}">
+                ${allDone
+                  ? '<span class="check-badge">✓</span>'
+                  : `<span class="dot-sm-pulse"></span>&nbsp;sta lavorando<span class="dots-anim"><span>.</span><span>.</span><span>.</span></span>`}
+              </div>
+            </td>`;
+          }
+          tbodyHTML += `<td><div class="user-cell">
+            ${active ? '<span class="dot-user-pulse"></span>' : '<span class="check-user">✓</span>'}
+            ${esc(u.userName||'—')}
+          </div></td>`;
+          tbodyHTML += `<td class="time-cell">${fmtTime(u.oraEntrata)}</td>`;
+          tbodyHTML += `<td class="time-cell ${active?'active':''}">${u.oraUscita ? fmtTime(u.oraUscita) : '—'}</td>`;
+          tbodyHTML += '</tr>';
+        });
+      });
+
+      // ── Mobile cards ──
+      const mobileHTML = mansList.map(mans => {
+        const users   = mansMap[mans];
+        const allDone = users.every(u => u.oraUscita);
+        const usersHTML = users.map(u => {
+          const active = !u.oraUscita;
+          return `<div class="mobile-user-row">
+            <div class="mobile-user-left">
+              ${active ? '<span class="dot-user-pulse"></span>' : '<span class="check-user">✓</span>'}
+              <span class="mobile-user-name">${esc(u.userName||'—')}</span>
+            </div>
+            <div class="mobile-times">
+              <span>${fmtTime(u.oraEntrata)}</span>
+              <span class="time-arrow">→</span>
+              <span>${u.oraUscita ? fmtTime(u.oraUscita) : '—'}</span>
+            </div>
+          </div>`;
+        }).join('');
+        return `<div class="mobile-mans-block">
+          <div class="mobile-mans-hdr ${allDone ? '' : 'going'}">
+            <span class="mobile-mans-hdr-name">${esc(mans)}</span>
+            <div class="mans-status ${allDone ? 'done' : 'going'}">
+              ${allDone
+                ? '<span class="check-badge">✓</span>'
+                : `<span class="dot-sm-pulse"></span><span class="dots-anim"><span>.</span><span>.</span><span>.</span></span>`}
+            </div>
+          </div>
+          ${usersHTML}
+        </div>`;
+      }).join('');
+
+      return `<div class="turno-section">
+        <div class="turno-head">
+          <span class="turno-tag ${labelClass}">${label}</span>
+          ${anyActive
+            ? '<div class="turno-live"><span class="dot-active"></span><span class="live-txt">Attivo</span></div>'
+            : '<div class="turno-done-badge">✓ Turno completato</div>'}
+        </div>
+        <div class="turno-table-wrap">
+          <table class="turno-table">
+            <thead><tr><th>Mansione</th><th>Utente</th><th>Inizio</th><th>Fine</th></tr></thead>
+            <tbody>${tbodyHTML}</tbody>
+          </table>
+        </div>
+        <div class="turno-mobile">${mobileHTML}</div>
+      </div>`;
+    }
+
+    // ── S view (week) ─────────────────────────────────────────
+    document.getElementById('sPrev').addEventListener('click', () => { sMonday = addDays(sMonday,-7); renderSView(); });
+    document.getElementById('sNext').addEventListener('click', () => { sMonday = addDays(sMonday, 7); renderSView(); });
+
+    function renderSView() {
+      const today  = todayStr();
+      const sunday = addDays(sMonday, 6);
+      const [y0,m0,d0] = sMonday.split('-').map(Number);
+      const [y1,m1,d1] = sunday.split('-').map(Number);
+      const startLbl = new Date(y0,m0-1,d0).toLocaleDateString('it-IT',{day:'numeric',month:'short'});
+      const endLbl   = new Date(y1,m1-1,d1).toLocaleDateString('it-IT',{day:'numeric',month:'short',year:'numeric'});
+      document.getElementById('sWeekLabel').textContent = `${startLbl} – ${endLbl}`;
+
+      const chips = Array.from({length:7}, (_,i) => {
+        const dStr = addDays(sMonday, i);
+        const [yy,mm,dd] = dStr.split('-').map(Number);
+        const count = allPresenze.filter(p => p.data === dStr).length;
+        return `<button class="day-chip ${dStr===today?'today':''} ${count>0?'has-data':''}" data-date="${dStr}">
+          <span class="day-name">${DAY_SHORT[i]}</span>
+          <span class="day-num">${dd}</span>
+          ${count > 0 ? '<span class="day-dot"></span>' : ''}
+        </button>`;
+      }).join('');
+      document.getElementById('sChips').innerHTML = chips;
+
+      document.querySelectorAll('#sChips .day-chip').forEach(chip => {
+        chip.addEventListener('click', () => {
+          gDate = chip.dataset.date;
+          switchGSM('G');
+        });
+      });
+    }
+
+    // ── M view (month calendar) ───────────────────────────────
+    document.getElementById('mPrev').addEventListener('click', () => {
+      const [y,m] = mMonth.split('-').map(Number);
+      const dt = new Date(y,m-2,1);
+      mMonth = `${dt.getFullYear()}-${pad(dt.getMonth()+1)}`;
+      renderMView();
+    });
+    document.getElementById('mNext').addEventListener('click', () => {
+      const [y,m] = mMonth.split('-').map(Number);
+      const dt = new Date(y,m,1);
+      mMonth = `${dt.getFullYear()}-${pad(dt.getMonth()+1)}`;
+      renderMView();
+    });
+
+    function renderMView() {
+      const [y,m] = mMonth.split('-').map(Number);
+      document.getElementById('mMonthLabel').textContent = `${MONTH_NAMES[m-1]} ${y}`;
+      const firstDow = new Date(y,m-1,1).getDay()||7;
+      const lastDay  = new Date(y,m,0).getDate();
+      const today    = todayStr();
+
+      let calHTML = DAY_SHORT.map(d => `<div class="cal-hdr">${d}</div>`).join('');
+      for (let i = 1; i < firstDow; i++) calHTML += '<div class="cal-cell empty"></div>';
+      for (let d = 1; d <= lastDay; d++) {
+        const dStr  = `${y}-${pad(m)}-${pad(d)}`;
+        const count = allPresenze.filter(p => p.data === dStr).length;
+        const isToday = dStr === today;
+        calHTML += `<button class="cal-cell ${isToday?'today':''} ${count>0?'has-data':''}" data-date="${dStr}">
+          <span class="cal-day-num">${d}</span>
+          ${count > 0 ? '<span class="cal-dot"></span>' : ''}
+        </button>`;
+      }
+      document.getElementById('mCal').innerHTML = calHTML;
+
+      document.querySelectorAll('#mCal .cal-cell[data-date]').forEach(cell => {
+        cell.addEventListener('click', () => {
+          gDate = cell.dataset.date;
+          switchGSM('G');
+        });
+      });
     }
 
     // ── Stats ─────────────────────────────────────────────────
@@ -597,228 +766,38 @@
       document.getElementById('statMonth').textContent = allPresenze.filter(p => p.data.startsWith(mp)).length;
     }
 
-    // ── Daily box ─────────────────────────────────────────────
-    function renderDaily() {
+    // ── Greeting ──────────────────────────────────────────────
+    function setGreeting(nome) {
+      const h = new Date().getHours();
+      const g = h < 12 ? 'Buongiorno' : h < 18 ? 'Buon pomeriggio' : 'Buonasera';
       const today = todayStr();
-      document.getElementById('dailyDateLabel').textContent = longDate();
-      const rows = allPresenze.filter(p => p.data === today);
-      const cnt = rows.length;
-      document.getElementById('dailyCount').textContent =
-        cnt === 1 ? '1 presenza' : `${cnt} presenze`;
-
-      const list = document.getElementById('dailyList');
-      if (!cnt) {
-        list.innerHTML = '<div class="daily-empty">Nessuna presenza oggi</div>';
-        return;
-      }
-      list.innerHTML = rows.map(p => {
-        const active = !p.oraUscita;
-        const ini = initials(p.userName?.split(' ')[0], p.userName?.split(' ')[1]);
-        const timeStr = active
-          ? `Entrata ${fmtTime(p.oraEntrata)}`
-          : `${fmtTime(p.oraEntrata)} → ${fmtTime(p.oraUscita)} · ${calcDur(p.oraEntrata, p.oraUscita)}`;
-        return `<div class="daily-item">
-          <div class="daily-avatar">${ini}</div>
-          <div class="daily-info">
-            <div class="daily-name">${p.userName ?? '—'}</div>
-            <div class="daily-mans">${p.userMansione ?? ''}</div>
-            <div class="daily-times">${timeStr}</div>
-          </div>
-          <div class="daily-status">
-            ${active
-              ? `<div class="dot-active"></div><span class="status-label active">In attività</span>`
-              : `<div class="dot-done">✓</div><span class="status-label done">Completato</span>`}
-          </div>
-        </div>`;
-      }).join('');
+      document.getElementById('homeDate').textContent = longDate(today);
+      document.getElementById('homeGreeting').textContent = `${g}, ${nome}!`;
+      document.getElementById('homeSub').textContent = 'Benvenuto nel pannello admin.';
     }
-
-    // ── Storico: month filter ─────────────────────────────────
-    function buildMonthOptions() {
-      const months = [...new Set(allPresenze.map(p => p.data.slice(0,7)))].sort().reverse();
-      const sel = document.getElementById('filterMese');
-      const cur = sel.value;
-      sel.innerHTML = months.map(m => `<option value="${m}">${monthLabel(m)}</option>`).join('');
-      // default: current month if available, else first
-      if (cur && months.includes(cur)) sel.value = cur;
-      else if (months.includes(monthPrefix())) sel.value = monthPrefix();
-      else if (months.length) sel.value = months[0];
-    }
-
-    // ── Storico: bar chart ────────────────────────────────────
-    const BAR_COLORS = ['#2D6A4F','#40916C','#52B788','#74C69D','#95D5B2'];
-    const MANSIONI_ORDER = ['Cameriere','Cuoco/Aiutocuoco','Lavapiatti','Manager'];
-    const MANS_SHORT = { 'Cameriere':'Sala', 'Cuoco/Aiutocuoco':'Cucina', 'Lavapiatti':'Lavap.', 'Manager':'Manager' };
-
-    function renderStorico() {
-      const mp = document.getElementById('filterMese').value;
-      if (!mp) { document.getElementById('chartWrap').innerHTML = '<div class="chart-empty">Seleziona un mese</div>'; return; }
-
-      const rows = allPresenze.filter(p =>
-        p.data.startsWith(mp) && p.oraEntrata && p.oraUscita
-      );
-
-      if (!rows.length) {
-        document.getElementById('chartWrap').innerHTML = '<div class="chart-empty">Nessuna presenza completata in questo mese</div>';
-        document.getElementById('totaliSection').style.display = 'none';
-        return;
-      }
-
-      // Aggregate hours per user
-      const userMap = {};
-      rows.forEach(p => {
-        const key = p.userId || p.userName || p.id;
-        if (!userMap[key]) userMap[key] = { name: p.userName || '—', mansione: p.userMansione || '—', ms: 0 };
-        const ms = p.oraUscita.toDate() - p.oraEntrata.toDate();
-        if (ms > 0) userMap[key].ms += ms;
-      });
-
-      // Group by mansione (in order)
-      const grouped = {};
-      MANSIONI_ORDER.forEach(m => { grouped[m] = []; });
-      Object.values(userMap).forEach(u => {
-        if (!grouped[u.mansione]) grouped[u.mansione] = [];
-        grouped[u.mansione].push({ name: u.name, hours: u.ms / 3600000 });
-      });
-
-      const activeGroups = MANSIONI_ORDER.filter(m => grouped[m].length > 0);
-
-      // Draw chart
-      const BAR_W = 24, BAR_GAP = 4, GROUP_GAP = 28;
-      const PAD_L = 46, PAD_R = 16, PAD_T = 28, PAD_B = 48;
-      const SVG_H = 210;
-      const plotH = SVG_H - PAD_T - PAD_B;
-
-      const groupWidths = activeGroups.map(m => grouped[m].length * (BAR_W + BAR_GAP) - BAR_GAP);
-      const totalW = groupWidths.reduce((s,w) => s+w, 0) + (activeGroups.length-1)*GROUP_GAP;
-      const SVG_W = Math.max(PAD_L + totalW + PAD_R, 280);
-
-      let maxH = 0;
-      activeGroups.forEach(m => grouped[m].forEach(u => { if (u.hours > maxH) maxH = u.hours; }));
-      const yMax = Math.ceil(Math.max(maxH, 5) / 5) * 5;
-      const Y_STEPS = 5;
-
-      let svg = `<svg viewBox="0 0 ${SVG_W} ${SVG_H}" width="${SVG_W}" height="${SVG_H}" style="display:block">`;
-
-      // Y gridlines + labels
-      for (let i = 0; i <= Y_STEPS; i++) {
-        const val = (yMax / Y_STEPS) * i;
-        const y   = PAD_T + plotH - (val / yMax) * plotH;
-        svg += `<line x1="${PAD_L}" y1="${y.toFixed(1)}" x2="${SVG_W - PAD_R}" y2="${y.toFixed(1)}" stroke="${i===0?'#CED4DA':'#E9ECEF'}" stroke-width="${i===0?'1.5':'1'}"/>`;
-        svg += `<text x="${PAD_L-6}" y="${(y+4).toFixed(1)}" text-anchor="end" font-size="10" fill="#6C757D">${Math.round(val)}h</text>`;
-      }
-
-      // Y axis
-      svg += `<line x1="${PAD_L}" y1="${PAD_T}" x2="${PAD_L}" y2="${PAD_T+plotH}" stroke="#CED4DA" stroke-width="1.5"/>`;
-
-      // Bars
-      let xCursor = PAD_L + 10;
-      activeGroups.forEach((mans, gi) => {
-        const users = grouped[mans];
-        users.forEach((u, ui) => {
-          const barH = Math.max((u.hours / yMax) * plotH, 3);
-          const x    = xCursor + ui * (BAR_W + BAR_GAP);
-          const y    = PAD_T + plotH - barH;
-          const col  = BAR_COLORS[ui % BAR_COLORS.length];
-          const hFmt = formatHours(u.hours);
-          const firstName = u.name.split(' ')[0].slice(0, 6);
-          svg += `<rect class="chart-bar" x="${x.toFixed(1)}" y="${y.toFixed(1)}" width="${BAR_W}" height="${barH.toFixed(1)}" rx="5" fill="${col}" data-name="${esc(u.name)}" data-hours="${esc(hFmt)}" data-month="${esc(mp)}"/>`;
-          svg += `<text x="${(x+BAR_W/2).toFixed(1)}" y="${(y-5).toFixed(1)}" text-anchor="middle" font-size="9" fill="${col}" font-weight="700">${esc(firstName)}</text>`;
-        });
-
-        // Mansione label
-        const midX = xCursor + groupWidths[gi] / 2;
-        svg += `<text x="${midX.toFixed(1)}" y="${(PAD_T+plotH+17).toFixed(1)}" text-anchor="middle" font-size="10" fill="#495057" font-weight="700">${esc(MANS_SHORT[mans]||mans)}</text>`;
-
-        // Separator
-        if (gi < activeGroups.length - 1) {
-          const sepX = xCursor + groupWidths[gi] + GROUP_GAP/2;
-          svg += `<line x1="${sepX}" y1="${PAD_T+6}" x2="${sepX}" y2="${PAD_T+plotH}" stroke="#DEE2E6" stroke-width="1" stroke-dasharray="3,3"/>`;
-        }
-
-        xCursor += groupWidths[gi] + GROUP_GAP;
-      });
-
-      svg += '</svg>';
-
-      const wrap = document.getElementById('chartWrap');
-      wrap.innerHTML = svg;
-
-      // Click handlers
-      wrap.querySelectorAll('.chart-bar').forEach(bar => {
-        bar.style.cursor = 'pointer';
-        bar.addEventListener('click', () => showBarPopup(bar.dataset));
-      });
-
-      // Totali
-      const totali = {};
-      activeGroups.forEach(m => {
-        totali[m] = grouped[m].reduce((s, u) => s + u.hours, 0);
-      });
-      renderTotali(totali);
-    }
-
-    function renderTotali(totali) {
-      const section = document.getElementById('totaliSection');
-      const grid = document.getElementById('totaliGrid');
-      const entries = Object.entries(totali).filter(([,h]) => h > 0);
-      if (!entries.length) { section.style.display = 'none'; return; }
-      section.style.display = '';
-      grid.innerHTML = entries.map(([mans, hours]) => `
-        <div class="totali-chip">
-          <div class="totali-chip-dot"></div>
-          <span class="totali-chip-name">${MANS_SHORT[mans]||mans}</span>
-          <span class="totali-chip-val">${formatHours(hours)}</span>
-        </div>`).join('');
-    }
-
-    // ── Bar popup ─────────────────────────────────────────────
-    function showBarPopup({ name, hours, month }) {
-      const [y, m] = month.split('-').map(Number);
-      const last = lastDayOf(month);
-      const mNames = ['Gennaio','Febbraio','Marzo','Aprile','Maggio','Giugno',
-                      'Luglio','Agosto','Settembre','Ottobre','Novembre','Dicembre'];
-      const mName = mNames[m-1];
-      document.getElementById('barPopupText').innerHTML =
-        `<strong>${name}</strong> ha lavorato <strong>${hours}</strong><br>
-         dal <strong>1° ${mName}</strong> al <strong>${last} ${mName} ${y}</strong>`;
-      document.getElementById('barPopupOverlay').classList.add('open');
-    }
-    document.getElementById('barPopupClose').addEventListener('click', () => {
-      document.getElementById('barPopupOverlay').classList.remove('open');
-    });
-    document.getElementById('barPopupOverlay').addEventListener('click', e => {
-      if (e.target === document.getElementById('barPopupOverlay'))
-        document.getElementById('barPopupOverlay').classList.remove('open');
-    });
-
-    // ── Month filter ──────────────────────────────────────────
-    document.getElementById('filterMese').addEventListener('change', renderStorico);
 
     // ── Full render ───────────────────────────────────────────
     function fullRender() {
-      renderDaily();
       renderStats();
-      buildMonthOptions();
-      renderStorico();
+      if (activeGSM === 'G') renderGView();
+      if (activeGSM === 'S') renderSView();
+      if (activeGSM === 'M') renderMView();
     }
 
     // ── Orari ─────────────────────────────────────────────────
     const GIORNI = ['Lunedì','Martedì','Mercoledì','Giovedì','Venerdì','Sabato','Domenica'];
 
     function buildGiorni() {
-      document.getElementById('giorniGrid').innerHTML = GIORNI.map((g, i) => `
+      document.getElementById('giorniGrid').innerHTML = GIORNI.map((g,i) => `
         <div class="giorno-block">
           <div class="giorno-label">${g.slice(0,3)}</div>
-          <input type="time" id="gIn${i}" placeholder="Entrata">
-          <input type="time" id="gOut${i}" placeholder="Uscita">
-          <label class="giorno-off-label">
-            <input type="checkbox" id="gOff${i}"> Riposo
-          </label>
+          <input type="time" id="gIn${i}">
+          <input type="time" id="gOut${i}">
+          <label class="giorno-off-label"><input type="checkbox" id="gOff${i}"> Riposo</label>
         </div>`).join('');
-      GIORNI.forEach((_, i) => {
+      GIORNI.forEach((_,i) => {
         document.getElementById(`gOff${i}`).addEventListener('change', e => {
-          document.getElementById(`gIn${i}`).disabled = e.target.checked;
+          document.getElementById(`gIn${i}`).disabled  = e.target.checked;
           document.getElementById(`gOut${i}`).disabled = e.target.checked;
         });
       });
@@ -833,21 +812,17 @@
     }
 
     function openOrariModal() {
-      buildGiorni();
-      populateDipendenti();
-      const now = new Date();
-      const dow = now.getDay() || 7;
-      const mon = new Date(now); mon.setDate(now.getDate() - dow + 1);
-      document.getElementById('orariSettimana').value =
-        `${mon.getFullYear()}-${pad(mon.getMonth()+1)}-${pad(mon.getDate())}`;
+      buildGiorni(); populateDipendenti();
+      const now = new Date(), dow = now.getDay()||7;
+      const mon = new Date(now); mon.setDate(now.getDate()-dow+1);
+      document.getElementById('orariSettimana').value = `${mon.getFullYear()}-${pad(mon.getMonth()+1)}-${pad(mon.getDate())}`;
       document.getElementById('orariDipendente').value = '';
       document.getElementById('modalOrari').classList.add('open');
     }
 
     document.getElementById('fab').addEventListener('click', openOrariModal);
     document.getElementById('btnNewOrari').addEventListener('click', openOrariModal);
-    document.getElementById('cancelOrari').addEventListener('click', () =>
-      document.getElementById('modalOrari').classList.remove('open'));
+    document.getElementById('cancelOrari').addEventListener('click', () => document.getElementById('modalOrari').classList.remove('open'));
 
     document.getElementById('saveOrari').addEventListener('click', async () => {
       const userId = document.getElementById('orariDipendente').value;
@@ -855,42 +830,35 @@
       if (!userId || !settimana) { alert('Seleziona dipendente e settimana.'); return; }
       const btn = document.getElementById('saveOrari');
       btn.disabled = true; btn.textContent = 'Salvataggio…';
-      const turni = GIORNI.map((g, i) => ({
+      const turni = GIORNI.map((g,i) => ({
         giorno: g,
         off: document.getElementById(`gOff${i}`).checked,
-        entrata: document.getElementById(`gIn${i}`).value || null,
-        uscita:  document.getElementById(`gOut${i}`).value || null,
+        entrata: document.getElementById(`gIn${i}`).value||null,
+        uscita:  document.getElementById(`gOut${i}`).value||null,
       }));
       const user = allUsers.find(u => u.id === userId);
       try {
-        await addDoc(collection(db, 'orari'), {
+        await addDoc(collection(db,'orari'), {
           userId, userName: user ? `${user.nome} ${user.cognome}` : '',
-          settimana, turni,
-          createdAt: serverTimestamp(), createdBy: currentUser.uid,
+          settimana, turni, createdAt: serverTimestamp(), createdBy: currentUser.uid,
         });
         document.getElementById('modalOrari').classList.remove('open');
-      } catch (ex) { alert('Errore: ' + ex.message); }
+      } catch(ex) { alert('Errore: ' + ex.message); }
       btn.disabled = false; btn.textContent = 'Salva orari';
     });
 
     function renderOrari() {
       const list = document.getElementById('orariList');
-      if (!allOrari.length) {
-        list.innerHTML = '<div class="orari-empty">Nessun orario salvato</div>';
-        return;
-      }
+      if (!allOrari.length) { list.innerHTML = '<div class="orari-empty">Nessun orario salvato</div>'; return; }
       list.innerHTML = allOrari.map(o => {
         const user = allUsers.find(u => u.id === o.userId);
-        const name = user ? `${user.nome} ${user.cognome}` : (o.userName ?? '—');
-        const weekStart = o.settimana
-          ? new Date(o.settimana).toLocaleDateString('it-IT', {day:'numeric', month:'short'})
+        const name = user ? `${user.nome} ${user.cognome}` : (o.userName||'—');
+        const ws   = o.settimana
+          ? new Date(o.settimana).toLocaleDateString('it-IT',{day:'numeric',month:'short'})
           : '—';
         return `<div class="orario-item">
-          <div class="orari-mini-avatar">${initials(name.split(' ')[0], name.split(' ')[1])}</div>
-          <div>
-            <div class="orario-name">${name}</div>
-            <div class="orario-week">Settimana dal ${weekStart}</div>
-          </div>
+          <div class="orari-mini-av">${initials(name.split(' ')[0], name.split(' ')[1])}</div>
+          <div><div class="orario-name">${name}</div><div class="orario-week">Settimana dal ${ws}</div></div>
         </div>`;
       }).join('');
     }
@@ -900,70 +868,56 @@
       document.getElementById('profileMsg').textContent = '';
       document.getElementById('modalProfile').classList.add('open');
     });
-    document.getElementById('closeProfile').addEventListener('click', () =>
-      document.getElementById('modalProfile').classList.remove('open'));
+    document.getElementById('closeProfile').addEventListener('click', () => document.getElementById('modalProfile').classList.remove('open'));
     document.getElementById('btnResetPw').addEventListener('click', async () => {
       const msg = document.getElementById('profileMsg');
-      try {
-        await sendPasswordResetEmail(auth, currentUser.email);
-        msg.className = 'profile-msg ok';
-        msg.textContent = 'Email di reset inviata!';
-      } catch {
-        msg.className = 'profile-msg err';
-        msg.textContent = 'Errore invio email.';
-      }
+      try { await sendPasswordResetEmail(auth, currentUser.email); msg.className='profile-msg ok'; msg.textContent='Email inviata!'; }
+      catch { msg.className='profile-msg err'; msg.textContent='Errore invio.'; }
     });
-
-    // Close modals on overlay click
     ['modalOrari','modalProfile'].forEach(id => {
       document.getElementById(id).addEventListener('click', e => {
-        if (e.target === document.getElementById(id))
-          document.getElementById(id).classList.remove('open');
+        if (e.target === document.getElementById(id)) document.getElementById(id).classList.remove('open');
       });
     });
 
     // ── Auth ──────────────────────────────────────────────────
     onAuthStateChanged(auth, async user => {
       if (!user) { window.location.href = 'index.html'; return; }
-      const snap = await getDoc(doc(db, 'users', user.uid));
-      if (!snap.exists() || snap.data().ruolo !== 'admin') {
-        window.location.href = 'dashboard.html'; return;
-      }
+      const snap = await getDoc(doc(db,'users',user.uid));
+      if (!snap.exists() || snap.data().ruolo !== 'admin') { window.location.href = 'dashboard.html'; return; }
       currentUser = user;
       userData = snap.data();
 
-      const ini = initials(userData.nome, userData.cognome);
-      document.getElementById('avatarBtn').textContent = ini;
-      document.getElementById('profNome').textContent    = userData.nome    ?? '—';
-      document.getElementById('profCognome').textContent = userData.cognome ?? '—';
+      document.getElementById('avatarBtn').textContent = initials(userData.nome, userData.cognome);
+      document.getElementById('profNome').textContent    = userData.nome    || '—';
+      document.getElementById('profCognome').textContent = userData.cognome || '—';
       document.getElementById('profEmail').textContent   = user.email;
       setGreeting(userData.nome);
 
-      // Load users
-      const usersSnap = await getDocs(collection(db, 'users'));
-      allUsers = usersSnap.docs.map(d => ({id: d.id, ...d.data()}));
+      const usersSnap = await getDocs(collection(db,'users'));
+      allUsers = usersSnap.docs.map(d => ({id:d.id,...d.data()}));
 
-      // Listen to presenze
-      unsubPresenze = onSnapshot(query(collection(db, 'presenze')), snap => {
+      unsubPresenze = onSnapshot(query(collection(db,'presenze')), snap => {
         allPresenze = snap.docs
-          .map(d => ({id: d.id, ...d.data()}))
+          .map(d => ({id:d.id,...d.data()}))
           .filter(p => p.oraEntrata)
-          .sort((a, b) => b.oraEntrata.toDate() - a.oraEntrata.toDate());
+          .sort((a,b) => b.oraEntrata.toDate()-a.oraEntrata.toDate());
         fullRender();
       });
 
-      // Listen to orari
-      unsubOrari = onSnapshot(query(collection(db, 'orari')), snap => {
+      unsubOrari = onSnapshot(query(collection(db,'orari')), snap => {
         allOrari = snap.docs
-          .map(d => ({id: d.id, ...d.data()}))
-          .sort((a, b) => (b.createdAt?.toDate()||0) - (a.createdAt?.toDate()||0));
+          .map(d => ({id:d.id,...d.data()}))
+          .sort((a,b) => (b.createdAt?.toDate()||0)-(a.createdAt?.toDate()||0));
         renderOrari();
       });
+
+      renderGView();
     });
 
     document.getElementById('logoutBtn').addEventListener('click', async () => {
       if (unsubPresenze) unsubPresenze();
-      if (unsubOrari) unsubOrari();
+      if (unsubOrari)    unsubOrari();
       await signOut(auth);
       window.location.href = 'index.html';
     });
