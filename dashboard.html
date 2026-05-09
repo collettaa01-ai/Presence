@@ -12,171 +12,224 @@
   <link rel="stylesheet" href="css/style.css">
   <style>
     *, *::before, *::after { box-sizing: border-box; }
-    body {
-      min-height: 100vh; display: flex; flex-direction: column;
-      align-items: center; justify-content: flex-start;
-      padding: 32px 16px; background: var(--bg);
-    }
-    @media (max-width: 600px) { body { padding: 0; } }
+    body { background: var(--bg); overflow-x: hidden; }
 
-    .main-box {
-      width: 100%; max-width: 750px; background: white;
-      border-radius: 20px; box-shadow: var(--shadow); overflow: hidden;
+    /* ── Header ── */
+    .header {
+      background: var(--primary); color: white; padding: 14px 20px;
+      display: flex; align-items: center; justify-content: space-between;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+      position: sticky; top: 0; z-index: 50;
     }
-    @media (max-width: 600px) { .main-box { border-radius: 0; min-height: 100vh; box-shadow: none; } }
-
-    .box-header {
-      background: var(--primary); color: white;
-      padding: 16px 20px;
-      display: flex; align-items: center; justify-content: space-between; gap: 12px;
-    }
-    .header-left h2   { font-size: 1rem; font-weight: 700; }
-    .header-left .sub { font-size: 0.8rem; opacity: 0.8; margin-top: 1px; }
+    .header-left h1   { font-size: 1rem; font-weight: 700; }
+    .header-left .sub { font-size: 0.78rem; opacity: 0.82; margin-top: 1px; }
     .header-right { display: flex; align-items: center; gap: 10px; }
-    .btn-logout {
-      background: rgba(255,255,255,0.18); color: white;
-      border: 1px solid rgba(255,255,255,0.35); border-radius: 8px;
-      padding: 6px 12px; font-size: 0.82rem; font-weight: 600; cursor: pointer;
-    }
-    .btn-avatar {
+    .avatar-btn {
       width: 36px; height: 36px; border-radius: 50%;
-      background: rgba(255,255,255,0.25); border: 2px solid rgba(255,255,255,0.5);
-      color: white; font-size: 0.8rem; font-weight: 700;
-      cursor: pointer; display: flex; align-items: center; justify-content: center;
-      flex-shrink: 0; transition: background 0.2s;
+      background: rgba(255,255,255,0.22); color: white;
+      border: 1.5px solid rgba(255,255,255,0.45);
+      font-size: 0.8rem; font-weight: 700; cursor: pointer;
+      display: flex; align-items: center; justify-content: center;
+      transition: background 0.2s; flex-shrink: 0;
     }
-    .btn-avatar:hover { background: rgba(255,255,255,0.35); }
+    .avatar-btn:hover { background: rgba(255,255,255,0.35); }
 
-    /* Tabs */
-    .tab-nav { display: flex; border-bottom: 2px solid var(--border); }
-    .tab-nav-btn {
-      flex: 1; padding: 14px; background: none; border: none;
-      border-bottom: 3px solid transparent; margin-bottom: -2px;
-      cursor: pointer; font-size: 0.95rem; font-weight: 600;
-      color: var(--text-muted); transition: color 0.2s; min-height: 50px;
+    /* ── Page ── */
+    .page { max-width: 720px; margin: 0 auto; padding: 20px 16px 120px; }
+
+    /* ── G/S/M ── */
+    .gsm-bar { display: flex; gap: 6px; margin-bottom: 20px; }
+    .gsm-pill {
+      flex: 1; padding: 8px 4px; border: none; border-radius: 10px;
+      background: white; box-shadow: var(--shadow);
+      font-size: 0.85rem; font-weight: 700; color: var(--text-muted);
+      cursor: pointer; transition: all 0.18s;
     }
-    .tab-nav-btn.active { color: var(--primary); border-bottom-color: var(--primary); }
+    .gsm-pill.active { background: var(--primary); color: white; }
 
-    .tab-pane { display: none; padding: 20px; }
-    .tab-pane.active { display: block; }
-    @media (max-width: 600px) { .tab-pane { padding: 14px; padding-bottom: 96px; } }
+    /* ── Date nav ── */
+    .g-date-nav {
+      display: flex; align-items: center; justify-content: space-between;
+      margin-bottom: 16px; gap: 8px;
+    }
+    .g-date-label {
+      flex: 1; text-align: center; font-size: 0.92rem; font-weight: 700;
+      color: var(--text); text-transform: capitalize;
+    }
+    .nav-arrow {
+      width: 36px; height: 36px; border-radius: 10px;
+      border: 1.5px solid var(--border); background: white;
+      font-size: 1.1rem; cursor: pointer; display: flex; align-items: center; justify-content: center;
+      color: var(--text); transition: background 0.15s; flex-shrink: 0;
+    }
+    .nav-arrow:hover { background: var(--bg); }
 
-    .box-toolbar { display: flex; align-items: center; justify-content: space-between; margin-bottom: 16px; }
-    .box-toolbar h3 { font-size: 1rem; font-weight: 700; }
+    /* ── Turno section ── */
+    .turno-section { background: white; border-radius: 16px; box-shadow: var(--shadow); overflow: hidden; margin-bottom: 16px; }
+    .turno-head {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 14px 16px 12px; border-bottom: 1px solid var(--border);
+    }
+    .turno-tag { font-size: 0.88rem; font-weight: 700; padding: 4px 12px; border-radius: 20px; display: inline-block; }
+    .turno-tag.pranzo { background: #FFF3CD; color: #856404; }
+    .turno-tag.cena   { background: #E8D5F5; color: #5B2C8D; }
+    .turno-live  { display: flex; align-items: center; gap: 5px; }
+    .live-txt    { font-size: 0.75rem; font-weight: 700; color: var(--primary); }
+    .turno-done-badge { font-size: 0.75rem; font-weight: 700; color: var(--text-muted); }
+    .turno-empty { padding: 28px; text-align: center; color: var(--text-muted); font-size: 0.85rem; }
 
-    .btn-fab {
-      display: flex; align-items: center; gap: 8px;
+    /* ── Turno table ── */
+    .turno-table-wrap { overflow-x: auto; }
+    .turno-table { width: 100%; border-collapse: collapse; font-size: 0.88rem; }
+    .turno-table th {
+      padding: 9px 12px; text-align: left; font-size: 0.7rem; font-weight: 700;
+      text-transform: uppercase; letter-spacing: 0.4px; color: var(--text-muted);
+      border-bottom: 2px solid var(--border);
+    }
+    .turno-table td { padding: 10px 12px; border-bottom: 1px solid var(--border); vertical-align: middle; }
+    .turno-table tbody tr:last-child td { border-bottom: none; }
+    .mans-cell {
+      border-right: 2px solid var(--border) !important;
+      min-width: 110px; vertical-align: top !important; padding: 12px !important;
+    }
+    .mans-name { font-size: 0.85rem; font-weight: 700; color: var(--text); margin-bottom: 5px; }
+    .mans-status { display: flex; align-items: center; gap: 4px; font-size: 0.72rem; }
+    .mans-status.going { color: var(--primary); }
+    .mans-status.done  { color: var(--text-muted); }
+    .check-badge { font-size: 0.82rem; color: var(--primary-light); font-weight: 700; }
+    .mans-cell.mans-going { background: rgba(82,183,136,0.05); }
+    .mans-cell.mans-done  { background: #FAFAFA; }
+    .user-cell  { display: flex; align-items: center; gap: 7px; font-weight: 600; font-size: 0.88rem; }
+    .check-user { color: var(--primary-light); font-size: 0.8rem; font-weight: 700; }
+    .time-cell  { font-size: 0.88rem; color: var(--text); }
+
+    /* Actions col (edit/delete for user's own rows) */
+    .action-btns { white-space: nowrap; }
+    .btn-edit-sm, .btn-del-sm {
+      border: none; border-radius: 6px; padding: 4px 9px;
+      font-size: 0.73rem; font-weight: 600; cursor: pointer; transition: opacity 0.15s;
+    }
+    .btn-edit-sm { background: #EBF5FB; color: #2E86C1; margin-right: 4px; }
+    .btn-del-sm  { background: #FDEDED; color: var(--danger); }
+    .btn-edit-sm:hover, .btn-del-sm:hover { opacity: 0.7; }
+
+    /* Dots */
+    .dot-active {
+      display: inline-block; width: 9px; height: 9px; border-radius: 50%;
+      background: var(--primary-light); animation: pulse 2s infinite; flex-shrink: 0;
+    }
+    .dot-sm-pulse {
+      display: inline-block; width: 7px; height: 7px; border-radius: 50%;
+      background: var(--primary-light); animation: pulse 2s infinite; flex-shrink: 0;
+    }
+    .dot-user-pulse {
+      display: inline-block; width: 8px; height: 8px; border-radius: 50%;
+      background: var(--primary-light); animation: pulse 2s infinite; flex-shrink: 0;
+    }
+    @keyframes pulse {
+      0%,100% { box-shadow: 0 0 0 2px rgba(82,183,136,0.3); }
+      50%      { box-shadow: 0 0 0 5px rgba(82,183,136,0.12); }
+    }
+    .dots-anim span { display: inline-block; animation: dotFade 1.5s infinite; opacity: 0; }
+    .dots-anim span:nth-child(1) { animation-delay: 0s; }
+    .dots-anim span:nth-child(2) { animation-delay: 0.3s; }
+    .dots-anim span:nth-child(3) { animation-delay: 0.6s; }
+    @keyframes dotFade { 0%,60%,100% { opacity:0; } 30% { opacity:1; } }
+
+    /* ── Mobile cards ── */
+    .turno-mobile { display: none; padding: 4px 0; }
+    .mobile-mans-block { border-bottom: 1px solid var(--border); }
+    .mobile-mans-block:last-child { border-bottom: none; }
+    .mobile-mans-hdr { display: flex; align-items: center; justify-content: space-between; padding: 11px 16px; background: #FAFAFA; }
+    .mobile-mans-hdr.going { background: rgba(82,183,136,0.06); }
+    .mobile-mans-hdr-name { font-size: 0.85rem; font-weight: 700; color: var(--text); }
+    .mobile-user-row { display: flex; align-items: center; justify-content: space-between; padding: 10px 16px; border-top: 1px solid var(--border); }
+    .mobile-user-left { display: flex; align-items: center; gap: 7px; }
+    .mobile-user-name { font-size: 0.88rem; font-weight: 600; }
+    .mobile-times { font-size: 0.82rem; color: var(--text-muted); display: flex; align-items: center; gap: 4px; }
+    .mobile-row-actions { display: flex; gap: 6px; margin-top: 6px; }
+    @media (max-width: 620px) {
+      .turno-table-wrap { display: none; }
+      .turno-mobile     { display: block; }
+    }
+
+    /* ── S view ── */
+    .week-nav, .month-nav {
+      display: flex; align-items: center; justify-content: space-between;
+      margin-bottom: 16px; gap: 8px;
+    }
+    .week-label, .month-label {
+      flex: 1; text-align: center; font-size: 0.92rem; font-weight: 700;
+      color: var(--text); text-transform: capitalize;
+    }
+    .day-chips { display: grid; grid-template-columns: repeat(7, 1fr); gap: 6px; margin-bottom: 14px; }
+    .day-chip {
+      border: 1.5px solid var(--border); border-radius: 12px;
+      padding: 8px 4px; background: white; cursor: pointer;
+      display: flex; flex-direction: column; align-items: center; gap: 4px;
+      transition: all 0.15s; position: relative;
+    }
+    .day-chip:hover  { border-color: var(--primary); }
+    .day-chip.today  { border-color: var(--primary); background: var(--accent); }
+    .day-name { font-size: 0.62rem; font-weight: 700; text-transform: uppercase; color: var(--text-muted); }
+    .day-num  { font-size: 1rem; font-weight: 600; color: var(--text); }
+    .day-chip.has-data .day-num { color: var(--primary); }
+    .day-dot  { width: 6px; height: 6px; border-radius: 50%; background: var(--primary-light); }
+
+    /* ── M view ── */
+    .cal-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 4px; margin-bottom: 14px; }
+    .cal-hdr  { text-align: center; font-size: 0.62rem; font-weight: 700; text-transform: uppercase; color: var(--text-muted); padding: 4px 0 6px; }
+    .cal-cell {
+      aspect-ratio: 1; border: 1.5px solid transparent; border-radius: 10px;
+      background: transparent; cursor: pointer;
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
+      gap: 2px; font-size: 0.82rem; font-weight: 500; color: var(--text);
+      transition: all 0.15s; padding: 0;
+    }
+    .cal-cell:not(.empty):hover { border-color: var(--primary); background: var(--accent); }
+    .cal-cell.today { background: var(--primary); color: white; border-color: var(--primary); }
+    .cal-cell.today .cal-dot { background: rgba(255,255,255,0.7); }
+    .cal-cell.has-data { font-weight: 700; }
+    .cal-cell.empty { cursor: default; }
+    .cal-dot     { width: 5px; height: 5px; border-radius: 50%; background: var(--primary-light); }
+    .cal-day-num { font-size: 0.82rem; }
+    .nav-hint { text-align: center; font-size: 0.78rem; color: var(--text-muted); margin-top: 4px; }
+
+    /* ── FAB ── */
+    .fab {
+      position: fixed; bottom: 24px; right: 20px;
       background: linear-gradient(135deg, #52B788, #2D6A4F);
       color: white; border: none; border-radius: 50px;
-      padding: 9px 18px 9px 12px; font-size: 0.88rem; font-weight: 700;
-      cursor: pointer; box-shadow: 0 4px 14px rgba(45,106,79,0.35);
-      transition: transform 0.2s, box-shadow 0.2s; white-space: nowrap;
+      padding: 14px 22px 14px 16px; font-size: 0.95rem; font-weight: 700;
+      cursor: pointer; z-index: 45;
+      box-shadow: 0 4px 18px rgba(45,106,79,0.4);
+      display: flex; align-items: center; gap: 8px;
+      transition: transform 0.2s, box-shadow 0.2s;
     }
-    .btn-fab:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(45,106,79,0.45); }
+    .fab:hover { transform: translateY(-2px); box-shadow: 0 6px 22px rgba(45,106,79,0.5); }
     .fab-circle {
       width: 24px; height: 24px; background: rgba(255,255,255,0.25); border-radius: 50%;
-      display: flex; align-items: center; justify-content: center; font-size: 1.2rem; line-height: 1;
-    }
-    @media (max-width: 600px) {
-      .btn-fab {
-        position: fixed; bottom: 22px; right: 18px; z-index: 50;
-        padding: 13px 22px 13px 16px; font-size: 0.95rem;
-        box-shadow: 0 6px 22px rgba(45,106,79,0.45);
-      }
+      display: flex; align-items: center; justify-content: center; font-size: 1.2rem;
     }
 
-    /* Badge turno */
-    .badge-turno {
-      display: inline-block; padding: 2px 9px; border-radius: 20px;
-      font-size: 0.7rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.3px;
-    }
-    .badge-turno.pranzo { background: #FFF3CD; color: #856404; }
-    .badge-turno.cena   { background: #E8D5F5; color: #5B2C8D; }
-
-    /* Table */
-    table { width: 100%; border-collapse: collapse; font-size: 0.9rem; }
-    thead tr { border-bottom: 2px solid var(--border); }
-    th { padding: 10px 12px; text-align: left; font-size: 0.72rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; color: var(--text-muted); }
-    td { padding: 12px; border-bottom: 1px solid var(--border); }
-    tbody tr:last-child td { border-bottom: none; }
-    tbody tr:hover td { background: var(--bg); }
-    .ore-cell { font-weight: 700; color: var(--primary); }
-    .actions-cell { white-space: nowrap; text-align: right; }
-    .btn-edit, .btn-del {
-      border: none; border-radius: 6px; padding: 5px 10px;
-      font-size: 0.76rem; font-weight: 600; cursor: pointer; transition: opacity 0.15s;
-    }
-    .btn-edit { background: #EBF5FB; color: #2E86C1; margin-right: 5px; }
-    .btn-del  { background: #FDEDED; color: var(--danger); }
-    .btn-edit:hover, .btn-del:hover { opacity: 0.7; }
-
-    @media (max-width: 600px) {
-      table thead { display: none; }
-      table tbody tr {
-        display: block; background: white; border: 1px solid var(--border);
-        border-radius: 14px; margin-bottom: 10px; padding: 4px 16px;
-        box-shadow: 0 1px 5px rgba(0,0,0,0.06);
-      }
-      table tbody tr.empty-row { box-shadow: none; border: none; background: none; }
-      table tbody td {
-        display: flex; justify-content: space-between; align-items: center;
-        padding: 11px 0; border-bottom: 1px solid var(--border); font-size: 0.9rem;
-      }
-      table tbody td:last-child { border-bottom: none; }
-      table tbody td[data-label]::before {
-        content: attr(data-label); font-weight: 600; color: var(--text-muted);
-        font-size: 0.76rem; text-transform: uppercase; letter-spacing: 0.3px;
-        flex-shrink: 0; margin-right: 10px;
-      }
-      .actions-cell { justify-content: flex-end; }
-      .btn-edit, .btn-del { padding: 8px 14px; font-size: 0.82rem; }
-    }
-
-    .total-bar {
-      display: flex; justify-content: space-between; align-items: center;
-      background: var(--accent); border-radius: 10px;
-      padding: 13px 14px; margin-top: 14px;
-      font-weight: 700; color: var(--primary-dark); font-size: 0.92rem;
-    }
-    .empty-row td { text-align: center; color: var(--text-muted); padding: 36px; font-size: 0.9rem; }
-    @media (max-width: 600px) {
-      .empty-row { display: block !important; }
-      .empty-row td { display: block !important; border: none; }
-    }
-
-    /* Storico */
-    .storico-month { margin-bottom: 26px; }
-    .storico-month:last-child { margin-bottom: 0; }
-    .storico-header {
-      display: flex; align-items: center; justify-content: space-between;
-      background: var(--accent); border-radius: 10px; padding: 11px 16px; margin-bottom: 10px;
-    }
-    .storico-month-name { font-size: 0.98rem; font-weight: 700; color: var(--primary-dark); text-transform: capitalize; }
-    .storico-total { font-size: 0.82rem; font-weight: 700; color: var(--primary); background: white; border-radius: 20px; padding: 4px 12px; white-space: nowrap; }
-
-    /* Modal */
+    /* ── Modals ── */
     .modal-overlay {
       display: none; position: fixed; inset: 0;
-      background: rgba(0,0,0,0.45); z-index: 100;
-      align-items: center; justify-content: center; padding: 16px;
+      background: rgba(0,0,0,0.5); z-index: 100;
+      align-items: flex-end; justify-content: center; padding: 0;
     }
-    .modal-overlay.open { display: flex; animation: overlayIn 0.2s ease-out; }
-    .modal-overlay.open .modal { animation: modalIn 0.28s cubic-bezier(0.34,1.56,0.64,1); }
-    @keyframes overlayIn { from { opacity: 0; } to { opacity: 1; } }
-    @keyframes modalIn { from { opacity:0; transform:translateY(28px) scale(0.95); } to { opacity:1; transform:translateY(0) scale(1); } }
-    @media (max-width: 600px) {
-      .modal-overlay { align-items: flex-end; padding: 0; overflow: hidden; }
-      .modal-overlay.open .modal { animation: sheetIn 0.3s cubic-bezier(0.25,1,0.5,1); }
-      @keyframes sheetIn { from { transform: translateY(100%); } to { transform: translateY(0); } }
-      .modal { border-radius: 22px 22px 0 0 !important; max-width: 100% !important; padding-bottom: 36px !important; width: 100% !important; }
-    }
+    .modal-overlay.open { display: flex; }
+    @media (min-width: 600px) { .modal-overlay { align-items: center; padding: 20px; } }
     .modal {
-      background: white; border-radius: 18px; padding: 26px;
-      width: 100%; max-width: 400px; box-shadow: 0 12px 40px rgba(0,0,0,0.18);
+      background: white; border-radius: 20px 20px 0 0;
+      width: 100%; max-height: 90vh; overflow-y: auto;
+      padding: 24px 20px 32px; animation: slideUp 0.25s ease;
     }
-    .modal-handle { display: none; width: 36px; height: 4px; background: var(--border); border-radius: 4px; margin: 0 auto 16px; }
-    @media (max-width: 600px) { .modal-handle { display: block; } }
-    .modal-title { font-size: 1.1rem; font-weight: 700; margin-bottom: 18px; }
+    @media (min-width: 600px) { .modal { border-radius: 18px; max-width: 420px; max-height: 85vh; } }
+    @keyframes slideUp { from { transform:translateY(40px); opacity:0; } to { transform:translateY(0); opacity:1; } }
+    .modal-handle { width: 40px; height: 4px; background: var(--border); border-radius: 4px; margin: 0 auto 20px; }
+    @media (min-width: 600px) { .modal-handle { display: none; } }
+    .modal-title  { font-size: 1.1rem; font-weight: 700; color: var(--text); margin-bottom: 20px; }
 
     /* Turno pills */
     .turno-pills { display: flex; gap: 8px; margin-bottom: 2px; }
@@ -188,13 +241,13 @@
     .turno-pill.sel-pranzo { border-color: #F4A261; background: #FFF3CD; color: #856404; }
     .turno-pill.sel-cena   { border-color: #9B59B6; background: #E8D5F5; color: #5B2C8D; }
 
-    .form-group { display: flex; flex-direction: column; gap: 5px; margin-bottom: 13px; }
-    .form-group label { font-size: 0.84rem; font-weight: 600; color: var(--text-muted); }
+    .form-group { display: flex; flex-direction: column; gap: 5px; margin-bottom: 12px; }
+    .form-group label { font-size: 0.78rem; font-weight: 700; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.4px; }
     .form-group input, .form-group select {
       width: 100%; padding: 12px 14px;
-      border: 1.5px solid var(--border); border-radius: 8px;
-      font-size: 1rem; background: var(--bg); min-height: 48px;
-      -webkit-appearance: none;
+      border: 1.5px solid var(--border); border-radius: 10px;
+      font-size: 0.95rem; background: var(--bg); color: var(--text); -webkit-appearance: none;
+      min-height: 48px;
     }
     .form-group input:focus, .form-group select:focus { outline: none; border-color: var(--primary); }
     .form-group select {
@@ -203,9 +256,8 @@
     }
     .modal-actions { display: flex; gap: 10px; margin-top: 18px; }
     .btn-cancel {
-      flex: 1; padding: 13px; background: var(--bg);
-      border: 1.5px solid var(--border); border-radius: 10px;
-      cursor: pointer; font-size: 0.95rem; font-weight: 600;
+      flex: 1; padding: 13px; background: var(--bg); border: 1.5px solid var(--border);
+      border-radius: 10px; cursor: pointer; font-size: 0.95rem; font-weight: 600;
       color: var(--text-muted); min-height: 48px;
     }
     .btn-save {
@@ -217,75 +269,79 @@
     .btn-save:disabled { opacity: 0.6; cursor: not-allowed; }
     .btn-confirm-del {
       flex: 1; padding: 13px; background: var(--danger); color: white;
-      border: none; border-radius: 10px; cursor: pointer;
-      font-size: 0.95rem; font-weight: 600; min-height: 48px;
+      border: none; border-radius: 10px; cursor: pointer; font-size: 0.95rem; font-weight: 600; min-height: 48px;
     }
     .confirm-text { color: var(--text-muted); font-size: 0.92rem; line-height: 1.55; }
-    .error-msg { color: var(--danger); font-size: 0.84rem; min-height: 18px; margin-top: 4px; }
+    .error-msg    { color: var(--danger); font-size: 0.84rem; min-height: 18px; margin-top: 4px; }
 
     /* Profile */
     .profile-info-row { display: flex; justify-content: space-between; align-items: center; padding: 12px 0; border-bottom: 1px solid var(--border); }
     .profile-info-row:last-of-type { border-bottom: none; }
     .profile-info-label { font-size: 0.8rem; font-weight: 600; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.3px; }
     .profile-info-value { font-size: 0.95rem; font-weight: 500; color: var(--text); }
-    .profile-avatar-big {
-      width: 64px; height: 64px; border-radius: 50%;
-      background: var(--primary); color: white;
-      display: flex; align-items: center; justify-content: center;
-      font-size: 1.4rem; font-weight: 700; margin: 0 auto 16px;
-    }
-    .btn-reset-pw {
-      width: 100%; padding: 13px; margin-top: 16px;
-      background: var(--bg); border: 1.5px solid var(--border);
-      border-radius: 10px; cursor: pointer; font-size: 0.95rem; font-weight: 600;
-      color: var(--text); transition: background 0.2s;
-    }
+    .profile-avatar-big { width: 64px; height: 64px; border-radius: 50%; background: var(--primary); color: white; display: flex; align-items: center; justify-content: center; font-size: 1.4rem; font-weight: 700; margin: 0 auto 16px; }
+    .btn-reset-pw { width: 100%; padding: 13px; margin-top: 16px; background: var(--bg); border: 1.5px solid var(--border); border-radius: 10px; cursor: pointer; font-size: 0.95rem; font-weight: 600; color: var(--text); transition: background 0.2s; }
     .btn-reset-pw:hover { background: var(--border); }
     .success-msg { color: var(--primary); font-size: 0.84rem; text-align: center; margin-top: 8px; }
   </style>
 </head>
 <body>
 
-  <div class="main-box">
-    <div class="box-header">
-      <div class="header-left">
-        <h2 id="headerName">…</h2>
-        <div class="sub" id="headerMansione"></div>
-      </div>
-      <div class="header-right">
-        <button class="btn-avatar" id="profileBtn"></button>
-        <button class="btn-logout" id="logoutBtn">Esci</button>
-      </div>
+  <!-- Header -->
+  <div class="header">
+    <div class="header-left">
+      <h1 id="headerName">…</h1>
+      <div class="sub" id="headerMansione"></div>
     </div>
-
-    <div class="tab-nav">
-      <button class="tab-nav-btn active" data-tab="presenza">Presenza</button>
-      <button class="tab-nav-btn"        data-tab="storico">Storico</button>
-    </div>
-
-    <div id="tab-presenza" class="tab-pane active">
-      <div class="box-toolbar">
-        <h3 id="presenzaTitle">Questo mese</h3>
-        <button class="btn-fab" id="openModalBtn"><span class="fab-circle">+</span>Aggiungi</button>
-      </div>
-      <table>
-        <thead>
-          <tr><th>Giorno</th><th>Turno</th><th>Entrata</th><th>Uscita</th><th>Ore</th><th></th></tr>
-        </thead>
-        <tbody id="presenceTable">
-          <tr class="empty-row"><td colspan="6">Caricamento…</td></tr>
-        </tbody>
-      </table>
-      <div class="total-bar">
-        <span id="monthLabel">Totale mese</span>
-        <span id="monthTotal" style="color:var(--primary)">—</span>
-      </div>
-    </div>
-
-    <div id="tab-storico" class="tab-pane">
-      <div id="storicoContent"><p style="text-align:center;color:var(--text-muted);padding:36px">Caricamento…</p></div>
+    <div class="header-right">
+      <button class="avatar-btn" id="profileBtn"></button>
+      <button class="btn-logout" id="logoutBtn">Esci</button>
     </div>
   </div>
+
+  <div class="page">
+    <!-- G/S/M pills -->
+    <div class="gsm-bar">
+      <button class="gsm-pill active" data-gsm="G">G</button>
+      <button class="gsm-pill"        data-gsm="S">S</button>
+      <button class="gsm-pill"        data-gsm="M">M</button>
+    </div>
+
+    <!-- G view -->
+    <div id="viewG">
+      <div class="g-date-nav">
+        <button class="nav-arrow" id="gPrev">‹</button>
+        <div class="g-date-label" id="gDateLabel"></div>
+        <button class="nav-arrow" id="gNext">›</button>
+      </div>
+      <div id="gContent"></div>
+    </div>
+
+    <!-- S view -->
+    <div id="viewS" style="display:none">
+      <div class="week-nav">
+        <button class="nav-arrow" id="sPrev">‹</button>
+        <div class="week-label" id="sWeekLabel"></div>
+        <button class="nav-arrow" id="sNext">›</button>
+      </div>
+      <div class="day-chips" id="sChips"></div>
+      <p class="nav-hint">Tocca un giorno per vedere le presenze</p>
+    </div>
+
+    <!-- M view -->
+    <div id="viewM" style="display:none">
+      <div class="month-nav">
+        <button class="nav-arrow" id="mPrev">‹</button>
+        <div class="month-label" id="mMonthLabel"></div>
+        <button class="nav-arrow" id="mNext">›</button>
+      </div>
+      <div class="cal-grid" id="mCal"></div>
+      <p class="nav-hint">Tocca un giorno per vedere le presenze</p>
+    </div>
+  </div>
+
+  <!-- FAB -->
+  <button class="fab" id="openModalBtn"><span class="fab-circle">+</span>Aggiungi</button>
 
   <!-- Modal aggiungi/modifica -->
   <div class="modal-overlay" id="modalOverlay">
@@ -293,16 +349,14 @@
       <div class="modal-handle"></div>
       <div class="modal-title" id="modalTitle">Aggiungi Presenza</div>
       <form id="addForm">
-        <!-- Turno pills -->
         <div class="form-group">
           <label>Turno</label>
           <div class="turno-pills">
-            <button type="button" class="turno-pill" id="pillPranzo" data-val="pranzo">☀️ Pranzo</button>
-            <button type="button" class="turno-pill" id="pillCena"   data-val="cena">🌙 Cena</button>
+            <button type="button" class="turno-pill" id="pillPranzo">☀️ Pranzo</button>
+            <button type="button" class="turno-pill" id="pillCena">🌙 Cena</button>
           </div>
           <input type="hidden" id="addTurno">
         </div>
-        <!-- Mansione -->
         <div class="form-group">
           <label>Mansione</label>
           <select id="addMansione" required>
@@ -313,16 +367,13 @@
             <option value="Manager">Manager</option>
           </select>
         </div>
-        <!-- Data -->
         <div class="form-group"><label>Data</label><input type="date" id="addData" required></div>
-        <!-- Ora entrata -->
         <div class="form-group"><label>Ora entrata</label><input type="time" id="addEntrata" required></div>
-        <!-- Ora uscita -->
         <div class="form-group"><label>Ora uscita <span style="font-weight:400">(opzionale)</span></label><input type="time" id="addUscita"></div>
         <div id="addError" class="error-msg"></div>
         <div class="modal-actions">
           <button type="button" class="btn-cancel" id="closeModalBtn">Annulla</button>
-          <button type="submit" class="btn-save"   id="saveBtn">Salva</button>
+          <button type="submit" class="btn-save" id="saveBtn">Salva</button>
         </div>
       </form>
     </div>
@@ -333,7 +384,7 @@
     <div class="modal">
       <div class="modal-handle"></div>
       <div class="modal-title">Elimina presenza</div>
-      <p class="confirm-text">Sei sicuro di voler eliminare questa presenza? L'operazione non è reversibile.</p>
+      <p class="confirm-text">Sei sicuro di voler eliminare questa presenza?</p>
       <div class="modal-actions" style="margin-top:20px">
         <button class="btn-cancel"      id="confirmCancel">Annulla</button>
         <button class="btn-confirm-del" id="confirmOk">Sì, elimina</button>
@@ -348,14 +399,8 @@
       <div class="profile-avatar-big" id="profileAvatar"></div>
       <div class="modal-title" style="text-align:center;margin-bottom:4px" id="profileName"></div>
       <div style="text-align:center;color:var(--text-muted);font-size:0.85rem;margin-bottom:18px" id="profileMansione"></div>
-      <div class="profile-info-row">
-        <span class="profile-info-label">Email</span>
-        <span class="profile-info-value" id="profileEmail"></span>
-      </div>
-      <div class="profile-info-row">
-        <span class="profile-info-label">Password</span>
-        <span class="profile-info-value">••••••••</span>
-      </div>
+      <div class="profile-info-row"><span class="profile-info-label">Email</span><span class="profile-info-value" id="profileEmail"></span></div>
+      <div class="profile-info-row"><span class="profile-info-label">Password</span><span class="profile-info-value">••••••••</span></div>
       <button class="btn-reset-pw" id="resetPwBtn">Reimposta password via email</button>
       <div id="resetMsg" class="success-msg"></div>
       <div class="modal-actions" style="margin-top:12px">
@@ -374,225 +419,355 @@
 
     if ('serviceWorker' in navigator) navigator.serviceWorker.register('sw.js').catch(() => {});
 
-    let currentUser = null, userData = null;
-    let editId = null, deleteId = null, allShifts = [];
+    // ── Helpers ───────────────────────────────────────────────
+    const pad      = x => String(x).padStart(2,'0');
+    const initials = (n,c) => ((n||'')[0]||'').toUpperCase()+((c||'')[0]||'').toUpperCase();
+    const fmtTime  = ts => ts ? ts.toDate().toLocaleTimeString('it-IT',{hour:'2-digit',minute:'2-digit'}) : '—';
+    const esc      = s  => String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+    const toTS     = (d,t) => { const [h,m]=t.split(':').map(Number),[y,mo,dd]=d.split('-').map(Number); return Timestamp.fromDate(new Date(y,mo-1,dd,h,m,0)); };
+    const nowTime  = () => { const n=new Date(); return `${pad(n.getHours())}:${pad(n.getMinutes())}`; };
+
+    function todayStr() { const d=new Date(); return `${d.getFullYear()}-${pad(d.getMonth()+1)}-${pad(d.getDate())}`; }
+    function monthPrefix() { const d=new Date(); return `${d.getFullYear()}-${pad(d.getMonth()+1)}`; }
+    function longDate(dateStr) {
+      const [y,m,d] = dateStr.split('-').map(Number);
+      return new Date(y,m-1,d).toLocaleDateString('it-IT',{weekday:'long',day:'numeric',month:'long',year:'numeric'});
+    }
+    function addDays(dateStr, n) {
+      const [y,m,d] = dateStr.split('-').map(Number);
+      const dt = new Date(y,m-1,d); dt.setDate(dt.getDate()+n);
+      return `${dt.getFullYear()}-${pad(dt.getMonth()+1)}-${pad(dt.getDate())}`;
+    }
+    function getMonday(dateStr) {
+      const [y,m,d] = dateStr.split('-').map(Number);
+      const dt = new Date(y,m-1,d), dow = dt.getDay()||7;
+      dt.setDate(dt.getDate()-dow+1);
+      return `${dt.getFullYear()}-${pad(dt.getMonth()+1)}-${pad(dt.getDate())}`;
+    }
+    const MONTH_NAMES = ['Gennaio','Febbraio','Marzo','Aprile','Maggio','Giugno','Luglio','Agosto','Settembre','Ottobre','Novembre','Dicembre'];
+    const DAY_SHORT   = ['Lun','Mar','Mer','Gio','Ven','Sab','Dom'];
+
+    // ── State ─────────────────────────────────────────────────
+    let allShifts = [], currentUser = null, userData = null;
+    let editId = null, deleteId = null;
+    let gDate   = todayStr();
+    let sMonday = getMonday(todayStr());
+    let mMonth  = monthPrefix();
+    let activeGSM = 'G';
     let selectedTurno = '';
 
-    const MONTHS = ['gennaio','febbraio','marzo','aprile','maggio','giugno',
-                    'luglio','agosto','settembre','ottobre','novembre','dicembre'];
+    // ── G/S/M tabs ────────────────────────────────────────────
+    document.querySelectorAll('.gsm-pill').forEach(btn => {
+      btn.addEventListener('click', () => switchGSM(btn.dataset.gsm));
+    });
+    function switchGSM(mode) {
+      activeGSM = mode;
+      document.querySelectorAll('.gsm-pill').forEach(b => b.classList.toggle('active', b.dataset.gsm===mode));
+      document.getElementById('viewG').style.display = mode==='G' ? '' : 'none';
+      document.getElementById('viewS').style.display = mode==='S' ? '' : 'none';
+      document.getElementById('viewM').style.display = mode==='M' ? '' : 'none';
+      if (mode==='G') renderGView();
+      if (mode==='S') renderSView();
+      if (mode==='M') renderMView();
+    }
 
-    const pad     = x => String(x).padStart(2, '0');
-    const fmtTime = ts => ts ? ts.toDate().toLocaleTimeString('it-IT',{hour:'2-digit',minute:'2-digit'}) : '—';
-    const fmtDate = s  => { const [y,m,d]=s.split('-'); return new Date(+y,+m-1,+d).toLocaleDateString('it-IT',{weekday:'short',day:'numeric',month:'short',year:'numeric'}); };
-    const calcDur = (a,b) => { if(!a||!b) return '—'; const ms=b.toDate()-a.toDate(); if(ms<=0) return '—'; const h=Math.floor(ms/3600000),m=Math.floor((ms%3600000)/60000); return m?`${h}h ${m}m`:`${h}h`; };
-    const todayStr= () => { const n=new Date(); return `${n.getFullYear()}-${pad(n.getMonth()+1)}-${pad(n.getDate())}`; };
-    const nowTime = () => { const n=new Date(); return `${pad(n.getHours())}:${pad(n.getMinutes())}`; };
-    const toTS    = (d,t) => { const [h,m]=t.split(':').map(Number),[y,mo,dd]=d.split('-').map(Number); return Timestamp.fromDate(new Date(y,mo-1,dd,h,m,0)); };
-    const totalMs = list => list.filter(p=>p.oraEntrata&&p.oraUscita).reduce((s,p)=>s+(p.oraUscita.toDate()-p.oraEntrata.toDate()),0);
-    const fmtMs   = ms => { if(ms<=0) return '0h'; const h=Math.floor(ms/3600000),m=Math.floor((ms%3600000)/60000); return m?`${h}h ${m}m`:`${h}h`; };
-    const initials= (n,c) => ((n||'')[0]||'').toUpperCase() + ((c||'')[0]||'').toUpperCase();
-    const turnoLabel = t => t==='pranzo' ? '☀️ Pranzo' : t==='cena' ? '🌙 Cena' : '—';
-    const turnoClass = t => t==='pranzo' ? 'pranzo' : t==='cena' ? 'cena' : '';
+    // ── G view ────────────────────────────────────────────────
+    document.getElementById('gPrev').addEventListener('click', () => { gDate=addDays(gDate,-1); renderGView(); });
+    document.getElementById('gNext').addEventListener('click', () => { gDate=addDays(gDate, 1); renderGView(); });
+
+    function renderGView() {
+      document.getElementById('gDateLabel').textContent = longDate(gDate);
+      const rows   = allShifts.filter(p => p.data === gDate);
+      const pranzo = rows.filter(p => !p.turno || p.turno==='pranzo');
+      const cena   = rows.filter(p => p.turno==='cena');
+      document.getElementById('gContent').innerHTML =
+        buildTurnoHTML('pranzo', pranzo) + buildTurnoHTML('cena', cena);
+
+      // Attach edit/delete handlers
+      document.querySelectorAll('.btn-edit-sm').forEach(btn => {
+        btn.addEventListener('click', () => openEditModal(allShifts.find(s=>s.id===btn.dataset.id)));
+      });
+      document.querySelectorAll('.btn-del-sm').forEach(btn => {
+        btn.addEventListener('click', () => openConfirm(btn.dataset.id));
+      });
+    }
+
+    function buildTurnoHTML(turno, rows) {
+      const label      = turno==='pranzo' ? '☀️ Turno Pranzo' : '🌙 Turno Cena';
+      const labelClass = turno==='pranzo' ? 'pranzo' : 'cena';
+      const anyActive  = rows.some(p => !p.oraUscita);
+      const mansMap = {};
+      [...rows].sort((a,b) => (a.userMansione||'').localeCompare(b.userMansione||''))
+        .forEach(p => { const m=p.userMansione||'—'; (mansMap[m]=mansMap[m]||[]).push(p); });
+      const mansList = Object.keys(mansMap);
+
+      if (!mansList.length) return `<div class="turno-section">
+        <div class="turno-head"><span class="turno-tag ${labelClass}">${label}</span></div>
+        <div class="turno-empty">Nessuna presenza per questo turno</div>
+      </div>`;
+
+      // Desktop table
+      let tbodyHTML = '';
+      mansList.forEach(mans => {
+        const users = mansMap[mans], allDone = users.every(u=>u.oraUscita);
+        users.forEach((u,idx) => {
+          const active = !u.oraUscita;
+          tbodyHTML += '<tr>';
+          if (idx===0) {
+            tbodyHTML += `<td rowspan="${users.length}" class="mans-cell ${allDone?'mans-done':'mans-going'}">
+              <div class="mans-name">${esc(mans)}</div>
+              <div class="mans-status ${allDone?'done':'going'}">
+                ${allDone
+                  ? '<span class="check-badge">✓</span>'
+                  : `<span class="dot-sm-pulse"></span>&nbsp;sta lavorando<span class="dots-anim"><span>.</span><span>.</span><span>.</span></span>`}
+              </div>
+            </td>`;
+          }
+          tbodyHTML += `<td><div class="user-cell">
+            ${active ? '<span class="dot-user-pulse"></span>' : '<span class="check-user">✓</span>'}
+            ${esc(u.userName||'—')}
+          </div></td>`;
+          tbodyHTML += `<td class="time-cell">${fmtTime(u.oraEntrata)}</td>`;
+          tbodyHTML += `<td class="time-cell">${u.oraUscita?fmtTime(u.oraUscita):'—'}</td>`;
+          tbodyHTML += `<td class="action-btns">
+            <button class="btn-edit-sm" data-id="${u.id}">✏️</button>
+            <button class="btn-del-sm"  data-id="${u.id}">🗑️</button>
+          </td>`;
+          tbodyHTML += '</tr>';
+        });
+      });
+
+      // Mobile cards
+      const mobileHTML = mansList.map(mans => {
+        const users = mansMap[mans], allDone = users.every(u=>u.oraUscita);
+        const usersHTML = users.map(u => {
+          const active = !u.oraUscita;
+          return `<div class="mobile-user-row">
+            <div style="flex:1">
+              <div class="mobile-user-left">
+                ${active ? '<span class="dot-user-pulse"></span>' : '<span class="check-user">✓</span>'}
+                <span class="mobile-user-name">${esc(u.userName||'—')}</span>
+              </div>
+              <div class="mobile-times" style="margin-top:4px;padding-left:16px">
+                <span>${fmtTime(u.oraEntrata)}</span>
+                <span style="opacity:0.4">→</span>
+                <span>${u.oraUscita?fmtTime(u.oraUscita):'—'}</span>
+              </div>
+            </div>
+            <div style="display:flex;gap:5px">
+              <button class="btn-edit-sm" data-id="${u.id}">✏️</button>
+              <button class="btn-del-sm"  data-id="${u.id}">🗑️</button>
+            </div>
+          </div>`;
+        }).join('');
+        return `<div class="mobile-mans-block">
+          <div class="mobile-mans-hdr ${allDone?'':'going'}">
+            <span class="mobile-mans-hdr-name">${esc(mans)}</span>
+            <div class="mans-status ${allDone?'done':'going'}">
+              ${allDone ? '<span class="check-badge">✓</span>' : `<span class="dot-sm-pulse"></span><span class="dots-anim"><span>.</span><span>.</span><span>.</span></span>`}
+            </div>
+          </div>
+          ${usersHTML}
+        </div>`;
+      }).join('');
+
+      return `<div class="turno-section">
+        <div class="turno-head">
+          <span class="turno-tag ${labelClass}">${label}</span>
+          ${anyActive
+            ? '<div class="turno-live"><span class="dot-active"></span><span class="live-txt">Attivo</span></div>'
+            : '<div class="turno-done-badge">✓ Turno completato</div>'}
+        </div>
+        <div class="turno-table-wrap">
+          <table class="turno-table">
+            <thead><tr><th>Mansione</th><th>Utente</th><th>Inizio</th><th>Fine</th><th></th></tr></thead>
+            <tbody>${tbodyHTML}</tbody>
+          </table>
+        </div>
+        <div class="turno-mobile">${mobileHTML}</div>
+      </div>`;
+    }
+
+    // ── S view ────────────────────────────────────────────────
+    document.getElementById('sPrev').addEventListener('click', () => { sMonday=addDays(sMonday,-7); renderSView(); });
+    document.getElementById('sNext').addEventListener('click', () => { sMonday=addDays(sMonday, 7); renderSView(); });
+    function renderSView() {
+      const today  = todayStr();
+      const sunday = addDays(sMonday,6);
+      const [y0,m0,d0]=sMonday.split('-').map(Number), [y1,m1,d1]=sunday.split('-').map(Number);
+      const sl = new Date(y0,m0-1,d0).toLocaleDateString('it-IT',{day:'numeric',month:'short'});
+      const el = new Date(y1,m1-1,d1).toLocaleDateString('it-IT',{day:'numeric',month:'short',year:'numeric'});
+      document.getElementById('sWeekLabel').textContent = `${sl} – ${el}`;
+      const chips = Array.from({length:7},(_,i) => {
+        const dStr = addDays(sMonday,i), [,, dd]=dStr.split('-');
+        const count = allShifts.filter(p=>p.data===dStr).length;
+        return `<button class="day-chip ${dStr===today?'today':''} ${count>0?'has-data':''}" data-date="${dStr}">
+          <span class="day-name">${DAY_SHORT[i]}</span>
+          <span class="day-num">${+dd}</span>
+          ${count>0?'<span class="day-dot"></span>':''}
+        </button>`;
+      }).join('');
+      document.getElementById('sChips').innerHTML = chips;
+      document.querySelectorAll('#sChips .day-chip').forEach(chip => {
+        chip.addEventListener('click', () => { gDate=chip.dataset.date; switchGSM('G'); });
+      });
+    }
+
+    // ── M view ────────────────────────────────────────────────
+    document.getElementById('mPrev').addEventListener('click', () => {
+      const [y,m]=mMonth.split('-').map(Number), dt=new Date(y,m-2,1);
+      mMonth=`${dt.getFullYear()}-${pad(dt.getMonth()+1)}`; renderMView();
+    });
+    document.getElementById('mNext').addEventListener('click', () => {
+      const [y,m]=mMonth.split('-').map(Number), dt=new Date(y,m,1);
+      mMonth=`${dt.getFullYear()}-${pad(dt.getMonth()+1)}`; renderMView();
+    });
+    function renderMView() {
+      const [y,m]=mMonth.split('-').map(Number);
+      document.getElementById('mMonthLabel').textContent = `${MONTH_NAMES[m-1]} ${y}`;
+      const firstDow=new Date(y,m-1,1).getDay()||7, lastDay=new Date(y,m,0).getDate(), today=todayStr();
+      let cal = DAY_SHORT.map(d=>`<div class="cal-hdr">${d}</div>`).join('');
+      for(let i=1;i<firstDow;i++) cal+='<div class="cal-cell empty"></div>';
+      for(let d=1;d<=lastDay;d++) {
+        const dStr=`${y}-${pad(m)}-${pad(d)}`;
+        const count=allShifts.filter(p=>p.data===dStr).length;
+        const isToday=dStr===today;
+        cal+=`<button class="cal-cell ${isToday?'today':''} ${count>0?'has-data':''}" data-date="${dStr}">
+          <span class="cal-day-num">${d}</span>${count>0?'<span class="cal-dot"></span>':''}
+        </button>`;
+      }
+      document.getElementById('mCal').innerHTML=cal;
+      document.querySelectorAll('#mCal .cal-cell[data-date]').forEach(cell => {
+        cell.addEventListener('click', () => { gDate=cell.dataset.date; switchGSM('G'); });
+      });
+    }
 
     // ── Turno pills ───────────────────────────────────────────
     function selectTurno(val) {
       selectedTurno = val;
       document.getElementById('addTurno').value = val;
-      document.getElementById('pillPranzo').className = 'turno-pill' + (val==='pranzo' ? ' sel-pranzo' : '');
-      document.getElementById('pillCena').className   = 'turno-pill' + (val==='cena'   ? ' sel-cena'   : '');
+      document.getElementById('pillPranzo').className = 'turno-pill'+(val==='pranzo'?' sel-pranzo':'');
+      document.getElementById('pillCena').className   = 'turno-pill'+(val==='cena'  ?' sel-cena'  :'');
     }
     document.getElementById('pillPranzo').addEventListener('click', () => selectTurno('pranzo'));
     document.getElementById('pillCena').addEventListener('click',   () => selectTurno('cena'));
 
-    // ── Tabs ──────────────────────────────────────────────────
-    document.querySelectorAll('.tab-nav-btn').forEach(btn => {
-      btn.addEventListener('click', () => {
-        document.querySelectorAll('.tab-nav-btn').forEach(b => b.classList.remove('active'));
-        document.querySelectorAll('.tab-pane').forEach(p => p.classList.remove('active'));
-        btn.classList.add('active');
-        document.getElementById('tab-'+btn.dataset.tab).classList.add('active');
-      });
-    });
-
-    // ── Render presenza tab ───────────────────────────────────
-    function renderPresenza(all) {
-      const now = new Date(), prefix = `${now.getFullYear()}-${pad(now.getMonth()+1)}`;
-      const month = MONTHS[now.getMonth()], curr = all.filter(p => p.data.startsWith(prefix));
-      document.getElementById('presenzaTitle').textContent = `${month.charAt(0).toUpperCase()+month.slice(1)} ${now.getFullYear()}`;
-      const tbody = document.getElementById('presenceTable');
-      tbody.innerHTML = curr.length === 0
-        ? '<tr class="empty-row"><td colspan="6">Nessuna presenza questo mese</td></tr>'
-        : curr.map(p => `<tr>
-            <td data-label="Giorno">${fmtDate(p.data)}</td>
-            <td data-label="Turno"><span class="badge-turno ${turnoClass(p.turno)}">${turnoLabel(p.turno)}</span></td>
-            <td data-label="Entrata">${fmtTime(p.oraEntrata)}</td>
-            <td data-label="Uscita">${fmtTime(p.oraUscita)}</td>
-            <td data-label="Ore" class="ore-cell">${calcDur(p.oraEntrata,p.oraUscita)}</td>
-            <td class="actions-cell">
-              <button class="btn-edit" data-id="${p.id}">Modifica</button>
-              <button class="btn-del"  data-id="${p.id}">Elimina</button>
-            </td></tr>`).join('');
-      document.getElementById('monthLabel').textContent = `Totale ${month} ${now.getFullYear()}`;
-      document.getElementById('monthTotal').textContent = fmtMs(totalMs(curr));
-    }
-
-    // ── Render storico tab ────────────────────────────────────
-    function renderStorico(all) {
-      const el = document.getElementById('storicoContent');
-      if (!all.length) { el.innerHTML = '<p style="text-align:center;color:var(--text-muted);padding:36px">Nessuna presenza</p>'; return; }
-      const groups = {};
-      all.forEach(p => { const k = p.data.slice(0,7); (groups[k] = groups[k]||[]).push(p); });
-      el.innerHTML = Object.keys(groups).sort((a,b) => b.localeCompare(a)).map(key => {
-        const [y, m] = key.split('-'), name = MONTHS[+m-1];
-        const list = groups[key].sort((a,b) => a.oraEntrata.toDate()-b.oraEntrata.toDate());
-        return `<div class="storico-month">
-          <div class="storico-header">
-            <span class="storico-month-name">${name} ${y}</span>
-            <span class="storico-total">${fmtMs(totalMs(list))}</span>
-          </div>
-          <table>
-            <thead><tr><th>Giorno</th><th>Turno</th><th>Entrata</th><th>Uscita</th><th>Ore</th></tr></thead>
-            <tbody>${list.map(p => `<tr>
-              <td data-label="Giorno">${fmtDate(p.data)}</td>
-              <td data-label="Turno"><span class="badge-turno ${turnoClass(p.turno)}">${turnoLabel(p.turno)}</span></td>
-              <td data-label="Entrata">${fmtTime(p.oraEntrata)}</td>
-              <td data-label="Uscita">${fmtTime(p.oraUscita)}</td>
-              <td data-label="Ore" class="ore-cell">${calcDur(p.oraEntrata,p.oraUscita)}</td>
-            </tr>`).join('')}</tbody>
-          </table>
-        </div>`;
-      }).join('');
-    }
-
-    // ── Modal ─────────────────────────────────────────────────
+    // ── Modal add/edit ────────────────────────────────────────
     const overlay = document.getElementById('modalOverlay');
-
     function openAddModal() {
-      editId = null;
+      editId=null;
       document.getElementById('modalTitle').textContent = 'Aggiungi Presenza';
-      document.getElementById('addData').value = todayStr();
-      document.getElementById('addEntrata').value = nowTime();
-      document.getElementById('addUscita').value = '';
-      document.getElementById('addMansione').value = userData?.mansione || '';
-      document.getElementById('addError').textContent = '';
-      document.getElementById('saveBtn').textContent = 'Salva';
+      document.getElementById('addData').value     = gDate;
+      document.getElementById('addEntrata').value  = nowTime();
+      document.getElementById('addUscita').value   = '';
+      document.getElementById('addMansione').value = userData?.mansione||'';
+      document.getElementById('addError').textContent='';
+      document.getElementById('saveBtn').textContent='Salva';
       selectTurno('pranzo');
       overlay.classList.add('open');
     }
-
     function openEditModal(s) {
-      editId = s.id;
-      document.getElementById('modalTitle').textContent = 'Modifica Presenza';
-      document.getElementById('addData').value = s.data;
-      document.getElementById('addEntrata').value = s.oraEntrata?.toDate().toTimeString().slice(0,5) ?? '';
-      document.getElementById('addUscita').value  = s.oraUscita?.toDate().toTimeString().slice(0,5)  ?? '';
-      document.getElementById('addMansione').value = s.userMansione || '';
-      document.getElementById('addError').textContent = '';
-      document.getElementById('saveBtn').textContent = 'Salva modifiche';
-      selectTurno(s.turno || 'pranzo');
+      editId=s.id;
+      document.getElementById('modalTitle').textContent='Modifica Presenza';
+      document.getElementById('addData').value    =s.data;
+      document.getElementById('addEntrata').value =s.oraEntrata?.toDate().toTimeString().slice(0,5)??'';
+      document.getElementById('addUscita').value  =s.oraUscita?.toDate().toTimeString().slice(0,5)??'';
+      document.getElementById('addMansione').value=s.userMansione||'';
+      document.getElementById('addError').textContent='';
+      document.getElementById('saveBtn').textContent='Salva modifiche';
+      selectTurno(s.turno||'pranzo');
       overlay.classList.add('open');
     }
-
     function closeModal() { overlay.classList.remove('open'); }
-
     document.getElementById('openModalBtn').addEventListener('click', openAddModal);
     document.getElementById('closeModalBtn').addEventListener('click', closeModal);
-    overlay.addEventListener('click', e => { if (e.target === overlay) closeModal(); });
+    overlay.addEventListener('click', e => { if(e.target===overlay) closeModal(); });
 
     document.getElementById('addForm').addEventListener('submit', async e => {
       e.preventDefault();
-      const btn = document.getElementById('saveBtn'), err = document.getElementById('addError');
-      err.textContent = '';
-      const turno    = document.getElementById('addTurno').value;
-      const mansione = document.getElementById('addMansione').value;
-      const data     = document.getElementById('addData').value;
-      const ein      = document.getElementById('addEntrata').value;
-      const usc      = document.getElementById('addUscita').value;
-      if (!turno)    { err.textContent = 'Seleziona il turno.'; return; }
-      if (!mansione) { err.textContent = 'Seleziona la mansione.'; return; }
-      if (usc && usc <= ein) { err.textContent = "L'uscita deve essere dopo l'entrata"; return; }
-      const orig = btn.textContent; btn.disabled = true; btn.textContent = 'Salvataggio…';
+      const btn=document.getElementById('saveBtn'), err=document.getElementById('addError');
+      err.textContent='';
+      const turno   =document.getElementById('addTurno').value;
+      const mansione=document.getElementById('addMansione').value;
+      const data    =document.getElementById('addData').value;
+      const ein     =document.getElementById('addEntrata').value;
+      const usc     =document.getElementById('addUscita').value;
+      if(!turno)    { err.textContent='Seleziona il turno.'; return; }
+      if(!mansione) { err.textContent='Seleziona la mansione.'; return; }
+      if(usc&&usc<=ein) { err.textContent="L'uscita deve essere dopo l'entrata"; return; }
+      const orig=btn.textContent; btn.disabled=true; btn.textContent='Salvataggio…';
       try {
-        const payload = {
-          userId: currentUser.uid,
-          userName: `${userData.nome} ${userData.cognome||''}`.trim(),
-          userMansione: mansione,
-          turno,
-          data,
-          oraEntrata: toTS(data, ein),
-          oraUscita: usc ? toTS(data, usc) : null,
+        const payload={
+          userId:currentUser.uid,
+          userName:`${userData.nome} ${userData.cognome||''}`.trim(),
+          userMansione:mansione, turno, data,
+          oraEntrata:toTS(data,ein),
+          oraUscita:usc?toTS(data,usc):null,
         };
-        if (editId) await updateDoc(doc(db,'presenze',editId), payload);
-        else        await addDoc(collection(db,'presenze'), payload);
+        if(editId) await updateDoc(doc(db,'presenze',editId),payload);
+        else       await addDoc(collection(db,'presenze'),payload);
         closeModal();
-      } catch (ex) { err.textContent = 'Errore nel salvataggio.'; console.error(ex); }
-      finally { btn.disabled = false; btn.textContent = orig; }
+      } catch(ex) { err.textContent='Errore nel salvataggio.'; console.error(ex); }
+      finally { btn.disabled=false; btn.textContent=orig; }
     });
 
     // ── Delete ────────────────────────────────────────────────
-    const confirmOv = document.getElementById('confirmOverlay');
-    function openConfirm(id) { deleteId = id; confirmOv.classList.add('open'); }
+    const confirmOv=document.getElementById('confirmOverlay');
+    function openConfirm(id) { deleteId=id; confirmOv.classList.add('open'); }
     function closeConfirm()  { confirmOv.classList.remove('open'); }
     document.getElementById('confirmCancel').addEventListener('click', closeConfirm);
-    confirmOv.addEventListener('click', e => { if (e.target === confirmOv) closeConfirm(); });
+    confirmOv.addEventListener('click', e => { if(e.target===confirmOv) closeConfirm(); });
     document.getElementById('confirmOk').addEventListener('click', async () => {
-      const id = deleteId; closeConfirm(); if (!id) return;
+      const id=deleteId; closeConfirm(); if(!id) return;
       try { await deleteDoc(doc(db,'presenze',id)); } catch(e) { console.error(e); }
     });
 
-    document.getElementById('presenceTable').addEventListener('click', e => {
-      const id = e.target.dataset.id; if (!id) return;
-      if (e.target.classList.contains('btn-edit')) openEditModal(allShifts.find(s => s.id === id));
-      if (e.target.classList.contains('btn-del'))  openConfirm(id);
-    });
-
     // ── Profile ───────────────────────────────────────────────
-    const profileOv = document.getElementById('profileOverlay');
+    const profileOv=document.getElementById('profileOverlay');
     document.getElementById('profileBtn').addEventListener('click', () => {
-      document.getElementById('profileAvatar').textContent = initials(userData?.nome, userData?.cognome);
-      document.getElementById('profileName').textContent = `${userData?.nome||''} ${userData?.cognome||''}`.trim();
-      document.getElementById('profileMansione').textContent = userData?.mansione || '';
-      document.getElementById('profileEmail').textContent = currentUser?.email || '';
-      document.getElementById('resetMsg').textContent = '';
+      document.getElementById('profileAvatar').textContent=initials(userData?.nome,userData?.cognome);
+      document.getElementById('profileName').textContent=`${userData?.nome||''} ${userData?.cognome||''}`.trim();
+      document.getElementById('profileMansione').textContent=userData?.mansione||'';
+      document.getElementById('profileEmail').textContent=currentUser?.email||'';
+      document.getElementById('resetMsg').textContent='';
       profileOv.classList.add('open');
     });
     document.getElementById('closeProfileBtn').addEventListener('click', () => profileOv.classList.remove('open'));
-    profileOv.addEventListener('click', e => { if (e.target === profileOv) profileOv.classList.remove('open'); });
+    profileOv.addEventListener('click', e => { if(e.target===profileOv) profileOv.classList.remove('open'); });
     document.getElementById('resetPwBtn').addEventListener('click', async () => {
-      try {
-        await sendPasswordResetEmail(auth, currentUser.email);
-        document.getElementById('resetMsg').textContent = 'Email di reset inviata a ' + currentUser.email;
-      } catch(e) { document.getElementById('resetMsg').textContent = 'Errore: ' + e.message; }
+      try { await sendPasswordResetEmail(auth,currentUser.email); document.getElementById('resetMsg').textContent='Email inviata a '+currentUser.email; }
+      catch(e) { document.getElementById('resetMsg').textContent='Errore: '+e.message; }
     });
 
-    // ── Auth ──────────────────────────────────────────────────
+    // ── Auth + real-time ──────────────────────────────────────
     onAuthStateChanged(auth, async user => {
-      if (!user) { window.location.href = 'index.html'; return; }
-      currentUser = user;
-      const snap = await getDoc(doc(db,'users',user.uid));
-      if (!snap.exists()) { window.location.href = 'index.html'; return; }
-      userData = snap.data();
-      if (userData.ruolo === 'admin') { window.location.href = 'admin.html'; return; }
-      const fullName = `${userData.nome||''} ${userData.cognome||''}`.trim();
-      document.getElementById('headerName').textContent = fullName || 'Presenza';
-      document.getElementById('headerMansione').textContent = userData.mansione || '';
-      document.getElementById('profileBtn').textContent = initials(userData.nome, userData.cognome);
+      if(!user) { window.location.href='index.html'; return; }
+      currentUser=user;
+      const snap=await getDoc(doc(db,'users',user.uid));
+      if(!snap.exists()) { window.location.href='index.html'; return; }
+      userData=snap.data();
+      if(userData.ruolo==='admin') { window.location.href='admin.html'; return; }
+      const fullName=`${userData.nome||''} ${userData.cognome||''}`.trim();
+      document.getElementById('headerName').textContent=fullName||'Presenza';
+      document.getElementById('headerMansione').textContent=userData.mansione||'';
+      document.getElementById('profileBtn').textContent=initials(userData.nome,userData.cognome);
 
       onSnapshot(
-        query(collection(db,'presenze'), where('userId','==',user.uid)),
+        query(collection(db,'presenze'),where('userId','==',user.uid)),
         snap => {
-          allShifts = snap.docs.map(d => ({id:d.id,...d.data()}))
-            .filter(p => p.oraEntrata)
-            .sort((a,b) => b.oraEntrata.toDate()-a.oraEntrata.toDate());
-          renderPresenza(allShifts);
-          renderStorico(allShifts);
-        },
-        err => console.error(err)
+          allShifts=snap.docs.map(d=>({id:d.id,...d.data()}))
+            .filter(p=>p.oraEntrata)
+            .sort((a,b)=>b.oraEntrata.toDate()-a.oraEntrata.toDate());
+          if(activeGSM==='G') renderGView();
+          if(activeGSM==='S') renderSView();
+          if(activeGSM==='M') renderMView();
+        }, err=>console.error(err)
       );
+      renderGView();
     });
 
     document.getElementById('logoutBtn').addEventListener('click', async () => {
-      await signOut(auth); window.location.href = 'index.html';
+      await signOut(auth); window.location.href='index.html';
     });
   </script>
 </body>

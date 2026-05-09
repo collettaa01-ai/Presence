@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Simulazione Turno – Presence</title>
+  <link rel="stylesheet" href="css/style.css">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; }
+    body {
+      min-height: 100vh; background: var(--bg);
+      display: flex; align-items: center; justify-content: center;
+      padding: 24px;
+    }
+    .card {
+      background: white; border-radius: 20px;
+      box-shadow: 0 4px 24px rgba(0,0,0,0.10);
+      padding: 32px 28px; width: 100%; max-width: 420px;
+      text-align: center;
+    }
+    .card h2 { color: var(--primary); font-size: 1.4rem; margin-bottom: 6px; }
+    .card p.sub { color: var(--text-muted); font-size: 0.9rem; margin-bottom: 28px; }
+
+    .field { margin-bottom: 16px; text-align: left; }
+    .field label { display: block; font-size: 0.82rem; font-weight: 600; color: var(--text-muted); margin-bottom: 6px; }
+    .field select, .field input {
+      width: 100%; padding: 11px 13px;
+      border: 1.5px solid var(--border); border-radius: 10px;
+      font-size: 0.95rem; background: var(--bg); color: var(--text);
+      -webkit-appearance: none;
+    }
+    .field select { background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%236C757D' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 13px center; padding-right: 34px; cursor: pointer; }
+
+    .btn {
+      width: 100%; padding: 14px; margin-top: 8px;
+      background: var(--primary); color: white;
+      border: none; border-radius: 12px;
+      font-size: 1rem; font-weight: 700; cursor: pointer;
+      transition: background 0.2s;
+    }
+    .btn:hover { background: var(--primary-dark); }
+    .btn:disabled { opacity: 0.5; cursor: not-allowed; }
+    .btn.danger { background: var(--danger); }
+    .btn.danger:hover { background: #c0392b; }
+
+    /* Status area */
+    .status-box {
+      margin-top: 24px; padding: 18px 16px;
+      background: var(--bg); border-radius: 14px;
+      border: 1.5px solid var(--border);
+      display: none;
+    }
+    .status-box.visible { display: block; }
+
+    .status-label { font-size: 0.78rem; font-weight: 600; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 8px; }
+
+    /* Countdown ring */
+    .ring-wrap { display: flex; justify-content: center; margin: 12px 0; }
+    svg.ring { transform: rotate(-90deg); }
+    .ring-bg { fill: none; stroke: var(--border); stroke-width: 6; }
+    .ring-fg { fill: none; stroke: var(--primary); stroke-width: 6; stroke-linecap: round; transition: stroke-dashoffset 1s linear; }
+    .ring-text { font-size: 1.1rem; font-weight: 700; fill: var(--text); text-anchor: middle; dominant-baseline: central; }
+    /* rotate text back since parent is rotated -90deg */
+    .ring-text { transform: rotate(90deg) translateX(50px); transform-box: fill-box; }
+
+    .countdown-num {
+      font-size: 2.2rem; font-weight: 800; color: var(--primary);
+      line-height: 1; margin: 4px 0;
+    }
+    .countdown-sub { font-size: 0.85rem; color: var(--text-muted); }
+
+    /* Log */
+    .log { text-align: left; margin-top: 14px; }
+    .log-entry {
+      font-size: 0.83rem; color: var(--text-muted);
+      padding: 5px 0; border-bottom: 1px solid var(--border);
+      display: flex; gap: 8px;
+    }
+    .log-entry:last-child { border-bottom: none; }
+    .log-entry .ts { color: var(--primary); font-weight: 600; flex-shrink: 0; }
+    .log-entry .msg.ok { color: #1a7a4a; font-weight: 600; }
+    .log-entry .msg.err { color: var(--danger); font-weight: 600; }
+
+    .pulse-dot {
+      display: inline-block; width: 10px; height: 10px; border-radius: 50%;
+      background: #52B788; margin-right: 6px;
+      animation: pulse 1.4s ease-in-out infinite;
+    }
+    @keyframes pulse {
+      0%,100% { box-shadow: 0 0 0 0 rgba(82,183,136,0.6); }
+      50%      { box-shadow: 0 0 0 6px rgba(82,183,136,0); }
+    }
+
+    .login-note { margin-top: 20px; font-size: 0.82rem; color: var(--text-muted); }
+    .login-note a { color: var(--primary); font-weight: 600; }
+  </style>
+</head>
+<body>
+
+<div class="card">
+  <h2>🧪 Simulazione Turno</h2>
+  <p class="sub">Crea un turno di lavoro reale e guarda l'admin aggiornarsi in tempo reale</p>
+
+  <div id="loginNote" class="login-note" style="display:none">
+    Devi essere loggato. <a href="index.html">Accedi qui</a>
+  </div>
+
+  <div id="simForm">
+    <div class="field">
+      <label>Turno</label>
+      <select id="simTurno">
+        <option value="pranzo">☀️ Pranzo</option>
+        <option value="cena">🌙 Cena</option>
+      </select>
+    </div>
+    <div class="field">
+      <label>Mansione</label>
+      <select id="simMansione">
+        <option value="Cameriere">Cameriere</option>
+        <option value="Cuoco/Aiutocuoco">Cuoco / Aiutocuoco</option>
+        <option value="Lavapiatti">Lavapiatti</option>
+        <option value="Manager">Manager</option>
+      </select>
+    </div>
+    <div class="field">
+      <label>Durata simulazione</label>
+      <select id="simDurata">
+        <option value="60">1 minuto</option>
+        <option value="120">2 minuti</option>
+        <option value="180" selected>3 minuti</option>
+        <option value="300">5 minuti</option>
+      </select>
+    </div>
+    <button class="btn" id="startBtn">Avvia simulazione</button>
+  </div>
+
+  <div id="statusBox" class="status-box">
+    <div class="status-label">Stato simulazione</div>
+
+    <div style="text-align:center; margin: 10px 0;">
+      <div id="statusPhase" style="font-size:0.95rem; font-weight:700; color:var(--text); margin-bottom:4px;"></div>
+      <div class="countdown-num" id="countdownNum">–</div>
+      <div class="countdown-sub" id="countdownSub"></div>
+    </div>
+
+    <!-- SVG ring -->
+    <div class="ring-wrap">
+      <svg class="ring" width="100" height="100" viewBox="0 0 100 100">
+        <circle class="ring-bg" cx="50" cy="50" r="44"/>
+        <circle class="ring-fg" id="ringFg" cx="50" cy="50" r="44"
+          stroke-dasharray="276.46" stroke-dashoffset="0"/>
+      </svg>
+    </div>
+
+    <div class="log" id="simLog"></div>
+
+    <button class="btn danger" id="stopBtn" style="margin-top:14px">Annulla simulazione</button>
+  </div>
+</div>
+
+<script type="module">
+  import { auth, db } from './js/firebase-config.js';
+  import { onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
+  import { collection, doc, addDoc, updateDoc, getDoc, Timestamp }
+    from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+
+  const CIRC = 2 * Math.PI * 44; // 276.46
+
+  let currentUser = null;
+  let userData    = null;
+  let simDocId    = null;
+  let timerHandle = null;
+  let secondsLeft = 0;
+  let totalSecs   = 0;
+
+  // ── Auth ──
+  onAuthStateChanged(auth, async u => {
+    if (!u) {
+      document.getElementById('loginNote').style.display = 'block';
+      document.getElementById('simForm').style.display   = 'none';
+      return;
+    }
+    currentUser = u;
+    const snap = await getDoc(doc(db, 'users', u.uid));
+    if (snap.exists()) {
+      userData = snap.data();
+      const mansSel = document.getElementById('simMansione');
+      if (userData.mansione) {
+        for (let opt of mansSel.options) {
+          if (opt.value === userData.mansione) { opt.selected = true; break; }
+        }
+      }
+    }
+  });
+
+  // ── UI helpers ──
+  function log(msg, type='') {
+    const now = new Date();
+    const ts  = now.toLocaleTimeString('it-IT', {hour:'2-digit', minute:'2-digit', second:'2-digit'});
+    const div = document.createElement('div');
+    div.className = 'log-entry';
+    div.innerHTML = `<span class="ts">${ts}</span><span class="msg ${type}">${msg}</span>`;
+    document.getElementById('simLog').prepend(div);
+  }
+
+  function setPhase(text, showDot=false) {
+    document.getElementById('statusPhase').innerHTML =
+      (showDot ? '<span class="pulse-dot"></span>' : '') + text;
+  }
+
+  function setCountdown(secs, sub='') {
+    const m = Math.floor(secs/60);
+    const s = secs % 60;
+    document.getElementById('countdownNum').textContent =
+      m > 0 ? `${m}:${String(s).padStart(2,'0')}` : `${s}s`;
+    document.getElementById('countdownSub').textContent = sub;
+  }
+
+  function setRing(remaining, total) {
+    const offset = CIRC * (remaining / total);
+    document.getElementById('ringFg').style.strokeDashoffset = offset;
+  }
+
+  // ── Start ──
+  document.getElementById('startBtn').addEventListener('click', async () => {
+    if (!currentUser) return;
+
+    const turno    = document.getElementById('simTurno').value;
+    const mansione = document.getElementById('simMansione').value;
+    const durata   = parseInt(document.getElementById('simDurata').value, 10);
+
+    document.getElementById('simForm').style.display  = 'none';
+    document.getElementById('statusBox').classList.add('visible');
+    document.getElementById('simLog').innerHTML = '';
+
+    setPhase('Creazione presenza in corso…');
+    setCountdown(0, '');
+    setRing(1,1);
+
+    const today = new Date().toISOString().slice(0,10);
+    const nome  = userData ? `${userData.nome} ${userData.cognome||''}`.trim() : currentUser.email;
+
+    try {
+      const docRef = await addDoc(collection(db, 'presenze'), {
+        userId:       currentUser.uid,
+        userName:     nome,
+        userMansione: mansione,
+        turno,
+        data:         today,
+        oraEntrata:   Timestamp.now(),
+        oraUscita:    null,
+      });
+      simDocId = docRef.id;
+      log(`Turno ${turno} (${mansione}) avviato — doc: ${simDocId.slice(0,8)}…`, 'ok');
+      log('Apri l\'admin su un altro schermo/tab e guarda la tabella aggiornarsi!');
+    } catch(e) {
+      log('Errore creazione: ' + e.message, 'err');
+      resetUI();
+      return;
+    }
+
+    // Countdown
+    totalSecs   = durata;
+    secondsLeft = durata;
+    setPhase('In servizio', true);
+    setCountdown(secondsLeft, 'al termine del turno');
+    setRing(secondsLeft, totalSecs);
+
+    timerHandle = setInterval(async () => {
+      secondsLeft--;
+      setCountdown(secondsLeft, secondsLeft > 0 ? 'al termine del turno' : 'Completamento…');
+      setRing(secondsLeft, totalSecs);
+
+      if (secondsLeft <= 0) {
+        clearInterval(timerHandle);
+        timerHandle = null;
+        setPhase('Registrazione uscita…');
+        try {
+          await updateDoc(doc(db, 'presenze', simDocId), { oraUscita: Timestamp.now() });
+          log('Turno completato — oraUscita registrata!', 'ok');
+          log('L\'admin ora mostra il turno come completato (✓).');
+          setPhase('Turno completato ✓');
+          setCountdown(0, 'Simulazione terminata');
+          setRing(0, totalSecs);
+        } catch(e) {
+          log('Errore fine turno: ' + e.message, 'err');
+        }
+        document.getElementById('stopBtn').textContent = 'Torna alla home';
+        document.getElementById('stopBtn').className   = 'btn';
+        simDocId = null;
+      }
+    }, 1000);
+  });
+
+  // ── Stop / Reset ──
+  document.getElementById('stopBtn').addEventListener('click', async () => {
+    if (timerHandle) {
+      clearInterval(timerHandle);
+      timerHandle = null;
+    }
+    if (simDocId) {
+      try {
+        await updateDoc(doc(db, 'presenze', simDocId), { oraUscita: Timestamp.now() });
+        log('Simulazione annullata — presenza chiusa.', 'err');
+      } catch(e) {}
+      simDocId = null;
+    }
+    if (document.getElementById('stopBtn').textContent === 'Torna alla home') {
+      window.location.href = 'dashboard.html';
+      return;
+    }
+    resetUI();
+  });
+
+  function resetUI() {
+    document.getElementById('simForm').style.display = 'block';
+    document.getElementById('statusBox').classList.remove('visible');
+    document.getElementById('stopBtn').textContent = 'Annulla simulazione';
+    document.getElementById('stopBtn').className   = 'btn danger';
+    setCountdown(0,'');
+    setRing(1,1);
+    document.getElementById('simLog').innerHTML = '';
+    document.getElementById('statusPhase').innerHTML = '';
+  }
+</script>
+</body>
+</html>
