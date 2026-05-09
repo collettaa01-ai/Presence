@@ -1,0 +1,11 @@
+{
+  "name": "Presence",
+  "short_name": "Presence",
+  "description": "Gestione presenze ristorante",
+  "start_url": "/Presence/",
+  "scope": "/Presence/",
+  "display": "standalone",
+  "background_color": "#F8F9FA",
+  "theme_color": "#2D6A4F",
+  "orientation": "portrait-primary"
+}

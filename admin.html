@@ -4,6 +4,11 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Presence — Admin</title>
+  <link rel="manifest" href="manifest.json">
+  <meta name="theme-color" content="#2D6A4F">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="Presence">
   <link rel="stylesheet" href="css/style.css">
   <style>
     *, *::before, *::after { box-sizing: border-box; }
@@ -21,35 +26,100 @@
     .header-right { display: flex; align-items: center; gap: 10px; }
     .avatar-btn {
       width: 36px; height: 36px; border-radius: 50%;
-      background: rgba(255,255,255,0.25); color: white;
-      border: 1.5px solid rgba(255,255,255,0.5);
+      background: rgba(255,255,255,0.22); color: white;
+      border: 1.5px solid rgba(255,255,255,0.45);
       font-size: 0.8rem; font-weight: 700; cursor: pointer;
       display: flex; align-items: center; justify-content: center;
-      transition: background 0.2s;
+      transition: background 0.2s; flex-shrink: 0;
     }
     .avatar-btn:hover { background: rgba(255,255,255,0.35); }
+
+    /* ── Pages ── */
+    .page { display: none; max-width: 720px; margin: 0 auto; padding: 20px 16px 100px; }
+    .page.active { display: block; }
 
     /* ── Bottom nav ── */
     .bottom-nav {
       position: fixed; bottom: 0; left: 0; right: 0;
       background: white; border-top: 1px solid var(--border);
       display: flex; z-index: 40;
-      box-shadow: 0 -2px 12px rgba(0,0,0,0.08);
+      box-shadow: 0 -2px 12px rgba(0,0,0,0.07);
     }
     .nav-btn {
       flex: 1; padding: 10px 0 8px;
       background: none; border: none; cursor: pointer;
-      display: flex; flex-direction: column; align-items: center; gap: 3px;
-      color: var(--text-muted); font-size: 0.68rem; font-weight: 600;
-      text-transform: uppercase; letter-spacing: 0.4px;
+      display: flex; flex-direction: column; align-items: center; gap: 4px;
+      color: var(--text-muted);
+      font-size: 0.65rem; font-weight: 700;
+      text-transform: uppercase; letter-spacing: 0.5px;
       transition: color 0.2s;
     }
     .nav-btn.active { color: var(--primary); }
-    .nav-icon { font-size: 1.3rem; line-height: 1; }
+    .nav-btn svg { width: 22px; height: 22px; }
 
-    /* ── Page wrapper ── */
-    .page { display: none; max-width: 720px; margin: 0 auto; padding: 20px 16px 100px; }
-    .page.active { display: block; }
+    /* ── Greeting card ── */
+    .greeting-card {
+      background: white; border-radius: 18px;
+      box-shadow: var(--shadow); padding: 22px 20px; margin-bottom: 16px;
+    }
+    .greeting-date { font-size: 0.78rem; color: var(--text-muted); text-transform: capitalize; font-weight: 600; }
+    .greeting-text { font-size: 1.35rem; font-weight: 700; color: var(--text); margin-top: 6px; }
+    .greeting-sub  { font-size: 0.88rem; color: var(--text-muted); margin-top: 3px; }
+
+    /* ── Home stats ── */
+    .home-stats {
+      display: grid; grid-template-columns: repeat(3,1fr); gap: 12px; margin-bottom: 16px;
+    }
+    @media (max-width: 380px) { .home-stats { grid-template-columns: 1fr 1fr; } }
+    .home-stat {
+      background: white; border-radius: 14px;
+      box-shadow: var(--shadow); padding: 16px 12px;
+      text-align: center; border-left: 4px solid var(--primary-light);
+    }
+    .home-stat-val { font-size: 1.7rem; font-weight: 700; color: var(--primary); }
+    .home-stat-lbl { font-size: 0.72rem; color: var(--text-muted); margin-top: 3px; }
+
+    /* ── Orari card ── */
+    .orari-card { background: white; border-radius: 14px; box-shadow: var(--shadow); overflow: hidden; }
+    .orari-card-header {
+      padding: 16px 18px 14px; border-bottom: 1px solid var(--border);
+      display: flex; align-items: center; justify-content: space-between;
+    }
+    .orari-card-title { font-size: 0.72rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; color: var(--text-muted); }
+    .btn-new-orari {
+      background: var(--primary); color: white;
+      border: none; border-radius: 8px;
+      padding: 7px 14px; font-size: 0.82rem; font-weight: 700;
+      cursor: pointer; transition: background 0.2s;
+    }
+    .btn-new-orari:hover { background: var(--primary-dark); }
+    .orario-item {
+      padding: 12px 18px; border-bottom: 1px solid var(--border);
+      display: flex; align-items: center; gap: 12px;
+    }
+    .orario-item:last-child { border-bottom: none; }
+    .orari-mini-avatar {
+      width: 36px; height: 36px; border-radius: 50%;
+      background: var(--accent); color: var(--primary);
+      font-size: 0.72rem; font-weight: 700;
+      display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+    }
+    .orario-name  { font-size: 0.9rem; font-weight: 700; }
+    .orario-week  { font-size: 0.78rem; color: var(--text-muted); }
+    .orari-empty  { padding: 32px; text-align: center; color: var(--text-muted); font-size: 0.88rem; }
+
+    /* ── FAB ── */
+    .fab {
+      position: fixed; bottom: 80px; right: 20px;
+      width: 54px; height: 54px; border-radius: 50%;
+      background: var(--primary); color: white; border: none;
+      font-size: 1.7rem; cursor: pointer; z-index: 45;
+      box-shadow: 0 4px 18px rgba(45,106,79,0.4);
+      display: flex; align-items: center; justify-content: center;
+      transition: transform 0.2s, background 0.2s;
+    }
+    .fab:hover { background: var(--primary-dark); transform: scale(1.08); }
+    .fab.hidden { display: none; }
 
     /* ── Daily box ── */
     .daily-box {
@@ -61,14 +131,11 @@
       padding: 14px 18px 12px;
       display: flex; align-items: center; justify-content: space-between;
     }
-    .daily-date {
-      font-size: 1rem; font-weight: 700; text-transform: capitalize;
-    }
+    .daily-date  { font-size: 1rem; font-weight: 700; text-transform: capitalize; }
     .daily-count {
-      font-size: 0.78rem; background: rgba(255,255,255,0.2);
+      font-size: 0.78rem; background: rgba(255,255,255,0.22);
       padding: 3px 10px; border-radius: 20px; font-weight: 600;
     }
-    .daily-list { padding: 6px 0; }
     .daily-item {
       display: flex; align-items: center; gap: 12px;
       padding: 12px 18px; border-bottom: 1px solid var(--border);
@@ -78,198 +145,116 @@
       width: 40px; height: 40px; border-radius: 50%;
       background: var(--accent); color: var(--primary);
       font-size: 0.8rem; font-weight: 700;
-      display: flex; align-items: center; justify-content: center;
-      flex-shrink: 0;
+      display: flex; align-items: center; justify-content: center; flex-shrink: 0;
     }
-    .daily-info { flex: 1; min-width: 0; }
-    .daily-name { font-size: 0.92rem; font-weight: 700; color: var(--text); }
-    .daily-mansione { font-size: 0.75rem; color: var(--text-muted); margin-top: 1px; }
-    .daily-times { font-size: 0.8rem; color: var(--text-muted); margin-top: 3px; }
-    .daily-status { display: flex; align-items: center; gap: 5px; flex-shrink: 0; }
-
+    .daily-info  { flex: 1; min-width: 0; }
+    .daily-name  { font-size: 0.92rem; font-weight: 700; color: var(--text); }
+    .daily-mans  { font-size: 0.75rem; color: var(--text-muted); margin-top: 1px; }
+    .daily-times { font-size: 0.78rem; color: var(--text-muted); margin-top: 3px; }
+    .daily-status { display: flex; align-items: center; gap: 5px; flex-shrink: 0; text-align: right; }
     .dot-active {
       width: 9px; height: 9px; border-radius: 50%;
       background: var(--primary-light);
-      animation: pulse 2s infinite;
+      animation: pulse 2s infinite; flex-shrink: 0;
     }
     .dot-done {
       width: 18px; height: 18px; border-radius: 50%;
       background: var(--primary-light); color: white;
-      font-size: 0.65rem; display: flex; align-items: center; justify-content: center;
+      font-size: 0.65rem; display: flex; align-items: center; justify-content: center; flex-shrink: 0;
     }
-    .status-label { font-size: 0.72rem; font-weight: 600; }
+    .status-label        { font-size: 0.72rem; font-weight: 600; }
     .status-label.active { color: var(--primary); }
-    .status-label.done { color: var(--text-muted); }
+    .status-label.done   { color: var(--text-muted); }
+    .daily-empty { padding: 32px; text-align: center; color: var(--text-muted); font-size: 0.88rem; }
 
-    .daily-empty {
-      padding: 32px; text-align: center;
-      color: var(--text-muted); font-size: 0.88rem;
-    }
-
-    /* ── Storico ── */
-    .section-title {
-      font-size: 0.72rem; font-weight: 700; text-transform: uppercase;
-      letter-spacing: 0.6px; color: var(--text-muted); margin-bottom: 12px;
-    }
-    .filter-grid {
-      display: grid; grid-template-columns: 1fr 1fr;
-      gap: 10px; margin-bottom: 14px;
-    }
-    @media (max-width: 420px) { .filter-grid { grid-template-columns: 1fr; } }
-    .filter-grid select, .filter-grid input {
-      width: 100%; padding: 9px 12px;
-      border: 1.5px solid var(--border); border-radius: 10px;
-      font-size: 0.88rem; background: white; color: var(--text);
-      -webkit-appearance: none;
-    }
-    .filter-grid select:focus, .filter-grid input:focus {
-      outline: none; border-color: var(--primary);
-    }
-    .filter-grid select {
-      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%236C757D' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
-      background-repeat: no-repeat; background-position: right 12px center;
-      padding-right: 32px; cursor: pointer;
-    }
-    .btn-clear-sm {
-      grid-column: 1 / -1;
-      padding: 8px; background: var(--bg);
-      border: 1.5px solid var(--border); border-radius: 10px;
-      cursor: pointer; font-size: 0.85rem; font-weight: 600;
-      color: var(--text-muted); transition: background 0.2s;
-    }
-    .btn-clear-sm:hover { background: var(--border); }
-
-    /* Storico table card */
-    .storico-card {
-      background: white; border-radius: 14px;
-      box-shadow: var(--shadow); overflow: hidden;
-    }
-    .storico-table { width: 100%; border-collapse: collapse; font-size: 0.88rem; }
-    .storico-table thead tr { border-bottom: 2px solid var(--border); }
-    .storico-table th {
-      padding: 10px 14px; text-align: left;
-      font-size: 0.7rem; font-weight: 700;
-      text-transform: uppercase; letter-spacing: 0.4px;
-      color: var(--text-muted); white-space: nowrap;
-    }
-    .storico-table td { padding: 12px 14px; border-bottom: 1px solid var(--border); }
-    .storico-table tbody tr:last-child td { border-bottom: none; }
-    .storico-table tr.in-progress td { background: var(--accent); }
-    .storico-table tbody tr:not(.in-progress):hover td { background: var(--bg); }
-
-    @media (max-width: 600px) {
-      .storico-table thead { display: none; }
-      .storico-table tbody tr {
-        display: block; margin: 0 14px 10px;
-        border: 1px solid var(--border); border-radius: 12px;
-        overflow: hidden;
-      }
-      .storico-table tbody tr:first-child { margin-top: 14px; }
-      .storico-table tbody tr.in-progress { background: var(--accent); border-color: var(--primary-light); }
-      .storico-table tbody td {
-        display: flex; justify-content: space-between; align-items: center;
-        padding: 9px 14px; border-bottom: 1px solid var(--border); font-size: 0.88rem;
-      }
-      .storico-table tbody td:last-child { border-bottom: none; }
-      .storico-table tbody td[data-label]::before {
-        content: attr(data-label);
-        font-weight: 600; color: var(--text-muted);
-        font-size: 0.7rem; text-transform: uppercase;
-        letter-spacing: 0.3px; flex-shrink: 0; margin-right: 10px;
-      }
-    }
-    .empty-storico {
-      text-align: center; color: var(--text-muted);
-      padding: 36px; font-size: 0.88rem;
-    }
-
-    /* ── Home page ── */
-    .greeting-card {
+    /* ── Storico rounded box ── */
+    .storico-box {
       background: white; border-radius: 18px;
-      box-shadow: var(--shadow); padding: 22px 20px; margin-bottom: 20px;
-    }
-    .greeting-date {
-      font-size: 0.78rem; color: var(--text-muted); text-transform: capitalize;
-      font-weight: 600; letter-spacing: 0.3px;
-    }
-    .greeting-text {
-      font-size: 1.35rem; font-weight: 700; color: var(--text);
-      margin-top: 6px;
-    }
-    .greeting-sub { font-size: 0.88rem; color: var(--text-muted); margin-top: 4px; }
-
-    .home-stats {
-      display: grid; grid-template-columns: repeat(3,1fr); gap: 12px;
-      margin-bottom: 20px;
-    }
-    @media (max-width: 380px) { .home-stats { grid-template-columns: 1fr 1fr; } }
-    .home-stat {
-      background: white; border-radius: 14px;
-      box-shadow: var(--shadow); padding: 16px 12px;
-      text-align: center; border-left: 4px solid var(--primary-light);
-    }
-    .home-stat-val { font-size: 1.7rem; font-weight: 700; color: var(--primary); }
-    .home-stat-lbl { font-size: 0.72rem; color: var(--text-muted); margin-top: 3px; }
-
-    .orari-card {
-      background: white; border-radius: 14px;
       box-shadow: var(--shadow); overflow: hidden;
     }
-    .orari-card-header {
-      padding: 16px 18px 14px;
-      border-bottom: 1px solid var(--border);
-      display: flex; align-items: center; justify-content: space-between;
+    .storico-header {
+      padding: 16px 18px 14px; border-bottom: 1px solid var(--border);
+      display: flex; align-items: center; justify-content: space-between; gap: 12px;
+      flex-wrap: wrap;
     }
-    .orari-card-title { font-size: 0.78rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; color: var(--text-muted); }
-    .btn-new-orari {
-      background: var(--primary); color: white;
-      border: none; border-radius: 8px;
-      padding: 7px 14px; font-size: 0.82rem; font-weight: 700;
-      cursor: pointer; transition: background 0.2s;
+    .storico-title { font-size: 0.72rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; color: var(--text-muted); }
+    .filter-mese-wrap { display: flex; align-items: center; gap: 8px; }
+    .filter-mese-wrap label { font-size: 0.78rem; font-weight: 600; color: var(--text-muted); white-space: nowrap; }
+    #filterMese {
+      padding: 7px 28px 7px 11px;
+      border: 1.5px solid var(--border); border-radius: 10px;
+      font-size: 0.85rem; background: var(--bg); color: var(--text);
+      -webkit-appearance: none; cursor: pointer;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%236C757D' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
+      background-repeat: no-repeat; background-position: right 10px center;
     }
-    .btn-new-orari:hover { background: var(--primary-dark); }
-    .orari-list { padding: 6px 0; }
-    .orario-item {
-      padding: 12px 18px; border-bottom: 1px solid var(--border);
-      display: flex; align-items: center; gap: 12px;
-    }
-    .orario-item:last-child { border-bottom: none; }
-    .orario-name { font-size: 0.9rem; font-weight: 700; flex: 1; }
-    .orario-week { font-size: 0.78rem; color: var(--text-muted); }
-    .orari-empty { padding: 32px; text-align: center; color: var(--text-muted); font-size: 0.88rem; }
+    #filterMese:focus { outline: none; border-color: var(--primary); }
 
-    /* ── FAB ── */
-    .fab {
-      position: fixed; bottom: 80px; right: 20px;
-      width: 54px; height: 54px; border-radius: 50%;
-      background: var(--primary); color: white; border: none;
-      font-size: 1.6rem; cursor: pointer; z-index: 45;
-      box-shadow: 0 4px 16px rgba(45,106,79,0.4);
-      display: flex; align-items: center; justify-content: center;
-      transition: transform 0.2s, background 0.2s;
-    }
-    .fab:hover { background: var(--primary-dark); transform: scale(1.08); }
-    .fab.hidden { display: none; }
+    /* ── Bar chart ── */
+    .chart-body { padding: 16px 14px 8px; }
+    .chart-scroll { overflow-x: auto; padding-bottom: 4px; }
+    .chart-empty { text-align: center; color: var(--text-muted); padding: 40px 20px; font-size: 0.88rem; }
+    .chart-bar { transition: opacity 0.15s; }
+    .chart-bar:hover { opacity: 0.82; }
 
-    /* ── Modals ── */
+    /* ── Totali ── */
+    .totali-section { padding: 14px 18px 18px; border-top: 1px solid var(--border); }
+    .totali-title { font-size: 0.7rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; color: var(--text-muted); margin-bottom: 10px; }
+    .totali-grid { display: flex; flex-wrap: wrap; gap: 8px; }
+    .totali-chip {
+      display: flex; align-items: center; gap: 8px;
+      background: var(--accent); border-radius: 10px;
+      padding: 7px 12px;
+    }
+    .totali-chip-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--primary); flex-shrink: 0; }
+    .totali-chip-name { font-size: 0.78rem; color: var(--text-muted); font-weight: 600; }
+    .totali-chip-val  { font-size: 0.88rem; color: var(--primary); font-weight: 700; }
+
+    /* ── Bar popup ── */
+    .bar-popup-overlay {
+      display: none; position: fixed; inset: 0;
+      background: rgba(0,0,0,0.45); z-index: 200;
+      align-items: center; justify-content: center; padding: 24px;
+    }
+    .bar-popup-overlay.open { display: flex; }
+    .bar-popup {
+      background: white; border-radius: 18px;
+      padding: 24px 22px; max-width: 320px; width: 100%;
+      box-shadow: 0 8px 32px rgba(0,0,0,0.2);
+      animation: popIn 0.2s ease;
+      text-align: center;
+    }
+    @keyframes popIn {
+      from { transform: scale(0.88); opacity: 0; }
+      to   { transform: scale(1);    opacity: 1; }
+    }
+    .bar-popup-icon { font-size: 2rem; margin-bottom: 10px; }
+    .bar-popup-text { font-size: 0.95rem; color: var(--text); line-height: 1.5; }
+    .bar-popup-text strong { color: var(--primary); }
+    .bar-popup-close {
+      margin-top: 18px; padding: 11px 24px;
+      background: var(--accent); color: var(--primary);
+      border: none; border-radius: 10px;
+      font-size: 0.9rem; font-weight: 700; cursor: pointer;
+      transition: background 0.2s;
+    }
+    .bar-popup-close:hover { background: #c2e9cb; }
+
+    /* ── Modals (shared) ── */
     .modal-overlay {
       display: none; position: fixed; inset: 0;
       background: rgba(0,0,0,0.5); z-index: 100;
       align-items: flex-end; justify-content: center; padding: 0;
     }
     .modal-overlay.open { display: flex; }
-    @media (min-width: 600px) {
-      .modal-overlay { align-items: center; padding: 20px; }
-    }
+    @media (min-width: 600px) { .modal-overlay { align-items: center; padding: 20px; } }
     .modal {
       background: white; border-radius: 20px 20px 0 0;
       width: 100%; max-height: 90vh; overflow-y: auto;
       padding: 24px 20px 32px;
       animation: slideUp 0.25s ease;
     }
-    @media (min-width: 600px) {
-      .modal { border-radius: 18px; max-width: 520px; max-height: 85vh; }
-    }
+    @media (min-width: 600px) { .modal { border-radius: 18px; max-width: 520px; max-height: 85vh; } }
     @keyframes slideUp {
       from { transform: translateY(40px); opacity: 0; }
       to   { transform: translateY(0);    opacity: 1; }
@@ -279,12 +264,8 @@
       border-radius: 4px; margin: 0 auto 20px;
     }
     @media (min-width: 600px) { .modal-handle { display: none; } }
-    .modal-title {
-      font-size: 1.1rem; font-weight: 700; color: var(--text);
-      margin-bottom: 20px;
-    }
-    .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
-    .form-group { display: flex; flex-direction: column; gap: 5px; margin-bottom: 12px; }
+    .modal-title { font-size: 1.1rem; font-weight: 700; color: var(--text); margin-bottom: 20px; }
+    .form-group  { display: flex; flex-direction: column; gap: 5px; margin-bottom: 12px; }
     .form-group label { font-size: 0.78rem; font-weight: 700; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.4px; }
     .form-group input, .form-group select {
       width: 100%; padding: 11px 13px;
@@ -292,38 +273,25 @@
       font-size: 0.92rem; background: var(--bg); color: var(--text);
       -webkit-appearance: none;
     }
-    .form-group input:focus, .form-group select:focus {
-      outline: none; border-color: var(--primary);
-    }
+    .form-group input:focus, .form-group select:focus { outline: none; border-color: var(--primary); }
     .form-group select {
       background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%236C757D' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
       background-repeat: no-repeat; background-position: right 12px center;
       padding-right: 32px; cursor: pointer;
     }
-    .giorni-grid {
-      display: grid; grid-template-columns: 1fr 1fr 1fr;
-      gap: 8px; margin-bottom: 12px;
-    }
+
+    /* Giorni grid */
+    .giorni-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px; margin-bottom: 12px; }
     @media (max-width: 420px) { .giorni-grid { grid-template-columns: 1fr 1fr; } }
-    .giorno-block {
-      border: 1.5px solid var(--border); border-radius: 10px;
-      padding: 10px 10px 8px;
-    }
-    .giorno-label {
-      font-size: 0.7rem; font-weight: 700; color: var(--primary);
-      text-transform: uppercase; letter-spacing: 0.4px; margin-bottom: 6px;
-    }
+    .giorno-block { border: 1.5px solid var(--border); border-radius: 10px; padding: 10px 10px 8px; }
+    .giorno-label { font-size: 0.7rem; font-weight: 700; color: var(--primary); text-transform: uppercase; letter-spacing: 0.4px; margin-bottom: 6px; }
     .giorno-block input[type="time"] {
       width: 100%; padding: 6px 8px;
       border: 1.5px solid var(--border); border-radius: 8px;
-      font-size: 0.82rem; background: white; color: var(--text);
-      margin-bottom: 4px;
+      font-size: 0.82rem; background: white; color: var(--text); margin-bottom: 4px;
     }
-    .giorno-block input[type="time"]:focus {
-      outline: none; border-color: var(--primary);
-    }
+    .giorno-block input[type="time"]:focus { outline: none; border-color: var(--primary); }
     .giorno-off-label { font-size: 0.68rem; color: var(--text-muted); display: flex; align-items: center; gap: 4px; margin-top: 2px; cursor: pointer; }
-    .giorno-off-label input[type="checkbox"] { cursor: pointer; }
 
     .modal-actions { display: flex; gap: 10px; margin-top: 20px; }
     .btn-modal-cancel {
@@ -338,20 +306,19 @@
       flex: 2; padding: 13px;
       background: var(--primary); color: white;
       border: none; border-radius: 12px; cursor: pointer;
-      font-size: 0.95rem; font-weight: 700;
-      transition: background 0.2s;
+      font-size: 0.95rem; font-weight: 700; transition: background 0.2s;
     }
     .btn-modal-save:hover { background: var(--primary-dark); }
     .btn-modal-save:disabled { opacity: 0.6; cursor: not-allowed; }
 
-    /* Profile sheet */
+    /* Profile */
     .profile-field {
       display: flex; justify-content: space-between; align-items: center;
       padding: 12px 0; border-bottom: 1px solid var(--border);
     }
     .profile-field:last-of-type { border-bottom: none; }
     .profile-field-label { font-size: 0.78rem; font-weight: 700; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.4px; }
-    .profile-field-val { font-size: 0.92rem; color: var(--text); font-weight: 500; }
+    .profile-field-val   { font-size: 0.92rem; color: var(--text); font-weight: 500; }
     .btn-reset-pw {
       width: 100%; margin-top: 18px; padding: 13px;
       background: var(--accent); color: var(--primary);
@@ -360,7 +327,7 @@
     }
     .btn-reset-pw:hover { background: #c2e9cb; }
     .profile-msg { font-size: 0.82rem; text-align: center; margin-top: 10px; min-height: 18px; }
-    .profile-msg.ok { color: var(--primary); }
+    .profile-msg.ok  { color: var(--primary); }
     .profile-msg.err { color: var(--danger); }
 
     @keyframes pulse {
@@ -376,69 +343,17 @@
     <h1>Presence — Admin</h1>
     <div class="header-right">
       <button class="btn-logout" id="logoutBtn">Esci</button>
-      <button class="avatar-btn" id="avatarBtn" title="Profilo"></button>
+      <button class="avatar-btn" id="avatarBtn"></button>
     </div>
   </div>
 
-  <!-- Presenze page -->
-  <div id="pagePresenze" class="page active">
-
-    <div class="daily-box">
-      <div class="daily-header">
-        <span class="daily-date" id="dailyDateLabel"></span>
-        <span class="daily-count" id="dailyCount">0 presenze</span>
-      </div>
-      <div class="daily-list" id="dailyList">
-        <div class="daily-empty">Caricamento...</div>
-      </div>
-    </div>
-
-    <div class="section-title">Storico presenze</div>
-
-    <div class="filter-grid">
-      <select id="filterSettimana">
-        <option value="">Tutte le settimane</option>
-      </select>
-      <select id="filterMese">
-        <option value="">Tutti i mesi</option>
-      </select>
-      <select id="filterUtente">
-        <option value="">Tutti gli utenti</option>
-      </select>
-      <select id="filterMansione">
-        <option value="">Tutte le mansioni</option>
-        <option value="Cameriere">Cameriere</option>
-        <option value="Cuoco/Aiutocuoco">Cuoco / Aiutocuoco</option>
-        <option value="Lavapiatti">Lavapiatti</option>
-        <option value="Manager">Manager</option>
-      </select>
-      <button class="btn-clear-sm" id="clearStorico">Azzera filtri</button>
-    </div>
-
-    <div class="storico-card">
-      <table class="storico-table">
-        <thead>
-          <tr>
-            <th>Dipendente</th><th>Mansione</th>
-            <th>Data</th><th>Entrata</th><th>Uscita</th>
-            <th>Ore</th><th>Stato</th>
-          </tr>
-        </thead>
-        <tbody id="storicoBody">
-          <tr><td colspan="7" class="empty-storico">Caricamento...</td></tr>
-        </tbody>
-      </table>
-    </div>
-
-  </div>
-
-  <!-- Home page -->
-  <div id="pageHome" class="page">
+  <!-- ══ HOME page (default) ══ -->
+  <div id="pageHome" class="page active">
 
     <div class="greeting-card">
       <div class="greeting-date" id="homeDate"></div>
       <div class="greeting-text" id="homeGreeting"></div>
-      <div class="greeting-sub" id="homeSub"></div>
+      <div class="greeting-sub"  id="homeSub"></div>
     </div>
 
     <div class="home-stats">
@@ -461,38 +376,76 @@
         <span class="orari-card-title">Orari settimanali</span>
         <button class="btn-new-orari" id="btnNewOrari">+ Crea</button>
       </div>
-      <div class="orari-list" id="orariList">
-        <div class="orari-empty">Nessun orario salvato</div>
+      <div id="orariList"><div class="orari-empty">Nessun orario salvato</div></div>
+    </div>
+
+  </div>
+
+  <!-- ══ PRESENZE page ══ -->
+  <div id="pagePresenze" class="page">
+
+    <!-- Daily box -->
+    <div class="daily-box">
+      <div class="daily-header">
+        <span class="daily-date" id="dailyDateLabel"></span>
+        <span class="daily-count" id="dailyCount">0 presenze</span>
+      </div>
+      <div id="dailyList"><div class="daily-empty">Caricamento...</div></div>
+    </div>
+
+    <!-- Storico box -->
+    <div class="storico-box">
+      <div class="storico-header">
+        <span class="storico-title">Storico presenze</span>
+        <div class="filter-mese-wrap">
+          <label for="filterMese">Mese</label>
+          <select id="filterMese"></select>
+        </div>
+      </div>
+      <div class="chart-body">
+        <div class="chart-scroll" id="chartWrap">
+          <div class="chart-empty">Caricamento...</div>
+        </div>
+      </div>
+      <div class="totali-section" id="totaliSection" style="display:none">
+        <div class="totali-title">Totali del mese</div>
+        <div class="totali-grid" id="totaliGrid"></div>
       </div>
     </div>
 
   </div>
 
-  <!-- FAB (home page) -->
-  <button class="fab hidden" id="fab" title="Crea orari settimanali">+</button>
+  <!-- FAB -->
+  <button class="fab" id="fab">+</button>
 
   <!-- Bottom nav -->
   <nav class="bottom-nav">
-    <button class="nav-btn active" id="navPresenze" data-page="pagePresenze">
-      <span class="nav-icon">📋</span>
-      <span>Presenze</span>
+    <button class="nav-btn active" id="navHome" data-page="pageHome">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
+        <polyline points="9 22 9 12 15 12 15 22"/>
+      </svg>
+      Home
     </button>
-    <button class="nav-btn" id="navHome" data-page="pageHome">
-      <span class="nav-icon">🏠</span>
-      <span>Home</span>
+    <button class="nav-btn" id="navPresenze" data-page="pagePresenze">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <rect x="3" y="4" width="18" height="18" rx="2"/>
+        <line x1="16" y1="2" x2="16" y2="6"/>
+        <line x1="8"  y1="2" x2="8"  y2="6"/>
+        <line x1="3"  y1="10" x2="21" y2="10"/>
+      </svg>
+      Presenze
     </button>
   </nav>
 
-  <!-- Modal: crea orari settimanali -->
+  <!-- Modal: crea orari -->
   <div class="modal-overlay" id="modalOrari">
     <div class="modal">
       <div class="modal-handle"></div>
       <div class="modal-title">Crea orari settimanali</div>
       <div class="form-group">
         <label>Dipendente</label>
-        <select id="orariDipendente">
-          <option value="">Seleziona dipendente…</option>
-        </select>
+        <select id="orariDipendente"><option value="">Seleziona dipendente…</option></select>
       </div>
       <div class="form-group">
         <label>Settimana dal</label>
@@ -501,12 +454,12 @@
       <div class="giorni-grid" id="giorniGrid"></div>
       <div class="modal-actions">
         <button class="btn-modal-cancel" id="cancelOrari">Annulla</button>
-        <button class="btn-modal-save" id="saveOrari">Salva orari</button>
+        <button class="btn-modal-save"   id="saveOrari">Salva orari</button>
       </div>
     </div>
   </div>
 
-  <!-- Modal: profilo admin -->
+  <!-- Modal: profilo -->
   <div class="modal-overlay" id="modalProfile">
     <div class="modal">
       <div class="modal-handle"></div>
@@ -539,37 +492,45 @@
     </div>
   </div>
 
+  <!-- Bar popup -->
+  <div class="bar-popup-overlay" id="barPopupOverlay">
+    <div class="bar-popup">
+      <div class="bar-popup-icon">⏱️</div>
+      <div class="bar-popup-text" id="barPopupText"></div>
+      <button class="bar-popup-close" id="barPopupClose">Chiudi</button>
+    </div>
+  </div>
+
   <script type="module">
     import { auth, db } from './js/firebase-config.js';
     import {
       onAuthStateChanged, signOut, sendPasswordResetEmail
     } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
     import {
-      doc, getDoc, getDocs, collection, query, where,
+      doc, getDoc, getDocs, collection, query,
       onSnapshot, addDoc, serverTimestamp
     } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
 
-    // ── helpers ──────────────────────────────────────────────
-    const initials = (n, c) =>
-      ((n||'')[0]||'').toUpperCase() + ((c||'')[0]||'').toUpperCase();
+    // ── Service Worker ────────────────────────────────────────
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.register('sw.js').catch(() => {});
+    }
+
+    // ── Helpers ───────────────────────────────────────────────
+    const pad = x => String(x).padStart(2, '0');
+    const initials = (n, c) => ((n||'')[0]||'').toUpperCase() + ((c||'')[0]||'').toUpperCase();
 
     function todayStr() {
-      const n = new Date();
-      return `${n.getFullYear()}-${pad(n.getMonth()+1)}-${pad(n.getDate())}`;
+      const d = new Date();
+      return `${d.getFullYear()}-${pad(d.getMonth()+1)}-${pad(d.getDate())}`;
     }
-    function pad(x) { return String(x).padStart(2,'0'); }
     function monthPrefix() {
-      const n = new Date();
-      return `${n.getFullYear()}-${pad(n.getMonth()+1)}`;
+      const d = new Date();
+      return `${d.getFullYear()}-${pad(d.getMonth()+1)}`;
     }
     function fmtTime(ts) {
       if (!ts) return '—';
-      return ts.toDate().toLocaleTimeString('it-IT',{hour:'2-digit',minute:'2-digit'});
-    }
-    function fmtDate(s) {
-      const [y,m,d] = s.split('-');
-      return new Date(+y,+m-1,+d).toLocaleDateString('it-IT',
-        {weekday:'short',day:'numeric',month:'short'});
+      return ts.toDate().toLocaleTimeString('it-IT', {hour:'2-digit', minute:'2-digit'});
     }
     function calcDur(a, b) {
       if (!a || !b) return '—';
@@ -578,44 +539,47 @@
       const h = Math.floor(ms/3600000), m = Math.floor((ms%3600000)/60000);
       return m ? `${h}h ${m}m` : `${h}h`;
     }
+    function formatHours(h) {
+      const hh = Math.floor(h), mm = Math.round((h - hh) * 60);
+      return mm ? `${hh}h ${mm}m` : `${hh}h`;
+    }
     function longDate(d = new Date()) {
-      return d.toLocaleDateString('it-IT',
-        {weekday:'long',day:'numeric',month:'long',year:'numeric'});
-    }
-    function weekOfMonth(dateStr) {
-      const [y,m,d] = dateStr.split('-').map(Number);
-      const w = Math.ceil(d / 7);
-      return `${y}-${pad(m)}-S${w}`;
-    }
-    function weekLabel(key) {
-      const [y, mo, sw] = key.split('-');
-      const mNames = ['Gen','Feb','Mar','Apr','Mag','Giu','Lug','Ago','Set','Ott','Nov','Dic'];
-      return `${sw} ${mNames[+mo-1]} ${y}`;
+      return d.toLocaleDateString('it-IT', {weekday:'long', day:'numeric', month:'long', year:'numeric'});
     }
     function monthLabel(prefix) {
       const [y, m] = prefix.split('-');
-      const mNames = ['Gennaio','Febbraio','Marzo','Aprile','Maggio','Giugno',
-                      'Luglio','Agosto','Settembre','Ottobre','Novembre','Dicembre'];
-      return `${mNames[+m-1]} ${y}`;
+      const names = ['Gennaio','Febbraio','Marzo','Aprile','Maggio','Giugno',
+                     'Luglio','Agosto','Settembre','Ottobre','Novembre','Dicembre'];
+      return `${names[+m-1]} ${y}`;
+    }
+    function lastDayOf(prefix) {
+      const [y, m] = prefix.split('-').map(Number);
+      return new Date(y, m, 0).getDate();
+    }
+    function esc(s) {
+      return String(s)
+        .replace(/&/g,'&amp;').replace(/"/g,'&quot;')
+        .replace(/</g,'&lt;').replace(/>/g,'&gt;');
     }
 
-    // ── state ─────────────────────────────────────────────────
+    // ── State ─────────────────────────────────────────────────
     let allPresenze = [], allUsers = [], allOrari = [];
     let currentUser = null, userData = null;
     let unsubPresenze = null, unsubOrari = null;
 
-    // ── nav ───────────────────────────────────────────────────
+    // ── Nav ───────────────────────────────────────────────────
     document.querySelectorAll('.nav-btn').forEach(btn => {
       btn.addEventListener('click', () => {
         document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
         document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
         btn.classList.add('active');
         document.getElementById(btn.dataset.page).classList.add('active');
-        document.getElementById('fab').classList.toggle('hidden', btn.dataset.page !== 'pageHome');
+        const onHome = btn.dataset.page === 'pageHome';
+        document.getElementById('fab').classList.toggle('hidden', !onHome);
       });
     });
 
-    // ── greeting ──────────────────────────────────────────────
+    // ── Greeting ──────────────────────────────────────────────
     function setGreeting(nome) {
       const h = new Date().getHours();
       const g = h < 12 ? 'Buongiorno' : h < 18 ? 'Buon pomeriggio' : 'Buonasera';
@@ -624,100 +588,7 @@
       document.getElementById('homeSub').textContent = 'Benvenuto nel pannello admin.';
     }
 
-    // ── daily box ─────────────────────────────────────────────
-    function renderDaily() {
-      const today = todayStr();
-      document.getElementById('dailyDateLabel').textContent = longDate();
-      const rows = allPresenze.filter(p => p.data === today);
-      document.getElementById('dailyCount').textContent =
-        rows.length === 1 ? '1 presenza' : `${rows.length} presenze`;
-
-      const list = document.getElementById('dailyList');
-      if (!rows.length) {
-        list.innerHTML = '<div class="daily-empty">Nessuna presenza oggi</div>';
-        return;
-      }
-      list.innerHTML = rows.map(p => {
-        const active = !p.oraUscita;
-        const ini = initials(p.userName?.split(' ')[0], p.userName?.split(' ')[1]);
-        const timeStr = active
-          ? `Entrata ${fmtTime(p.oraEntrata)}`
-          : `${fmtTime(p.oraEntrata)} → ${fmtTime(p.oraUscita)} (${calcDur(p.oraEntrata,p.oraUscita)})`;
-        return `<div class="daily-item">
-          <div class="daily-avatar">${ini}</div>
-          <div class="daily-info">
-            <div class="daily-name">${p.userName ?? '—'}</div>
-            <div class="daily-mansione">${p.userMansione ?? ''}</div>
-            <div class="daily-times">${timeStr}</div>
-          </div>
-          <div class="daily-status">
-            ${active
-              ? `<div class="dot-active"></div><span class="status-label active">In attività</span>`
-              : `<div class="dot-done">✓</div><span class="status-label done">Completato</span>`
-            }
-          </div>
-        </div>`;
-      }).join('');
-    }
-
-    // ── storico filters ───────────────────────────────────────
-    function buildFilterOptions() {
-      const weeks  = [...new Set(allPresenze.map(p => weekOfMonth(p.data)))].sort().reverse();
-      const months = [...new Set(allPresenze.map(p => p.data.slice(0,7)))].sort().reverse();
-
-      const selW = document.getElementById('filterSettimana');
-      const curW = selW.value;
-      selW.innerHTML = '<option value="">Tutte le settimane</option>' +
-        weeks.map(w => `<option value="${w}">${weekLabel(w)}</option>`).join('');
-      if (curW) selW.value = curW;
-
-      const selM = document.getElementById('filterMese');
-      const curM = selM.value;
-      selM.innerHTML = '<option value="">Tutti i mesi</option>' +
-        months.map(m => `<option value="${m}">${monthLabel(m)}</option>`).join('');
-      if (curM) selM.value = curM;
-
-      const selU = document.getElementById('filterUtente');
-      const curU = selU.value;
-      const names = [...new Set(allPresenze.map(p => p.userName).filter(Boolean))].sort();
-      selU.innerHTML = '<option value="">Tutti gli utenti</option>' +
-        names.map(n => `<option value="${n}">${n}</option>`).join('');
-      if (curU) selU.value = curU;
-    }
-
-    function renderStorico() {
-      const fw = document.getElementById('filterSettimana').value;
-      const fm = document.getElementById('filterMese').value;
-      const fu = document.getElementById('filterUtente').value;
-      const fmans = document.getElementById('filterMansione').value;
-
-      let rows = allPresenze;
-      if (fw)    rows = rows.filter(p => weekOfMonth(p.data) === fw);
-      if (fm)    rows = rows.filter(p => p.data.startsWith(fm));
-      if (fu)    rows = rows.filter(p => p.userName === fu);
-      if (fmans) rows = rows.filter(p => p.userMansione === fmans);
-
-      const tbody = document.getElementById('storicoBody');
-      if (!rows.length) {
-        tbody.innerHTML = '<tr><td colspan="7" class="empty-storico">Nessuna presenza trovata</td></tr>';
-        return;
-      }
-      tbody.innerHTML = rows.map(p => {
-        const ip = !p.oraUscita;
-        return `<tr class="${ip ? 'in-progress' : ''}">
-          <td data-label="Dipendente"><strong>${p.userName ?? '—'}</strong></td>
-          <td data-label="Mansione">${p.userMansione ?? '—'}</td>
-          <td data-label="Data">${fmtDate(p.data)}</td>
-          <td data-label="Entrata">${fmtTime(p.oraEntrata)}</td>
-          <td data-label="Uscita">${fmtTime(p.oraUscita)}</td>
-          <td data-label="Ore">${calcDur(p.oraEntrata,p.oraUscita)}</td>
-          <td data-label="Stato">
-            <span class="badge ${ip ? 'badge-in' : 'badge-out'}">${ip ? '● In servizio' : 'Completato'}</span>
-          </td>
-        </tr>`;
-      }).join('');
-    }
-
+    // ── Stats ─────────────────────────────────────────────────
     function renderStats() {
       const today = todayStr(), mp = monthPrefix();
       const todayRows = allPresenze.filter(p => p.data === today);
@@ -726,48 +597,213 @@
       document.getElementById('statMonth').textContent = allPresenze.filter(p => p.data.startsWith(mp)).length;
     }
 
-    function fullRender() {
-      renderDaily();
-      buildFilterOptions();
-      renderStorico();
-      renderStats();
-    }
+    // ── Daily box ─────────────────────────────────────────────
+    function renderDaily() {
+      const today = todayStr();
+      document.getElementById('dailyDateLabel').textContent = longDate();
+      const rows = allPresenze.filter(p => p.data === today);
+      const cnt = rows.length;
+      document.getElementById('dailyCount').textContent =
+        cnt === 1 ? '1 presenza' : `${cnt} presenze`;
 
-    ['filterSettimana','filterMese','filterUtente','filterMansione'].forEach(id => {
-      document.getElementById(id).addEventListener('change', renderStorico);
-    });
-    document.getElementById('clearStorico').addEventListener('click', () => {
-      ['filterSettimana','filterMese','filterUtente','filterMansione']
-        .forEach(id => document.getElementById(id).value = '');
-      renderStorico();
-    });
-
-    // ── orari list ────────────────────────────────────────────
-    function renderOrari() {
-      const list = document.getElementById('orariList');
-      if (!allOrari.length) {
-        list.innerHTML = '<div class="orari-empty">Nessun orario salvato</div>';
+      const list = document.getElementById('dailyList');
+      if (!cnt) {
+        list.innerHTML = '<div class="daily-empty">Nessuna presenza oggi</div>';
         return;
       }
-      list.innerHTML = allOrari.map(o => {
-        const user = allUsers.find(u => u.id === o.userId);
-        const name = user ? `${user.nome} ${user.cognome}` : (o.userName ?? '—');
-        const weekStart = o.settimana
-          ? new Date(o.settimana).toLocaleDateString('it-IT',{day:'numeric',month:'short'})
-          : '—';
-        return `<div class="orario-item">
-          <div class="daily-avatar" style="width:36px;height:36px;font-size:0.72rem">
-            ${initials(name.split(' ')[0], name.split(' ')[1])}
+      list.innerHTML = rows.map(p => {
+        const active = !p.oraUscita;
+        const ini = initials(p.userName?.split(' ')[0], p.userName?.split(' ')[1]);
+        const timeStr = active
+          ? `Entrata ${fmtTime(p.oraEntrata)}`
+          : `${fmtTime(p.oraEntrata)} → ${fmtTime(p.oraUscita)} · ${calcDur(p.oraEntrata, p.oraUscita)}`;
+        return `<div class="daily-item">
+          <div class="daily-avatar">${ini}</div>
+          <div class="daily-info">
+            <div class="daily-name">${p.userName ?? '—'}</div>
+            <div class="daily-mans">${p.userMansione ?? ''}</div>
+            <div class="daily-times">${timeStr}</div>
           </div>
-          <div style="flex:1">
-            <div class="orario-name">${name}</div>
-            <div class="orario-week">Settimana dal ${weekStart}</div>
+          <div class="daily-status">
+            ${active
+              ? `<div class="dot-active"></div><span class="status-label active">In attività</span>`
+              : `<div class="dot-done">✓</div><span class="status-label done">Completato</span>`}
           </div>
         </div>`;
       }).join('');
     }
 
-    // ── modal orari ───────────────────────────────────────────
+    // ── Storico: month filter ─────────────────────────────────
+    function buildMonthOptions() {
+      const months = [...new Set(allPresenze.map(p => p.data.slice(0,7)))].sort().reverse();
+      const sel = document.getElementById('filterMese');
+      const cur = sel.value;
+      sel.innerHTML = months.map(m => `<option value="${m}">${monthLabel(m)}</option>`).join('');
+      // default: current month if available, else first
+      if (cur && months.includes(cur)) sel.value = cur;
+      else if (months.includes(monthPrefix())) sel.value = monthPrefix();
+      else if (months.length) sel.value = months[0];
+    }
+
+    // ── Storico: bar chart ────────────────────────────────────
+    const BAR_COLORS = ['#2D6A4F','#40916C','#52B788','#74C69D','#95D5B2'];
+    const MANSIONI_ORDER = ['Cameriere','Cuoco/Aiutocuoco','Lavapiatti','Manager'];
+    const MANS_SHORT = { 'Cameriere':'Sala', 'Cuoco/Aiutocuoco':'Cucina', 'Lavapiatti':'Lavap.', 'Manager':'Manager' };
+
+    function renderStorico() {
+      const mp = document.getElementById('filterMese').value;
+      if (!mp) { document.getElementById('chartWrap').innerHTML = '<div class="chart-empty">Seleziona un mese</div>'; return; }
+
+      const rows = allPresenze.filter(p =>
+        p.data.startsWith(mp) && p.oraEntrata && p.oraUscita
+      );
+
+      if (!rows.length) {
+        document.getElementById('chartWrap').innerHTML = '<div class="chart-empty">Nessuna presenza completata in questo mese</div>';
+        document.getElementById('totaliSection').style.display = 'none';
+        return;
+      }
+
+      // Aggregate hours per user
+      const userMap = {};
+      rows.forEach(p => {
+        const key = p.userId || p.userName || p.id;
+        if (!userMap[key]) userMap[key] = { name: p.userName || '—', mansione: p.userMansione || '—', ms: 0 };
+        const ms = p.oraUscita.toDate() - p.oraEntrata.toDate();
+        if (ms > 0) userMap[key].ms += ms;
+      });
+
+      // Group by mansione (in order)
+      const grouped = {};
+      MANSIONI_ORDER.forEach(m => { grouped[m] = []; });
+      Object.values(userMap).forEach(u => {
+        if (!grouped[u.mansione]) grouped[u.mansione] = [];
+        grouped[u.mansione].push({ name: u.name, hours: u.ms / 3600000 });
+      });
+
+      const activeGroups = MANSIONI_ORDER.filter(m => grouped[m].length > 0);
+
+      // Draw chart
+      const BAR_W = 24, BAR_GAP = 4, GROUP_GAP = 28;
+      const PAD_L = 46, PAD_R = 16, PAD_T = 28, PAD_B = 48;
+      const SVG_H = 210;
+      const plotH = SVG_H - PAD_T - PAD_B;
+
+      const groupWidths = activeGroups.map(m => grouped[m].length * (BAR_W + BAR_GAP) - BAR_GAP);
+      const totalW = groupWidths.reduce((s,w) => s+w, 0) + (activeGroups.length-1)*GROUP_GAP;
+      const SVG_W = Math.max(PAD_L + totalW + PAD_R, 280);
+
+      let maxH = 0;
+      activeGroups.forEach(m => grouped[m].forEach(u => { if (u.hours > maxH) maxH = u.hours; }));
+      const yMax = Math.ceil(Math.max(maxH, 5) / 5) * 5;
+      const Y_STEPS = 5;
+
+      let svg = `<svg viewBox="0 0 ${SVG_W} ${SVG_H}" width="${SVG_W}" height="${SVG_H}" style="display:block">`;
+
+      // Y gridlines + labels
+      for (let i = 0; i <= Y_STEPS; i++) {
+        const val = (yMax / Y_STEPS) * i;
+        const y   = PAD_T + plotH - (val / yMax) * plotH;
+        svg += `<line x1="${PAD_L}" y1="${y.toFixed(1)}" x2="${SVG_W - PAD_R}" y2="${y.toFixed(1)}" stroke="${i===0?'#CED4DA':'#E9ECEF'}" stroke-width="${i===0?'1.5':'1'}"/>`;
+        svg += `<text x="${PAD_L-6}" y="${(y+4).toFixed(1)}" text-anchor="end" font-size="10" fill="#6C757D">${Math.round(val)}h</text>`;
+      }
+
+      // Y axis
+      svg += `<line x1="${PAD_L}" y1="${PAD_T}" x2="${PAD_L}" y2="${PAD_T+plotH}" stroke="#CED4DA" stroke-width="1.5"/>`;
+
+      // Bars
+      let xCursor = PAD_L + 10;
+      activeGroups.forEach((mans, gi) => {
+        const users = grouped[mans];
+        users.forEach((u, ui) => {
+          const barH = Math.max((u.hours / yMax) * plotH, 3);
+          const x    = xCursor + ui * (BAR_W + BAR_GAP);
+          const y    = PAD_T + plotH - barH;
+          const col  = BAR_COLORS[ui % BAR_COLORS.length];
+          const hFmt = formatHours(u.hours);
+          const firstName = u.name.split(' ')[0].slice(0, 6);
+          svg += `<rect class="chart-bar" x="${x.toFixed(1)}" y="${y.toFixed(1)}" width="${BAR_W}" height="${barH.toFixed(1)}" rx="5" fill="${col}" data-name="${esc(u.name)}" data-hours="${esc(hFmt)}" data-month="${esc(mp)}"/>`;
+          svg += `<text x="${(x+BAR_W/2).toFixed(1)}" y="${(y-5).toFixed(1)}" text-anchor="middle" font-size="9" fill="${col}" font-weight="700">${esc(firstName)}</text>`;
+        });
+
+        // Mansione label
+        const midX = xCursor + groupWidths[gi] / 2;
+        svg += `<text x="${midX.toFixed(1)}" y="${(PAD_T+plotH+17).toFixed(1)}" text-anchor="middle" font-size="10" fill="#495057" font-weight="700">${esc(MANS_SHORT[mans]||mans)}</text>`;
+
+        // Separator
+        if (gi < activeGroups.length - 1) {
+          const sepX = xCursor + groupWidths[gi] + GROUP_GAP/2;
+          svg += `<line x1="${sepX}" y1="${PAD_T+6}" x2="${sepX}" y2="${PAD_T+plotH}" stroke="#DEE2E6" stroke-width="1" stroke-dasharray="3,3"/>`;
+        }
+
+        xCursor += groupWidths[gi] + GROUP_GAP;
+      });
+
+      svg += '</svg>';
+
+      const wrap = document.getElementById('chartWrap');
+      wrap.innerHTML = svg;
+
+      // Click handlers
+      wrap.querySelectorAll('.chart-bar').forEach(bar => {
+        bar.style.cursor = 'pointer';
+        bar.addEventListener('click', () => showBarPopup(bar.dataset));
+      });
+
+      // Totali
+      const totali = {};
+      activeGroups.forEach(m => {
+        totali[m] = grouped[m].reduce((s, u) => s + u.hours, 0);
+      });
+      renderTotali(totali);
+    }
+
+    function renderTotali(totali) {
+      const section = document.getElementById('totaliSection');
+      const grid = document.getElementById('totaliGrid');
+      const entries = Object.entries(totali).filter(([,h]) => h > 0);
+      if (!entries.length) { section.style.display = 'none'; return; }
+      section.style.display = '';
+      grid.innerHTML = entries.map(([mans, hours]) => `
+        <div class="totali-chip">
+          <div class="totali-chip-dot"></div>
+          <span class="totali-chip-name">${MANS_SHORT[mans]||mans}</span>
+          <span class="totali-chip-val">${formatHours(hours)}</span>
+        </div>`).join('');
+    }
+
+    // ── Bar popup ─────────────────────────────────────────────
+    function showBarPopup({ name, hours, month }) {
+      const [y, m] = month.split('-').map(Number);
+      const last = lastDayOf(month);
+      const mNames = ['Gennaio','Febbraio','Marzo','Aprile','Maggio','Giugno',
+                      'Luglio','Agosto','Settembre','Ottobre','Novembre','Dicembre'];
+      const mName = mNames[m-1];
+      document.getElementById('barPopupText').innerHTML =
+        `<strong>${name}</strong> ha lavorato <strong>${hours}</strong><br>
+         dal <strong>1° ${mName}</strong> al <strong>${last} ${mName} ${y}</strong>`;
+      document.getElementById('barPopupOverlay').classList.add('open');
+    }
+    document.getElementById('barPopupClose').addEventListener('click', () => {
+      document.getElementById('barPopupOverlay').classList.remove('open');
+    });
+    document.getElementById('barPopupOverlay').addEventListener('click', e => {
+      if (e.target === document.getElementById('barPopupOverlay'))
+        document.getElementById('barPopupOverlay').classList.remove('open');
+    });
+
+    // ── Month filter ──────────────────────────────────────────
+    document.getElementById('filterMese').addEventListener('change', renderStorico);
+
+    // ── Full render ───────────────────────────────────────────
+    function fullRender() {
+      renderDaily();
+      renderStats();
+      buildMonthOptions();
+      renderStorico();
+    }
+
+    // ── Orari ─────────────────────────────────────────────────
     const GIORNI = ['Lunedì','Martedì','Mercoledì','Giovedì','Venerdì','Sabato','Domenica'];
 
     function buildGiorni() {
@@ -780,12 +816,10 @@
             <input type="checkbox" id="gOff${i}"> Riposo
           </label>
         </div>`).join('');
-
       GIORNI.forEach((_, i) => {
         document.getElementById(`gOff${i}`).addEventListener('change', e => {
-          const off = e.target.checked;
-          document.getElementById(`gIn${i}`).disabled = off;
-          document.getElementById(`gOut${i}`).disabled = off;
+          document.getElementById(`gIn${i}`).disabled = e.target.checked;
+          document.getElementById(`gOut${i}`).disabled = e.target.checked;
         });
       });
     }
@@ -801,7 +835,6 @@
     function openOrariModal() {
       buildGiorni();
       populateDipendenti();
-      // default settimana = lunedì corrente
       const now = new Date();
       const dow = now.getDay() || 7;
       const mon = new Date(now); mon.setDate(now.getDate() - dow + 1);
@@ -813,52 +846,62 @@
 
     document.getElementById('fab').addEventListener('click', openOrariModal);
     document.getElementById('btnNewOrari').addEventListener('click', openOrariModal);
-    document.getElementById('cancelOrari').addEventListener('click', () => {
-      document.getElementById('modalOrari').classList.remove('open');
-    });
+    document.getElementById('cancelOrari').addEventListener('click', () =>
+      document.getElementById('modalOrari').classList.remove('open'));
 
     document.getElementById('saveOrari').addEventListener('click', async () => {
       const userId = document.getElementById('orariDipendente').value;
       const settimana = document.getElementById('orariSettimana').value;
-      if (!userId || !settimana) {
-        alert('Seleziona dipendente e settimana.');
-        return;
-      }
+      if (!userId || !settimana) { alert('Seleziona dipendente e settimana.'); return; }
       const btn = document.getElementById('saveOrari');
       btn.disabled = true; btn.textContent = 'Salvataggio…';
-
       const turni = GIORNI.map((g, i) => ({
         giorno: g,
         off: document.getElementById(`gOff${i}`).checked,
         entrata: document.getElementById(`gIn${i}`).value || null,
-        uscita: document.getElementById(`gOut${i}`).value || null,
+        uscita:  document.getElementById(`gOut${i}`).value || null,
       }));
-
       const user = allUsers.find(u => u.id === userId);
       try {
         await addDoc(collection(db, 'orari'), {
-          userId,
-          userName: user ? `${user.nome} ${user.cognome}` : '',
-          settimana,
-          turni,
-          createdAt: serverTimestamp(),
-          createdBy: currentUser.uid,
+          userId, userName: user ? `${user.nome} ${user.cognome}` : '',
+          settimana, turni,
+          createdAt: serverTimestamp(), createdBy: currentUser.uid,
         });
         document.getElementById('modalOrari').classList.remove('open');
-      } catch (ex) {
-        alert('Errore salvataggio: ' + ex.message);
-      }
+      } catch (ex) { alert('Errore: ' + ex.message); }
       btn.disabled = false; btn.textContent = 'Salva orari';
     });
 
-    // ── profile modal ─────────────────────────────────────────
+    function renderOrari() {
+      const list = document.getElementById('orariList');
+      if (!allOrari.length) {
+        list.innerHTML = '<div class="orari-empty">Nessun orario salvato</div>';
+        return;
+      }
+      list.innerHTML = allOrari.map(o => {
+        const user = allUsers.find(u => u.id === o.userId);
+        const name = user ? `${user.nome} ${user.cognome}` : (o.userName ?? '—');
+        const weekStart = o.settimana
+          ? new Date(o.settimana).toLocaleDateString('it-IT', {day:'numeric', month:'short'})
+          : '—';
+        return `<div class="orario-item">
+          <div class="orari-mini-avatar">${initials(name.split(' ')[0], name.split(' ')[1])}</div>
+          <div>
+            <div class="orario-name">${name}</div>
+            <div class="orario-week">Settimana dal ${weekStart}</div>
+          </div>
+        </div>`;
+      }).join('');
+    }
+
+    // ── Profile ───────────────────────────────────────────────
     document.getElementById('avatarBtn').addEventListener('click', () => {
       document.getElementById('profileMsg').textContent = '';
       document.getElementById('modalProfile').classList.add('open');
     });
-    document.getElementById('closeProfile').addEventListener('click', () => {
-      document.getElementById('modalProfile').classList.remove('open');
-    });
+    document.getElementById('closeProfile').addEventListener('click', () =>
+      document.getElementById('modalProfile').classList.remove('open'));
     document.getElementById('btnResetPw').addEventListener('click', async () => {
       const msg = document.getElementById('profileMsg');
       try {
@@ -871,7 +914,7 @@
       }
     });
 
-    // close modals on overlay click
+    // Close modals on overlay click
     ['modalOrari','modalProfile'].forEach(id => {
       document.getElementById(id).addEventListener('click', e => {
         if (e.target === document.getElementById(id))
@@ -879,10 +922,10 @@
       });
     });
 
-    // ── auth ──────────────────────────────────────────────────
+    // ── Auth ──────────────────────────────────────────────────
     onAuthStateChanged(auth, async user => {
       if (!user) { window.location.href = 'index.html'; return; }
-      const snap = await getDoc(doc(db,'users',user.uid));
+      const snap = await getDoc(doc(db, 'users', user.uid));
       if (!snap.exists() || snap.data().ruolo !== 'admin') {
         window.location.href = 'dashboard.html'; return;
       }
@@ -896,32 +939,26 @@
       document.getElementById('profEmail').textContent   = user.email;
       setGreeting(userData.nome);
 
-      // load all users
-      const usersSnap = await getDocs(collection(db,'users'));
-      allUsers = usersSnap.docs.map(d => ({id:d.id,...d.data()}));
+      // Load users
+      const usersSnap = await getDocs(collection(db, 'users'));
+      allUsers = usersSnap.docs.map(d => ({id: d.id, ...d.data()}));
 
-      // listen to presenze
-      unsubPresenze = onSnapshot(
-        query(collection(db,'presenze')),
-        snap => {
-          allPresenze = snap.docs
-            .map(d => ({id:d.id,...d.data()}))
-            .filter(p => p.oraEntrata)
-            .sort((a,b) => b.oraEntrata.toDate() - a.oraEntrata.toDate());
-          fullRender();
-        }
-      );
+      // Listen to presenze
+      unsubPresenze = onSnapshot(query(collection(db, 'presenze')), snap => {
+        allPresenze = snap.docs
+          .map(d => ({id: d.id, ...d.data()}))
+          .filter(p => p.oraEntrata)
+          .sort((a, b) => b.oraEntrata.toDate() - a.oraEntrata.toDate());
+        fullRender();
+      });
 
-      // listen to orari
-      unsubOrari = onSnapshot(
-        query(collection(db,'orari')),
-        snap => {
-          allOrari = snap.docs
-            .map(d => ({id:d.id,...d.data()}))
-            .sort((a,b) => (b.createdAt?.toDate()||0) - (a.createdAt?.toDate()||0));
-          renderOrari();
-        }
-      );
+      // Listen to orari
+      unsubOrari = onSnapshot(query(collection(db, 'orari')), snap => {
+        allOrari = snap.docs
+          .map(d => ({id: d.id, ...d.data()}))
+          .sort((a, b) => (b.createdAt?.toDate()||0) - (a.createdAt?.toDate()||0));
+        renderOrari();
+      });
     });
 
     document.getElementById('logoutBtn').addEventListener('click', async () => {
