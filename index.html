@@ -5,11 +5,96 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Presence</title>
   <link rel="stylesheet" href="css/style.css">
+  <style>
+    * { box-sizing: border-box; }
+    body {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      background: var(--bg);
+    }
+    .login-wrap { width: 100%; max-width: 420px; }
+    .logo { text-align: center; margin-bottom: 28px; }
+    .logo h1 { font-size: 1.9rem; color: var(--primary); font-weight: 700; letter-spacing: -0.5px; }
+    .logo p  { color: var(--text-muted); margin-top: 4px; font-size: 0.95rem; }
+
+    .auth-card {
+      background: white;
+      border-radius: 20px;
+      padding: 28px 24px;
+      box-shadow: 0 4px 24px rgba(0,0,0,0.09);
+    }
+
+    .tabs { display: flex; margin-bottom: 24px; border-bottom: 2px solid var(--border); }
+    .tab-btn {
+      flex: 1; padding: 10px; background: none; border: none;
+      border-bottom: 3px solid transparent; margin-bottom: -2px;
+      cursor: pointer; font-size: 0.95rem; font-weight: 600;
+      color: var(--text-muted); transition: color 0.2s;
+    }
+    .tab-btn.active { color: var(--primary); border-bottom-color: var(--primary); }
+
+    .tab-content { display: none; }
+    .tab-content.active { display: block; }
+
+    .form-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+    }
+    @media (max-width: 380px) { .form-grid { grid-template-columns: 1fr; } }
+
+    form { display: flex; flex-direction: column; gap: 12px; }
+
+    input, select {
+      width: 100%;
+      padding: 13px 14px;
+      border: 1.5px solid var(--border);
+      border-radius: 10px;
+      font-size: 0.95rem;
+      background: var(--bg);
+      color: var(--text);
+      transition: border-color 0.2s;
+      -webkit-appearance: none;
+    }
+    input:focus, select:focus { outline: none; border-color: var(--primary); }
+    select { background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%236C757D' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 14px center; padding-right: 36px; cursor: pointer; }
+
+    .admin-code-wrap {
+      position: relative;
+    }
+    .admin-code-label {
+      font-size: 0.78rem;
+      color: var(--text-muted);
+      text-align: center;
+      margin-top: -4px;
+    }
+
+    .btn-submit {
+      padding: 14px;
+      background: var(--primary);
+      color: white;
+      border: none;
+      border-radius: 10px;
+      font-size: 1rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: background 0.2s;
+      min-height: 50px;
+    }
+    .btn-submit:hover { background: var(--primary-dark); }
+    .btn-submit:disabled { opacity: 0.6; cursor: not-allowed; }
+
+    .error-msg { color: var(--danger); font-size: 0.84rem; text-align: center; min-height: 18px; }
+    .success-msg { color: var(--primary); font-size: 0.84rem; text-align: center; min-height: 18px; }
+  </style>
 </head>
 <body>
-  <div class="login-container">
+  <div class="login-wrap">
     <div class="logo">
-      <h1>🍽️ Presence</h1>
+      <h1>Presence</h1>
       <p>Gestione presenze ristorante</p>
     </div>
 
@@ -19,24 +104,39 @@
         <button class="tab-btn" data-tab="register">Registrati</button>
       </div>
 
+      <!-- Login -->
       <div id="tab-login" class="tab-content active">
         <form id="loginForm">
           <input type="email" id="loginEmail" placeholder="Email" required autocomplete="email">
           <input type="password" id="loginPassword" placeholder="Password" required autocomplete="current-password">
-          <button type="submit" class="btn btn-primary">Accedi</button>
+          <button type="submit" class="btn-submit">Accedi</button>
         </form>
-        <div id="loginError" class="error-msg"></div>
+        <div id="loginError" class="error-msg" style="margin-top:10px"></div>
       </div>
 
+      <!-- Register -->
       <div id="tab-register" class="tab-content">
         <form id="registerForm">
-          <input type="text" id="registerName" placeholder="Nome e Cognome" required>
-          <input type="email" id="registerEmail" placeholder="Email" required autocomplete="email">
+          <div class="form-grid">
+            <input type="text" id="registerNome"    placeholder="Nome"    required>
+            <input type="text" id="registerCognome" placeholder="Cognome" required>
+          </div>
+          <input type="email"    id="registerEmail"    placeholder="Email" required autocomplete="email">
           <input type="password" id="registerPassword" placeholder="Password (min. 6 caratteri)" required minlength="6" autocomplete="new-password">
-          <input type="password" id="adminCode" placeholder="Codice admin (solo per il responsabile)" autocomplete="off">
-          <button type="submit" class="btn btn-primary">Registrati</button>
+          <select id="registerMansione" required>
+            <option value="">Seleziona la tua mansione…</option>
+            <option value="Cameriere">Cameriere</option>
+            <option value="Cuoco/Aiutocuoco">Cuoco / Aiutocuoco</option>
+            <option value="Lavapiatti">Lavapiatti</option>
+            <option value="Manager">Manager</option>
+          </select>
+          <div class="admin-code-wrap">
+            <input type="password" id="adminCode" placeholder="Codice responsabile (opzionale)" autocomplete="off">
+          </div>
+          <p class="admin-code-label">Solo il responsabile inserisce il codice</p>
+          <button type="submit" class="btn-submit">Crea account</button>
         </form>
-        <div id="registerError" class="error-msg"></div>
+        <div id="registerError" class="error-msg" style="margin-top:10px"></div>
       </div>
     </div>
   </div>
@@ -44,15 +144,10 @@
   <script type="module">
     import { auth, db, ADMIN_CODE } from './js/firebase-config.js';
     import {
-      signInWithEmailAndPassword,
-      createUserWithEmailAndPassword,
-      onAuthStateChanged
+      signInWithEmailAndPassword, createUserWithEmailAndPassword, onAuthStateChanged
     } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
-    import {
-      doc, setDoc, getDoc
-    } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+    import { doc, setDoc, getDoc } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
 
-    // Tab switching
     document.querySelectorAll('.tab-btn').forEach(btn => {
       btn.addEventListener('click', () => {
         document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
@@ -64,72 +159,50 @@
       });
     });
 
-    // If already logged in, redirect
-    onAuthStateChanged(auth, async (user) => {
+    onAuthStateChanged(auth, async user => {
       if (!user) return;
       try {
         const snap = await getDoc(doc(db, 'users', user.uid));
-        if (snap.exists() && snap.data().ruolo === 'admin') {
-          window.location.href = 'admin.html';
-        } else {
-          window.location.href = 'dashboard.html';
-        }
-      } catch {
-        window.location.href = 'dashboard.html';
-      }
+        window.location.href = (snap.exists() && snap.data().ruolo === 'admin') ? 'admin.html' : 'dashboard.html';
+      } catch { window.location.href = 'dashboard.html'; }
     });
 
-    // Login
-    document.getElementById('loginForm').addEventListener('submit', async (e) => {
+    document.getElementById('loginForm').addEventListener('submit', async e => {
       e.preventDefault();
       const btn = e.target.querySelector('button');
-      const errorEl = document.getElementById('loginError');
-      errorEl.textContent = '';
-      btn.disabled = true;
-      btn.textContent = 'Accesso in corso...';
+      const err = document.getElementById('loginError');
+      err.textContent = ''; btn.disabled = true; btn.textContent = 'Accesso…';
       try {
-        await signInWithEmailAndPassword(
-          auth,
+        await signInWithEmailAndPassword(auth,
           document.getElementById('loginEmail').value,
-          document.getElementById('loginPassword').value
-        );
-      } catch (err) {
-        errorEl.textContent = errMsg(err.code);
-        btn.disabled = false;
-        btn.textContent = 'Accedi';
-      }
+          document.getElementById('loginPassword').value);
+      } catch(ex) { err.textContent = errMsg(ex.code); btn.disabled = false; btn.textContent = 'Accedi'; }
     });
 
-    // Register
-    document.getElementById('registerForm').addEventListener('submit', async (e) => {
+    document.getElementById('registerForm').addEventListener('submit', async e => {
       e.preventDefault();
       const btn = e.target.querySelector('button');
-      const errorEl = document.getElementById('registerError');
-      errorEl.textContent = '';
-      btn.disabled = true;
-      btn.textContent = 'Registrazione in corso...';
-      const name = document.getElementById('registerName').value.trim();
-      const email = document.getElementById('registerEmail').value;
+      const err = document.getElementById('registerError');
+      err.textContent = ''; btn.disabled = true; btn.textContent = 'Creazione…';
+      const nome     = document.getElementById('registerNome').value.trim();
+      const cognome  = document.getElementById('registerCognome').value.trim();
+      const email    = document.getElementById('registerEmail').value;
       const password = document.getElementById('registerPassword').value;
-      const code = document.getElementById('adminCode').value.trim();
-      const ruolo = code === ADMIN_CODE ? 'admin' : 'user';
+      const mansione = document.getElementById('registerMansione').value;
+      const code     = document.getElementById('adminCode').value.trim();
+      if (!mansione) { err.textContent = 'Seleziona la tua mansione.'; btn.disabled = false; btn.textContent = 'Crea account'; return; }
       try {
         const { user } = await createUserWithEmailAndPassword(auth, email, password);
         await setDoc(doc(db, 'users', user.uid), {
-          nome: name,
-          email: email,
-          ruolo: ruolo,
+          nome, cognome, email, mansione,
+          ruolo: code === ADMIN_CODE ? 'admin' : 'user',
           createdAt: new Date().toISOString()
         });
-      } catch (err) {
-        errorEl.textContent = errMsg(err.code);
-        btn.disabled = false;
-        btn.textContent = 'Registrati';
-      }
+      } catch(ex) { err.textContent = errMsg(ex.code); btn.disabled = false; btn.textContent = 'Crea account'; }
     });
 
     function errMsg(code) {
-      const map = {
+      return {
         'auth/user-not-found':       'Utente non trovato',
         'auth/wrong-password':       'Password errata',
         'auth/invalid-credential':   'Email o password errati',
@@ -137,8 +210,7 @@
         'auth/weak-password':        'Password troppo debole (min. 6 caratteri)',
         'auth/invalid-email':        'Email non valida',
         'auth/too-many-requests':    'Troppi tentativi, riprova tra poco',
-      };
-      return map[code] || 'Errore: ' + code;
+      }[code] || 'Errore: ' + code;
     }
   </script>
 </body>

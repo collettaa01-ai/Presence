@@ -6,40 +6,42 @@
   <title>Presence</title>
   <link rel="stylesheet" href="css/style.css">
   <style>
+    *, *::before, *::after { box-sizing: border-box; }
     body {
-      min-height: 100vh;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: flex-start;
-      padding: 32px 16px;
-      background: var(--bg);
+      min-height: 100vh; display: flex; flex-direction: column;
+      align-items: center; justify-content: flex-start;
+      padding: 32px 16px; background: var(--bg);
     }
     @media (max-width: 600px) { body { padding: 0; } }
 
     .main-box {
-      width: 100%;
-      max-width: 750px;
-      background: var(--card);
-      border-radius: 20px;
-      box-shadow: var(--shadow);
-      overflow: hidden;
+      width: 100%; max-width: 750px; background: white;
+      border-radius: 20px; box-shadow: var(--shadow); overflow: hidden;
     }
-    @media (max-width: 600px) {
-      .main-box { border-radius: 0; min-height: 100vh; box-shadow: none; }
-    }
+    @media (max-width: 600px) { .main-box { border-radius: 0; min-height: 100vh; box-shadow: none; } }
 
     /* Header */
     .box-header {
-      background: var(--primary);
-      color: white;
-      padding: 18px 20px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
+      background: var(--primary); color: white;
+      padding: 16px 20px;
+      display: flex; align-items: center; justify-content: space-between; gap: 12px;
     }
-    .box-header h2   { font-size: 1.1rem; font-weight: 600; }
-    .box-header .user-name { font-size: 0.82rem; opacity: 0.85; margin-top: 2px; }
+    .header-left h2   { font-size: 1rem; font-weight: 700; }
+    .header-left .sub { font-size: 0.8rem; opacity: 0.8; margin-top: 1px; }
+    .header-right { display: flex; align-items: center; gap: 10px; }
+    .btn-logout {
+      background: rgba(255,255,255,0.18); color: white;
+      border: 1px solid rgba(255,255,255,0.35); border-radius: 8px;
+      padding: 6px 12px; font-size: 0.82rem; font-weight: 600; cursor: pointer;
+    }
+    .btn-avatar {
+      width: 36px; height: 36px; border-radius: 50%;
+      background: rgba(255,255,255,0.25); border: 2px solid rgba(255,255,255,0.5);
+      color: white; font-size: 0.8rem; font-weight: 700;
+      cursor: pointer; display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0; transition: background 0.2s;
+    }
+    .btn-avatar:hover { background: rgba(255,255,255,0.35); }
 
     /* Tabs */
     .tab-nav { display: flex; border-bottom: 2px solid var(--border); }
@@ -47,8 +49,7 @@
       flex: 1; padding: 14px; background: none; border: none;
       border-bottom: 3px solid transparent; margin-bottom: -2px;
       cursor: pointer; font-size: 0.95rem; font-weight: 600;
-      color: var(--text-muted); transition: color 0.2s, border-color 0.2s;
-      min-height: 50px;
+      color: var(--text-muted); transition: color 0.2s; min-height: 50px;
     }
     .tab-nav-btn.active { color: var(--primary); border-bottom-color: var(--primary); }
 
@@ -57,29 +58,23 @@
     @media (max-width: 600px) { .tab-pane { padding: 14px; padding-bottom: 96px; } }
 
     /* Toolbar */
-    .box-toolbar {
-      display: flex; align-items: center;
-      justify-content: space-between; margin-bottom: 16px;
-    }
-    .box-toolbar h3 { font-size: 1rem; font-weight: 700; color: var(--text); }
+    .box-toolbar { display: flex; align-items: center; justify-content: space-between; margin-bottom: 16px; }
+    .box-toolbar h3 { font-size: 1rem; font-weight: 700; }
 
     /* FAB */
     .btn-fab {
       display: flex; align-items: center; gap: 8px;
       background: linear-gradient(135deg, #52B788, #2D6A4F);
       color: white; border: none; border-radius: 50px;
-      padding: 9px 18px 9px 12px;
-      font-size: 0.88rem; font-weight: 700; cursor: pointer;
-      box-shadow: 0 4px 14px rgba(45,106,79,0.35);
-      transition: transform 0.2s, box-shadow 0.2s;
+      padding: 9px 18px 9px 12px; font-size: 0.88rem; font-weight: 700;
+      cursor: pointer; box-shadow: 0 4px 14px rgba(45,106,79,0.35);
+      transition: transform 0.2s, box-shadow 0.2s; white-space: nowrap;
     }
     .btn-fab:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(45,106,79,0.45); }
     .btn-fab:active { transform: translateY(0); }
     .fab-circle {
-      width: 24px; height: 24px;
-      background: rgba(255,255,255,0.25); border-radius: 50%;
-      display: flex; align-items: center; justify-content: center;
-      font-size: 1.2rem; line-height: 1;
+      width: 24px; height: 24px; background: rgba(255,255,255,0.25); border-radius: 50%;
+      display: flex; align-items: center; justify-content: center; font-size: 1.2rem; line-height: 1;
     }
     @media (max-width: 600px) {
       .btn-fab {
@@ -89,14 +84,10 @@
       }
     }
 
-    /* Table – desktop */
+    /* Table */
     table { width: 100%; border-collapse: collapse; font-size: 0.9rem; }
     thead tr { border-bottom: 2px solid var(--border); }
-    th {
-      padding: 10px 12px; text-align: left;
-      font-size: 0.72rem; font-weight: 700;
-      text-transform: uppercase; letter-spacing: 0.5px; color: var(--text-muted);
-    }
+    th { padding: 10px 12px; text-align: left; font-size: 0.72rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; color: var(--text-muted); }
     td { padding: 12px; border-bottom: 1px solid var(--border); }
     tbody tr:last-child td { border-bottom: none; }
     tbody tr:hover td { background: var(--bg); }
@@ -110,27 +101,24 @@
     .btn-del  { background: #FDEDED; color: var(--danger); }
     .btn-edit:hover, .btn-del:hover { opacity: 0.7; }
 
-    /* Table → cards on mobile */
+    /* Mobile cards */
     @media (max-width: 600px) {
       table thead { display: none; }
       table tbody tr {
-        display: block; background: white;
-        border: 1px solid var(--border); border-radius: 14px;
-        margin-bottom: 10px; padding: 4px 16px;
+        display: block; background: white; border: 1px solid var(--border);
+        border-radius: 14px; margin-bottom: 10px; padding: 4px 16px;
         box-shadow: 0 1px 5px rgba(0,0,0,0.06);
       }
       table tbody tr.empty-row { box-shadow: none; border: none; background: none; }
       table tbody td {
         display: flex; justify-content: space-between; align-items: center;
-        padding: 11px 0; border-bottom: 1px solid var(--border);
-        font-size: 0.9rem; border-radius: 0;
+        padding: 11px 0; border-bottom: 1px solid var(--border); font-size: 0.9rem;
       }
       table tbody td:last-child { border-bottom: none; }
       table tbody td[data-label]::before {
-        content: attr(data-label);
-        font-weight: 600; color: var(--text-muted);
-        font-size: 0.76rem; text-transform: uppercase;
-        letter-spacing: 0.3px; flex-shrink: 0; margin-right: 10px;
+        content: attr(data-label); font-weight: 600; color: var(--text-muted);
+        font-size: 0.76rem; text-transform: uppercase; letter-spacing: 0.3px;
+        flex-shrink: 0; margin-right: 10px;
       }
       .actions-cell { justify-content: flex-end; }
       .btn-edit, .btn-del { padding: 8px 14px; font-size: 0.82rem; }
@@ -155,54 +143,45 @@
     .storico-month:last-child { margin-bottom: 0; }
     .storico-header {
       display: flex; align-items: center; justify-content: space-between;
-      background: var(--accent); border-radius: 10px;
-      padding: 11px 16px; margin-bottom: 10px;
+      background: var(--accent); border-radius: 10px; padding: 11px 16px; margin-bottom: 10px;
     }
     .storico-month-name { font-size: 0.98rem; font-weight: 700; color: var(--primary-dark); text-transform: capitalize; }
-    .storico-total {
-      font-size: 0.82rem; font-weight: 700; color: var(--primary);
-      background: white; border-radius: 20px; padding: 4px 12px; white-space: nowrap;
-    }
+    .storico-total { font-size: 0.82rem; font-weight: 700; color: var(--primary); background: white; border-radius: 20px; padding: 4px 12px; white-space: nowrap; }
 
-    /* Modal */
+    /* Modal overlay */
     .modal-overlay {
       display: none; position: fixed; inset: 0;
       background: rgba(0,0,0,0.45); z-index: 100;
       align-items: center; justify-content: center; padding: 16px;
     }
     .modal-overlay.open { display: flex; animation: overlayIn 0.2s ease-out; }
-    .modal-overlay.open .modal { animation: modalIn 0.28s cubic-bezier(0.34, 1.56, 0.64, 1); }
+    .modal-overlay.open .modal { animation: modalIn 0.28s cubic-bezier(0.34,1.56,0.64,1); }
     @keyframes overlayIn { from { opacity: 0; } to { opacity: 1; } }
-    @keyframes modalIn {
-      from { opacity: 0; transform: translateY(28px) scale(0.95); }
-      to   { opacity: 1; transform: translateY(0) scale(1); }
-    }
+    @keyframes modalIn { from { opacity:0; transform:translateY(28px) scale(0.95); } to { opacity:1; transform:translateY(0) scale(1); } }
 
     @media (max-width: 600px) {
-      .modal-overlay { align-items: flex-end; padding: 0; }
-      .modal-overlay.open .modal { animation: sheetIn 0.3s cubic-bezier(0.25, 1, 0.5, 1); }
+      .modal-overlay { align-items: flex-end; padding: 0; overflow: hidden; }
+      .modal-overlay.open .modal { animation: sheetIn 0.3s cubic-bezier(0.25,1,0.5,1); }
       @keyframes sheetIn { from { transform: translateY(100%); } to { transform: translateY(0); } }
-      .modal { border-radius: 22px 22px 0 0 !important; max-width: 100% !important; padding-bottom: 36px !important; }
+      .modal { border-radius: 22px 22px 0 0 !important; max-width: 100% !important; padding-bottom: 36px !important; width: 100% !important; }
     }
 
     .modal {
-      background: var(--card); border-radius: 18px; padding: 26px;
-      width: 100%; max-width: 380px; box-shadow: 0 12px 40px rgba(0,0,0,0.18);
+      background: white; border-radius: 18px; padding: 26px;
+      width: 100%; max-width: 400px; box-shadow: 0 12px 40px rgba(0,0,0,0.18);
     }
-    .modal-title { font-size: 1.1rem; font-weight: 700; margin-bottom: 18px; }
-    .modal-handle {
-      display: none; width: 36px; height: 4px; background: var(--border);
-      border-radius: 4px; margin: 0 auto 18px;
-    }
+    .modal-handle { display: none; width: 36px; height: 4px; background: var(--border); border-radius: 4px; margin: 0 auto 16px; }
     @media (max-width: 600px) { .modal-handle { display: block; } }
+    .modal-title { font-size: 1.1rem; font-weight: 700; margin-bottom: 18px; }
 
-    .form-group { display: flex; flex-direction: column; gap: 6px; margin-bottom: 13px; }
+    .form-group { display: flex; flex-direction: column; gap: 5px; margin-bottom: 13px; }
     .form-group label { font-size: 0.84rem; font-weight: 600; color: var(--text-muted); }
-    .form-group input {
-      padding: 12px 14px; border: 1.5px solid var(--border); border-radius: 8px;
-      font-size: 1rem; background: var(--bg); width: 100%; min-height: 48px;
+    .form-group input, .form-group select {
+      width: 100%; padding: 12px 14px;
+      border: 1.5px solid var(--border); border-radius: 8px;
+      font-size: 1rem; background: var(--bg); min-height: 48px;
     }
-    .form-group input:focus { outline: none; border-color: var(--primary); }
+    .form-group input:focus, .form-group select:focus { outline: none; border-color: var(--primary); }
 
     .modal-actions { display: flex; gap: 10px; margin-top: 18px; }
     .btn-cancel {
@@ -214,8 +193,7 @@
     .btn-save {
       flex: 1; padding: 13px; background: var(--primary); color: white;
       border: none; border-radius: 10px; cursor: pointer;
-      font-size: 0.95rem; font-weight: 600;
-      transition: background 0.2s; min-height: 48px;
+      font-size: 0.95rem; font-weight: 600; min-height: 48px; transition: background 0.2s;
     }
     .btn-save:hover { background: var(--primary-dark); }
     .btn-save:disabled { opacity: 0.6; cursor: not-allowed; }
@@ -224,20 +202,45 @@
       border: none; border-radius: 10px; cursor: pointer;
       font-size: 0.95rem; font-weight: 600; min-height: 48px;
     }
-    .btn-confirm-del:hover { opacity: 0.85; }
     .confirm-text { color: var(--text-muted); font-size: 0.92rem; line-height: 1.55; }
     .error-msg { color: var(--danger); font-size: 0.84rem; min-height: 18px; margin-top: 4px; }
+
+    /* Profile modal */
+    .profile-info-row {
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 12px 0; border-bottom: 1px solid var(--border);
+    }
+    .profile-info-row:last-of-type { border-bottom: none; }
+    .profile-info-label { font-size: 0.8rem; font-weight: 600; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.3px; }
+    .profile-info-value { font-size: 0.95rem; font-weight: 500; color: var(--text); }
+    .profile-avatar-big {
+      width: 64px; height: 64px; border-radius: 50%;
+      background: var(--primary); color: white;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.4rem; font-weight: 700; margin: 0 auto 16px;
+    }
+    .btn-reset-pw {
+      width: 100%; padding: 13px; margin-top: 16px;
+      background: var(--bg); border: 1.5px solid var(--border);
+      border-radius: 10px; cursor: pointer; font-size: 0.95rem; font-weight: 600;
+      color: var(--text); transition: background 0.2s;
+    }
+    .btn-reset-pw:hover { background: var(--border); }
+    .success-msg { color: var(--primary); font-size: 0.84rem; text-align: center; margin-top: 8px; }
   </style>
 </head>
 <body>
 
   <div class="main-box">
     <div class="box-header">
-      <div>
-        <h2>🍽️ Presence</h2>
-        <div class="user-name" id="userName"></div>
+      <div class="header-left">
+        <h2 id="headerName">…</h2>
+        <div class="sub" id="headerMansione"></div>
       </div>
-      <button class="btn-logout" id="logoutBtn">Esci</button>
+      <div class="header-right">
+        <button class="btn-avatar" id="profileBtn" title="Profilo"></button>
+        <button class="btn-logout" id="logoutBtn">Esci</button>
+      </div>
     </div>
 
     <div class="tab-nav">
@@ -245,23 +248,15 @@
       <button class="tab-nav-btn"        data-tab="storico">Storico</button>
     </div>
 
-    <!-- TAB: Presenza -->
+    <!-- TAB Presenza -->
     <div id="tab-presenza" class="tab-pane active">
       <div class="box-toolbar">
         <h3 id="presenzaTitle">Questo mese</h3>
-        <button class="btn-fab" id="openModalBtn">
-          <span class="fab-circle">+</span>Aggiungi
-        </button>
+        <button class="btn-fab" id="openModalBtn"><span class="fab-circle">+</span>Aggiungi</button>
       </div>
       <table>
-        <thead>
-          <tr>
-            <th>Giorno</th><th>Entrata</th><th>Uscita</th><th>Ore</th><th></th>
-          </tr>
-        </thead>
-        <tbody id="presenceTable">
-          <tr class="empty-row"><td colspan="5">Caricamento...</td></tr>
-        </tbody>
+        <thead><tr><th>Giorno</th><th>Entrata</th><th>Uscita</th><th>Ore</th><th></th></tr></thead>
+        <tbody id="presenceTable"><tr class="empty-row"><td colspan="5">Caricamento…</td></tr></tbody>
       </table>
       <div class="total-bar">
         <span id="monthLabel">Totale mese</span>
@@ -269,32 +264,21 @@
       </div>
     </div>
 
-    <!-- TAB: Storico -->
+    <!-- TAB Storico -->
     <div id="tab-storico" class="tab-pane">
-      <div id="storicoContent">
-        <p style="text-align:center;color:var(--text-muted);padding:36px">Caricamento...</p>
-      </div>
+      <div id="storicoContent"><p style="text-align:center;color:var(--text-muted);padding:36px">Caricamento…</p></div>
     </div>
   </div>
 
-  <!-- Modal aggiungi / modifica -->
+  <!-- Modal aggiungi/modifica -->
   <div class="modal-overlay" id="modalOverlay">
     <div class="modal">
       <div class="modal-handle"></div>
       <div class="modal-title" id="modalTitle">Aggiungi Presenza</div>
       <form id="addForm">
-        <div class="form-group">
-          <label>Data</label>
-          <input type="date" id="addData" required>
-        </div>
-        <div class="form-group">
-          <label>Ora entrata</label>
-          <input type="time" id="addEntrata" required>
-        </div>
-        <div class="form-group">
-          <label>Ora uscita <span style="font-weight:400">(opzionale)</span></label>
-          <input type="time" id="addUscita">
-        </div>
+        <div class="form-group"><label>Data</label><input type="date" id="addData" required></div>
+        <div class="form-group"><label>Ora entrata</label><input type="time" id="addEntrata" required></div>
+        <div class="form-group"><label>Ora uscita <span style="font-weight:400">(opzionale)</span></label><input type="time" id="addUscita"></div>
         <div id="addError" class="error-msg"></div>
         <div class="modal-actions">
           <button type="button" class="btn-cancel" id="closeModalBtn">Annulla</button>
@@ -304,22 +288,45 @@
     </div>
   </div>
 
-  <!-- Modal conferma eliminazione -->
+  <!-- Modal conferma elimina -->
   <div class="modal-overlay" id="confirmOverlay">
     <div class="modal">
       <div class="modal-handle"></div>
       <div class="modal-title">Elimina presenza</div>
-      <p class="confirm-text">Sei sicuro di voler eliminare questa presenza?<br>L'operazione non è reversibile.</p>
-      <div class="modal-actions" style="margin-top:22px">
+      <p class="confirm-text">Sei sicuro di voler eliminare questa presenza? L'operazione non è reversibile.</p>
+      <div class="modal-actions" style="margin-top:20px">
         <button class="btn-cancel" id="confirmCancel">Annulla</button>
         <button class="btn-confirm-del" id="confirmOk">Sì, elimina</button>
       </div>
     </div>
   </div>
 
+  <!-- Modal profilo -->
+  <div class="modal-overlay" id="profileOverlay">
+    <div class="modal">
+      <div class="modal-handle"></div>
+      <div class="profile-avatar-big" id="profileAvatar"></div>
+      <div class="modal-title" style="text-align:center;margin-bottom:4px" id="profileName"></div>
+      <div style="text-align:center;color:var(--text-muted);font-size:0.85rem;margin-bottom:18px" id="profileMansione"></div>
+      <div class="profile-info-row">
+        <span class="profile-info-label">Email</span>
+        <span class="profile-info-value" id="profileEmail"></span>
+      </div>
+      <div class="profile-info-row">
+        <span class="profile-info-label">Password</span>
+        <span class="profile-info-value">••••••••</span>
+      </div>
+      <button class="btn-reset-pw" id="resetPwBtn">Reimposta password via email</button>
+      <div id="resetMsg" class="success-msg"></div>
+      <div class="modal-actions" style="margin-top:12px">
+        <button class="btn-cancel" id="closeProfileBtn" style="flex:none;width:100%">Chiudi</button>
+      </div>
+    </div>
+  </div>
+
   <script type="module">
     import { auth, db } from './js/firebase-config.js';
-    import { onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
+    import { onAuthStateChanged, signOut, sendPasswordResetEmail } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
     import {
       doc, getDoc, addDoc, updateDoc, deleteDoc,
       collection, query, where, onSnapshot, Timestamp
@@ -331,220 +338,155 @@
     const MONTHS = ['gennaio','febbraio','marzo','aprile','maggio','giugno',
                     'luglio','agosto','settembre','ottobre','novembre','dicembre'];
 
-    function fmtTime(ts) {
-      if (!ts) return '—';
-      return ts.toDate().toLocaleTimeString('it-IT', { hour: '2-digit', minute: '2-digit' });
-    }
-    function fmtDate(s) {
-      const [y,m,d] = s.split('-');
-      return new Date(+y,+m-1,+d).toLocaleDateString('it-IT',
-        { weekday:'short', day:'numeric', month:'short', year:'numeric' });
-    }
-    function calcDur(a, b) {
-      if (!a || !b) return '—';
-      const ms = b.toDate() - a.toDate();
-      if (ms <= 0) return '—';
-      const h = Math.floor(ms/3600000), m = Math.floor((ms%3600000)/60000);
-      return m ? `${h}h ${m}m` : `${h}h`;
-    }
-    function todayStr() {
-      const n = new Date();
-      return `${n.getFullYear()}-${String(n.getMonth()+1).padStart(2,'0')}-${String(n.getDate()).padStart(2,'0')}`;
-    }
-    function toTS(dateStr, timeStr) {
-      const [h,m] = timeStr.split(':').map(Number);
-      const [y,mo,d] = dateStr.split('-').map(Number);
-      return Timestamp.fromDate(new Date(y, mo-1, d, h, m, 0));
-    }
-    function totalMs(list) {
-      return list.filter(p => p.oraEntrata && p.oraUscita)
-                 .reduce((s,p) => s + (p.oraUscita.toDate() - p.oraEntrata.toDate()), 0);
-    }
-    function fmtMs(ms) {
-      if (ms <= 0) return '0h';
-      const h = Math.floor(ms/3600000), m = Math.floor((ms%3600000)/60000);
-      return m ? `${h}h ${m}m` : `${h}h`;
-    }
+    const fmtTime = ts => ts ? ts.toDate().toLocaleTimeString('it-IT',{hour:'2-digit',minute:'2-digit'}) : '—';
+    const fmtDate = s => { const [y,m,d]=s.split('-'); return new Date(+y,+m-1,+d).toLocaleDateString('it-IT',{weekday:'short',day:'numeric',month:'short',year:'numeric'}); };
+    const calcDur = (a,b) => { if(!a||!b) return '—'; const ms=b.toDate()-a.toDate(); if(ms<=0) return '—'; const h=Math.floor(ms/3600000),m=Math.floor((ms%3600000)/60000); return m?`${h}h ${m}m`:`${h}h`; };
+    const todayStr = () => { const n=new Date(); return `${n.getFullYear()}-${String(n.getMonth()+1).padStart(2,'0')}-${String(n.getDate()).padStart(2,'0')}`; };
+    const toTS = (d,t) => { const [h,m]=t.split(':').map(Number),[y,mo,dd]=d.split('-').map(Number); return Timestamp.fromDate(new Date(y,mo-1,dd,h,m,0)); };
+    const totalMs = list => list.filter(p=>p.oraEntrata&&p.oraUscita).reduce((s,p)=>s+(p.oraUscita.toDate()-p.oraEntrata.toDate()),0);
+    const fmtMs  = ms => { if(ms<=0) return '0h'; const h=Math.floor(ms/3600000),m=Math.floor((ms%3600000)/60000); return m?`${h}h ${m}m`:`${h}h`; };
+    const initials = (n,c) => ((n||'')[0]||'').toUpperCase() + ((c||'')[0]||'').toUpperCase();
 
-    // --- Render Presenza tab ---
     function renderPresenza(all) {
-      const now    = new Date();
-      const prefix = `${now.getFullYear()}-${String(now.getMonth()+1).padStart(2,'0')}`;
-      const month  = MONTHS[now.getMonth()];
-      const curr   = all.filter(p => p.data.startsWith(prefix));
-
-      document.getElementById('presenzaTitle').textContent =
-        `${month.charAt(0).toUpperCase()+month.slice(1)} ${now.getFullYear()}`;
-
-      const tbody = document.getElementById('presenceTable');
-      tbody.innerHTML = curr.length === 0
+      const now=new Date(), prefix=`${now.getFullYear()}-${String(now.getMonth()+1).padStart(2,'0')}`;
+      const month=MONTHS[now.getMonth()], curr=all.filter(p=>p.data.startsWith(prefix));
+      document.getElementById('presenzaTitle').textContent = `${month.charAt(0).toUpperCase()+month.slice(1)} ${now.getFullYear()}`;
+      const tbody=document.getElementById('presenceTable');
+      tbody.innerHTML = curr.length===0
         ? '<tr class="empty-row"><td colspan="5">Nessuna presenza questo mese</td></tr>'
-        : curr.map(p => `
-            <tr>
-              <td data-label="Giorno">${fmtDate(p.data)}</td>
-              <td data-label="Entrata">${fmtTime(p.oraEntrata)}</td>
-              <td data-label="Uscita">${fmtTime(p.oraUscita)}</td>
-              <td data-label="Ore" class="ore-cell">${calcDur(p.oraEntrata,p.oraUscita)}</td>
-              <td class="actions-cell">
-                <button class="btn-edit" data-id="${p.id}">Modifica</button>
-                <button class="btn-del"  data-id="${p.id}">Elimina</button>
-              </td>
-            </tr>`).join('');
-
-      document.getElementById('monthLabel').textContent = `Totale ${month} ${now.getFullYear()}`;
-      document.getElementById('monthTotal').textContent = fmtMs(totalMs(curr));
+        : curr.map(p=>`<tr>
+            <td data-label="Giorno">${fmtDate(p.data)}</td>
+            <td data-label="Entrata">${fmtTime(p.oraEntrata)}</td>
+            <td data-label="Uscita">${fmtTime(p.oraUscita)}</td>
+            <td data-label="Ore" class="ore-cell">${calcDur(p.oraEntrata,p.oraUscita)}</td>
+            <td class="actions-cell">
+              <button class="btn-edit" data-id="${p.id}">Modifica</button>
+              <button class="btn-del"  data-id="${p.id}">Elimina</button>
+            </td></tr>`).join('');
+      document.getElementById('monthLabel').textContent=`Totale ${month} ${now.getFullYear()}`;
+      document.getElementById('monthTotal').textContent=fmtMs(totalMs(curr));
     }
 
-    // --- Render Storico tab ---
     function renderStorico(all) {
-      const el = document.getElementById('storicoContent');
-      if (!all.length) {
-        el.innerHTML = '<p style="text-align:center;color:var(--text-muted);padding:36px">Nessuna presenza registrata</p>';
-        return;
-      }
-      const groups = {};
-      all.forEach(p => {
-        const key = p.data.slice(0,7);
-        (groups[key] = groups[key] || []).push(p);
-      });
-      el.innerHTML = Object.keys(groups).sort((a,b) => b.localeCompare(a)).map(key => {
-        const [y,m] = key.split('-');
-        const name  = MONTHS[+m-1];
-        const list  = groups[key].sort((a,b) => a.oraEntrata.toDate() - b.oraEntrata.toDate());
-        return `
-          <div class="storico-month">
-            <div class="storico-header">
-              <span class="storico-month-name">${name} ${y}</span>
-              <span class="storico-total">${fmtMs(totalMs(list))}</span>
-            </div>
-            <table>
-              <thead><tr><th>Giorno</th><th>Entrata</th><th>Uscita</th><th>Ore</th></tr></thead>
-              <tbody>${list.map(p => `
-                <tr>
-                  <td data-label="Giorno">${fmtDate(p.data)}</td>
-                  <td data-label="Entrata">${fmtTime(p.oraEntrata)}</td>
-                  <td data-label="Uscita">${fmtTime(p.oraUscita)}</td>
-                  <td data-label="Ore" class="ore-cell">${calcDur(p.oraEntrata,p.oraUscita)}</td>
-                </tr>`).join('')}
-              </tbody>
-            </table>
-          </div>`;
+      const el=document.getElementById('storicoContent');
+      if(!all.length){el.innerHTML='<p style="text-align:center;color:var(--text-muted);padding:36px">Nessuna presenza</p>';return;}
+      const groups={};
+      all.forEach(p=>{const k=p.data.slice(0,7);(groups[k]=groups[k]||[]).push(p);});
+      el.innerHTML=Object.keys(groups).sort((a,b)=>b.localeCompare(a)).map(key=>{
+        const [y,m]=key.split('-'), name=MONTHS[+m-1];
+        const list=groups[key].sort((a,b)=>a.oraEntrata.toDate()-b.oraEntrata.toDate());
+        return `<div class="storico-month">
+          <div class="storico-header">
+            <span class="storico-month-name">${name} ${y}</span>
+            <span class="storico-total">${fmtMs(totalMs(list))}</span>
+          </div>
+          <table><thead><tr><th>Giorno</th><th>Entrata</th><th>Uscita</th><th>Ore</th></tr></thead>
+          <tbody>${list.map(p=>`<tr>
+            <td data-label="Giorno">${fmtDate(p.data)}</td>
+            <td data-label="Entrata">${fmtTime(p.oraEntrata)}</td>
+            <td data-label="Uscita">${fmtTime(p.oraUscita)}</td>
+            <td data-label="Ore" class="ore-cell">${calcDur(p.oraEntrata,p.oraUscita)}</td>
+          </tr>`).join('')}</tbody></table></div>`;
       }).join('');
     }
 
-    // --- Tabs ---
-    document.querySelectorAll('.tab-nav-btn').forEach(btn => {
-      btn.addEventListener('click', () => {
-        document.querySelectorAll('.tab-nav-btn').forEach(b => b.classList.remove('active'));
-        document.querySelectorAll('.tab-pane').forEach(p => p.classList.remove('active'));
+    // Tabs
+    document.querySelectorAll('.tab-nav-btn').forEach(btn=>{
+      btn.addEventListener('click',()=>{
+        document.querySelectorAll('.tab-nav-btn').forEach(b=>b.classList.remove('active'));
+        document.querySelectorAll('.tab-pane').forEach(p=>p.classList.remove('active'));
         btn.classList.add('active');
         document.getElementById('tab-'+btn.dataset.tab).classList.add('active');
       });
     });
 
-    // --- Modal add/edit ---
-    function openAddModal() {
-      editId = null;
-      document.getElementById('modalTitle').textContent = 'Aggiungi Presenza';
-      document.getElementById('addData').value    = todayStr();
-      document.getElementById('addEntrata').value = '';
-      document.getElementById('addUscita').value  = '';
-      document.getElementById('addError').textContent = '';
-      document.getElementById('saveBtn').textContent   = 'Salva';
-      document.getElementById('modalOverlay').classList.add('open');
-    }
-    function openEditModal(s) {
-      editId = s.id;
-      document.getElementById('modalTitle').textContent = 'Modifica Presenza';
-      document.getElementById('addData').value    = s.data;
-      document.getElementById('addEntrata').value = s.oraEntrata?.toDate().toTimeString().slice(0,5) ?? '';
-      document.getElementById('addUscita').value  = s.oraUscita?.toDate().toTimeString().slice(0,5)  ?? '';
-      document.getElementById('addError').textContent = '';
-      document.getElementById('saveBtn').textContent   = 'Salva modifiche';
-      document.getElementById('modalOverlay').classList.add('open');
-    }
-    function closeModal() { document.getElementById('modalOverlay').classList.remove('open'); }
+    // Modal add/edit
+    const overlay = document.getElementById('modalOverlay');
+    function openAddModal(){ editId=null; document.getElementById('modalTitle').textContent='Aggiungi Presenza'; document.getElementById('addData').value=todayStr(); document.getElementById('addEntrata').value=''; document.getElementById('addUscita').value=''; document.getElementById('addError').textContent=''; document.getElementById('saveBtn').textContent='Salva'; overlay.classList.add('open'); }
+    function openEditModal(s){ editId=s.id; document.getElementById('modalTitle').textContent='Modifica Presenza'; document.getElementById('addData').value=s.data; document.getElementById('addEntrata').value=s.oraEntrata?.toDate().toTimeString().slice(0,5)??''; document.getElementById('addUscita').value=s.oraUscita?.toDate().toTimeString().slice(0,5)??''; document.getElementById('addError').textContent=''; document.getElementById('saveBtn').textContent='Salva modifiche'; overlay.classList.add('open'); }
+    function closeModal(){ overlay.classList.remove('open'); }
 
     document.getElementById('openModalBtn').addEventListener('click', openAddModal);
     document.getElementById('closeModalBtn').addEventListener('click', closeModal);
-    document.getElementById('modalOverlay').addEventListener('click', e => {
-      if (e.target === document.getElementById('modalOverlay')) closeModal();
-    });
+    overlay.addEventListener('click', e=>{ if(e.target===overlay) closeModal(); });
 
-    document.getElementById('addForm').addEventListener('submit', async e => {
+    document.getElementById('addForm').addEventListener('submit', async e=>{
       e.preventDefault();
-      const btn = document.getElementById('saveBtn');
-      const err = document.getElementById('addError');
-      err.textContent = '';
-      const data = document.getElementById('addData').value;
-      const ein  = document.getElementById('addEntrata').value;
-      const usc  = document.getElementById('addUscita').value;
-      if (usc && usc <= ein) { err.textContent = "L'uscita deve essere dopo l'entrata"; return; }
-      const orig = btn.textContent;
-      btn.disabled = true; btn.textContent = 'Salvataggio...';
+      const btn=document.getElementById('saveBtn'), err=document.getElementById('addError');
+      err.textContent='';
+      const data=document.getElementById('addData').value, ein=document.getElementById('addEntrata').value, usc=document.getElementById('addUscita').value;
+      if(usc&&usc<=ein){err.textContent="L'uscita deve essere dopo l'entrata";return;}
+      const orig=btn.textContent; btn.disabled=true; btn.textContent='Salvataggio…';
       try {
-        const payload = {
-          userId: currentUser.uid, userName: userData.nome, data,
-          oraEntrata: toTS(data, ein),
-          oraUscita:  usc ? toTS(data, usc) : null,
-        };
-        if (editId) await updateDoc(doc(db,'presenze',editId), payload);
-        else        await addDoc(collection(db,'presenze'), payload);
+        const payload={userId:currentUser.uid,userName:`${userData.nome} ${userData.cognome||''}`.trim(),userMansione:userData.mansione||'',data,oraEntrata:toTS(data,ein),oraUscita:usc?toTS(data,usc):null};
+        if(editId) await updateDoc(doc(db,'presenze',editId),payload);
+        else       await addDoc(collection(db,'presenze'),payload);
         closeModal();
-      } catch(e) { console.error(e); err.textContent = 'Errore nel salvataggio.'; }
-      finally    { btn.disabled = false; btn.textContent = orig; }
+      } catch(ex){console.error(ex);err.textContent='Errore nel salvataggio.';}
+      finally{btn.disabled=false;btn.textContent=orig;}
     });
 
-    // --- Confirm delete ---
-    function openConfirm(id) { deleteId = id; document.getElementById('confirmOverlay').classList.add('open'); }
-    function closeConfirm()  { document.getElementById('confirmOverlay').classList.remove('open'); }
-
-    document.getElementById('confirmCancel').addEventListener('click', closeConfirm);
-    document.getElementById('confirmOverlay').addEventListener('click', e => {
-      if (e.target === document.getElementById('confirmOverlay')) closeConfirm();
-    });
-    document.getElementById('confirmOk').addEventListener('click', async () => {
-      const id = deleteId;
-      closeConfirm();
-      if (!id) return;
-      try { await deleteDoc(doc(db,'presenze',id)); }
-      catch(e) { console.error(e); }
+    // Confirm delete
+    const confirmOv=document.getElementById('confirmOverlay');
+    function openConfirm(id){deleteId=id;confirmOv.classList.add('open');}
+    function closeConfirm(){confirmOv.classList.remove('open');}
+    document.getElementById('confirmCancel').addEventListener('click',closeConfirm);
+    confirmOv.addEventListener('click',e=>{if(e.target===confirmOv)closeConfirm();});
+    document.getElementById('confirmOk').addEventListener('click',async()=>{
+      const id=deleteId; closeConfirm(); if(!id)return;
+      try{await deleteDoc(doc(db,'presenze',id));}catch(e){console.error(e);}
     });
 
-    // --- Event delegation ---
-    document.getElementById('presenceTable').addEventListener('click', e => {
-      const id = e.target.dataset.id;
-      if (!id) return;
-      if (e.target.classList.contains('btn-edit')) openEditModal(allShifts.find(s => s.id === id));
-      if (e.target.classList.contains('btn-del'))  openConfirm(id);
+    // Event delegation
+    document.getElementById('presenceTable').addEventListener('click',e=>{
+      const id=e.target.dataset.id; if(!id)return;
+      if(e.target.classList.contains('btn-edit')) openEditModal(allShifts.find(s=>s.id===id));
+      if(e.target.classList.contains('btn-del'))  openConfirm(id);
     });
 
-    // --- Auth + data ---
-    onAuthStateChanged(auth, async user => {
-      if (!user) { window.location.href = 'index.html'; return; }
-      currentUser = user;
-      const snap = await getDoc(doc(db,'users',user.uid));
-      if (!snap.exists()) { window.location.href = 'index.html'; return; }
-      userData = snap.data();
-      if (userData.ruolo === 'admin') { window.location.href = 'admin.html'; return; }
-      document.getElementById('userName').textContent = userData.nome;
+    // Profile modal
+    const profileOv=document.getElementById('profileOverlay');
+    document.getElementById('profileBtn').addEventListener('click',()=>{
+      document.getElementById('profileAvatar').textContent=initials(userData?.nome,userData?.cognome);
+      document.getElementById('profileName').textContent=`${userData?.nome||''} ${userData?.cognome||''}`.trim();
+      document.getElementById('profileMansione').textContent=userData?.mansione||'';
+      document.getElementById('profileEmail').textContent=currentUser?.email||'';
+      document.getElementById('resetMsg').textContent='';
+      profileOv.classList.add('open');
+    });
+    document.getElementById('closeProfileBtn').addEventListener('click',()=>profileOv.classList.remove('open'));
+    profileOv.addEventListener('click',e=>{if(e.target===profileOv)profileOv.classList.remove('open');});
+    document.getElementById('resetPwBtn').addEventListener('click',async()=>{
+      try{
+        await sendPasswordResetEmail(auth,currentUser.email);
+        document.getElementById('resetMsg').textContent='Email di reset inviata a '+currentUser.email;
+      }catch(e){document.getElementById('resetMsg').textContent='Errore: '+e.message;}
+    });
+
+    // Auth + data
+    onAuthStateChanged(auth, async user=>{
+      if(!user){window.location.href='index.html';return;}
+      currentUser=user;
+      const snap=await getDoc(doc(db,'users',user.uid));
+      if(!snap.exists()){window.location.href='index.html';return;}
+      userData=snap.data();
+      if(userData.ruolo==='admin'){window.location.href='admin.html';return;}
+      const fullName=`${userData.nome||''} ${userData.cognome||''}`.trim();
+      document.getElementById('headerName').textContent=fullName||'Presenza';
+      document.getElementById('headerMansione').textContent=userData.mansione||'';
+      document.getElementById('profileBtn').textContent=initials(userData.nome,userData.cognome);
 
       onSnapshot(
-        query(collection(db,'presenze'), where('userId','==',user.uid)),
-        snap => {
-          allShifts = snap.docs.map(d => ({id:d.id,...d.data()}))
-            .filter(p => p.oraEntrata)
-            .sort((a,b) => b.oraEntrata.toDate() - a.oraEntrata.toDate());
-          renderPresenza(allShifts);
-          renderStorico(allShifts);
+        query(collection(db,'presenze'),where('userId','==',user.uid)),
+        snap=>{
+          allShifts=snap.docs.map(d=>({id:d.id,...d.data()})).filter(p=>p.oraEntrata).sort((a,b)=>b.oraEntrata.toDate()-a.oraEntrata.toDate());
+          renderPresenza(allShifts); renderStorico(allShifts);
         },
-        err => console.error(err)
+        err=>console.error(err)
       );
     });
 
-    document.getElementById('logoutBtn').addEventListener('click', async () => {
-      await signOut(auth); window.location.href = 'index.html';
-    });
+    document.getElementById('logoutBtn').addEventListener('click',async()=>{await signOut(auth);window.location.href='index.html';});
   </script>
 </body>
 </html>
